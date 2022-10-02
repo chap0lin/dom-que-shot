@@ -1,2 +1,2 @@
-import { BangBang } from "./BangBang"
-export default BangBang
+import { BangBang } from './BangBang';
+export default BangBang;

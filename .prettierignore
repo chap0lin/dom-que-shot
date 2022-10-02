@@ -1,0 +1,13 @@
+node_modules/**
+dist/**
+public/**
+scripts/**
+src/serviceWorkers/**
+
+src/vite-env.d.ts
+
+jest.config.js
+
+vite.config.ts
+
+package-lock.json

@@ -1,9 +1,8 @@
-# README #
+# README
 
 Repositório do jogo Dom-que-shot
 
-
-## Setup inicial ##
+## Setup inicial
 
 Versão do Node.js: 16.13.2
 
@@ -13,22 +12,26 @@ Clonar o repositório e executar:
 npm i
 ```
 
-## Rodando localmente ##
+## Rodando localmente
+
 ```
 npm run dev
 ```
 
-## Rodando os testes ##
+## Rodando os testes
+
 ```
 npm run test
 ```
 
-## Rodando ESlint ##
+## Rodando ESlint
+
 ```
 npm run lint
 ```
 
-## Gerando Build ##
+## Gerando Build
+
 ```
 npm run build
 ```
