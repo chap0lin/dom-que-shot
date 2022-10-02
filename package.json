@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "jest ./src"
+    "test": "jest ./src",
+    "deploy:gh": "bash ./scripts/deploy-gh.sh"
   },
   "dependencies": {
     "axios": "^0.27.2",

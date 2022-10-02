@@ -1,9 +1,26 @@
 import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
+import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 
 import react from '@vitejs/plugin-react'
 
+const pwaOptions: Partial<VitePWAOptions> = {
+  base: "/dqs-build/",
+  manifest: {
+    name: "Dom que shot: Jogo de beber!",
+    short_name: "Dom que shot",
+    theme_color: "#170C32",
+    icons: [
+      {
+        src: "logo-icon.png",
+        sizes: "256x256",
+        type: "image/png"
+      }
+    ],
+  }
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), VitePWA({ registerType: 'autoUpdate' })]
+  plugins: [react(), VitePWA({...pwaOptions, registerType: 'autoUpdate', srcDir:"src/serviceWorkers" , filename: "core.js" })],
+  base: "/dqs-build/"
 })
