@@ -4,7 +4,7 @@ import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 import react from '@vitejs/plugin-react'
 
 const pwaOptions: Partial<VitePWAOptions> = {
-  base: "/dqs-build/",
+  base: "/",
   manifest: {
     name: "Dom que shot: Jogo de beber!",
     short_name: "Dom que shot",
@@ -22,5 +22,5 @@ const pwaOptions: Partial<VitePWAOptions> = {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA({...pwaOptions, registerType: 'autoUpdate', srcDir:"src/serviceWorkers" , filename: "core.js" })],
-  base: "/dqs-build/"
+  base: "/"
 })
