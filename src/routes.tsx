@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Welcome from './scenes/Welcome';
 import Tutorial from './scenes/Tutorial';
-import Login from './scenes/Login/Login';
-import Home from './scenes/Home/Home';
+import Login from './scenes/Login';
+import Home from './scenes/Home';
 import GeneralRoom from './scenes/GeneralRoom';
 import BangBang from './scenes/BangBang';
 import StandardMode from './scenes/StandardMode';
