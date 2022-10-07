@@ -13,6 +13,9 @@ function Home() {
           <button>Create Room</button>
         </Link>
         <Link to="/GeneralRoom">
+          <button>Choose a Game</button>
+        </Link>
+        <Link to="/JoinRoom">
           <button>Join Room</button>
         </Link>
       </div>

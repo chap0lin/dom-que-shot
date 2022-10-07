@@ -11,6 +11,9 @@ import StandardMode from './scenes/StandardMode';
 import RandomMode from './scenes/RandomMode';
 import CreateRoom from './scenes/CreateRoom';
 import ChooseAvatar from './scenes/ChooseAvatar';
+import JoinRoom from './scenes/JoinRoom';
+import Lobby from './scenes/Lobby';
+import Game from './scenes/Game';
 
 const Router: React.FC = () => {
   return (
@@ -24,7 +27,10 @@ const Router: React.FC = () => {
         <Route path="/StandardMode" element={<StandardMode />} />
         <Route path="/RandomMode" element={<RandomMode />} />
         <Route path="/CreateRoom" element={<CreateRoom />} />
+        <Route path="/JoinRoom" element={<JoinRoom />} />
         <Route path="/ChooseAvatar" element={<ChooseAvatar />} />
+        <Route path="/Lobby" element={<Lobby />} />
+        <Route path="/Game" element={<Game />} />
         <Route path="/BangBang" element={<BangBang />} />
       </Routes>
     </BrowserRouter>
