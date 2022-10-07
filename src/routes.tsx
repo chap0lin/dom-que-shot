@@ -7,6 +7,10 @@ import Login from './scenes/Login/Login';
 import Home from './scenes/Home/Home';
 import GeneralRoom from './scenes/GeneralRoom/GeneralRoom';
 import BangBang from './scenes/BangBang';
+import StandardMode from './scenes/StandardMode';
+import RandomMode from './scenes/RandomMode';
+import CreateRoom from './scenes/CreateRoom';
+import ChooseAvatar from './scenes/ChooseAvatar';
 
 const Router: React.FC = () => {
   return (
@@ -17,6 +21,10 @@ const Router: React.FC = () => {
         <Route path="/Login" element={<Login />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/GeneralRoom" element={<GeneralRoom />} />
+        <Route path="/StandardMode" element={<StandardMode />} />
+        <Route path="/RandomMode" element={<RandomMode />} />
+        <Route path="/CreateRoom" element={<CreateRoom />} />
+        <Route path="/ChooseAvatar" element={<ChooseAvatar />} />
         <Route path="/BangBang" element={<BangBang />} />
       </Routes>
     </BrowserRouter>
