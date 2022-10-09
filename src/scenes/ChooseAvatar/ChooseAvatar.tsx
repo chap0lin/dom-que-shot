@@ -1,5 +1,5 @@
 // import { Link } from 'react-router-dom';
-import logo from '../../assets/choose-avatar-logo.png';
+import logo from '../../assets/dummy/choose-avatar-logo.png';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {

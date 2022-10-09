@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/tutorial-logo.png';
+import logo from '../../assets/dummy/tutorial-logo.png';
 import './Tutorial.css';
 
 function Tutorial() {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/create-room-logo.png';
+import logo from '../../assets/dummy/create-room-logo.png';
 import './CreateRoom.css';
 
 function CreateRoom() {

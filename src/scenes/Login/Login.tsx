@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/login-logo.png';
+import logo from '../../assets/dummy/login-logo.png';
 import './Login.css';
 
 function Login() {
