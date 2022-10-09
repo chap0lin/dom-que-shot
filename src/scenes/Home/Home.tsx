@@ -9,7 +9,13 @@ function Home() {
         <img src={logo} className="logo" alt="Vite logo" />
       </div>
       <div className="card">
+        <Link to="/CreateRoom">
+          <button>Create Room</button>
+        </Link>
         <Link to="/GeneralRoom">
+          <button>Choose a Game</button>
+        </Link>
+        <Link to="/JoinRoom">
           <button>Join Room</button>
         </Link>
       </div>
