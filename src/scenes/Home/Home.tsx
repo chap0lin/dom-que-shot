@@ -2,10 +2,11 @@ import { Link } from 'react-router-dom';
 import { gameCards } from './GameCards';
 import ImageSlider from './ImageSlider';
 import './Home.css';
+import Background from '../../Components/Background';
 
 function Home() {
   return (
-    <div className="App">
+    <Background>
       <div className="HeaderDiv">
         <div className="HeaderTitle">
           <p>Vamos Começar?</p>
@@ -38,23 +39,9 @@ function Home() {
 
         <ImageSlider content={gameCards} />
       </div>
-    </div>
+    </Background>
   );
 }
 
 export default Home;
 
-// <div>
-//         <img src={logo} className="logo" alt="Vite logo" />
-//       </div>
-//       <div className="card">
-//         <Link to="/CreateRoom">
-//           <button>Create Room</button>
-//         </Link>
-//         <Link to="/GeneralRoom">
-//           <button>Choose a Game</button>
-//         </Link>
-//         <Link to="/JoinRoom">
-//           <button>Join Room</button>
-//         </Link>
-//       </div>
