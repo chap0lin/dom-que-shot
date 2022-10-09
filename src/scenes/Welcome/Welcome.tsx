@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/dummy/welcome-logo.png';
+import logo from '../../assets/logo-darker.png';
+import Background from '../../Components/Background';
 import './Welcome.css';
 
 function Welcome() {
   return (
-    <div className="App">
-      <div>
-        <img src={logo} className="logo" alt="Vite logo" />
-      </div>
-      <div className="card">
+    <Background>
+      <div className="WelcomePage">
+        <img className="WelcomeImage" src={logo}/>
+
         <Link to="/Tutorial">
-          <button>Go to Tutorial</button>
+          <button className="WelcomeButton">Entrar</button>
         </Link>
       </div>
-    </div>
+    </Background>
   );
 }
 
