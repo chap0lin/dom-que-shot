@@ -3,8 +3,12 @@ import { gameCards } from './GameCards';
 import ImageSlider from './ImageSlider';
 import './Home.css';
 import Background from '../../Components/Background';
+import { ArrowRight } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <Background>
       <div className="HeaderDiv">
@@ -23,9 +27,13 @@ function Home() {
           className="JoinRoomEnterCode"
           placeholder="Digite o código da sala"
         />
-        <Link to="/JoinRoom">
-          <button className="JoinRoomButton" />
-        </Link>
+        <button className="JoinRoomButton">
+          <ArrowRight
+            width="30px"
+            height="30px"
+            onClick={() => navigate('/JoinRoom')}
+          />
+        </button>
       </div>
 
       <div className="CreateRoomDiv">
@@ -44,4 +52,3 @@ function Home() {
 }
 
 export default Home;
-
