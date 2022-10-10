@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/join-room-logo.png';
+import logo from '../../assets/dummy/join-room-logo.png';
 import './JoinRoom.css';
 
 function JoinRoom() {

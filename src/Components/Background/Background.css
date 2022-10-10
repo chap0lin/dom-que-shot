@@ -1,0 +1,10 @@
+.AppBackground {
+  background: url(../../assets/drinks.png);
+  background-color: #170c32;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}

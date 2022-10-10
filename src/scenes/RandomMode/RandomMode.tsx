@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/random-mode-logo.png';
+import logo from '../../assets/dummy/random-mode-logo.png';
 import './RandomMode.css';
 
 function RandomMode() {

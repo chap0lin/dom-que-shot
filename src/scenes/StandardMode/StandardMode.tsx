@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/standard-mode-logo.png';
+import logo from '../../assets/dummy/standard-mode-logo.png';
 import './StandardMode.css';
 
 function StandardMode() {

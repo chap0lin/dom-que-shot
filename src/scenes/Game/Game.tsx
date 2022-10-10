@@ -1,5 +1,5 @@
 // import { Link } from 'react-router-dom';
-import logo from '../../assets/game-logo.png';
+import logo from '../../assets/dummy/game-logo.png';
 import './Game.css';
 
 function Game() {

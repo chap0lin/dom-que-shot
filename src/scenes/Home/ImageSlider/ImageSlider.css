@@ -1,0 +1,35 @@
+.slider {
+  display: flex;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.slider::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: #403a55;
+  width: 140px;
+  height: 192px;
+  margin-right: 0.5em;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.image {
+  margin-top: 1em;
+  width: 140px;
+  height: 140px;
+  object-fit: scale-down;
+}
+
+.title {
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}

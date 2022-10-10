@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/lobby-logo.png';
+import logo from '../../assets/dummy/lobby-logo.png';
 import './Lobby.css';
 
 function Lobby() {
