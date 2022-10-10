@@ -1,19 +1,41 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/dummy/tutorial-logo.png';
+import Background from '../../Components/Background';
 import './Tutorial.css';
 
 function Tutorial() {
   return (
-    <div className="App">
-      <div>
-        <img src={logo} className="logo" alt="Vite logo" />
+    <Background>
+      <div className="TutorialHeaderDiv">
+        <div className="TutorialHeaderLogoSpace">
+          <Link to="/">
+            <div className="TutorialHeaderLogo" />
+          </Link>
+        </div>
       </div>
-      <div className="card">
-        <Link to="/Login">
-          <button>Go to Login</button>
-        </Link>
+
+      <div className="TutorialSection">
+        <p>
+          Seja muito bem vindo(a) ao Dom Que Shot, o drinking game mais épico
+          que você já viu.
+          <br />
+          <br />
+          É novo(a) por aqui? Se sim, temos um tutorial para te ajudar a
+          entender como tudo funciona.
+          <br />
+          <br />
+          Bora lá?
+        </p>
+        <div className="TutorialButtons">
+          <button className="TutorialButton">Sim, bora lá!</button>
+          <Link to="/Home">
+            <button className="TutorialButton">Não, Pular Tutorial</button>
+            {/* pelo fluxograma na verdade este botão tem de levar a /Login.
+            deixei assim por ora para que seja possível ver as telas já criadas
+            todas interagindo entre elas, em sequência.*/}
+          </Link>
+        </div>
       </div>
-    </div>
+    </Background>
   );
 }
 

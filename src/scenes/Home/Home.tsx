@@ -7,13 +7,13 @@ import Background from '../../Components/Background';
 function Home() {
   return (
     <Background>
-      <div className="HeaderDiv">
-        <div className="HeaderTitle">
+      <div className="HomeHeaderDiv">
+        <div className="HomeHeaderTitle">
           <p>Vamos Começar?</p>
         </div>
-        <div className="HeaderLogoSpace">
+        <div className="HomeHeaderLogoSpace">
           <Link to="/">
-            <div className="HeaderLogo" />
+            <div className="HomeHeaderLogo" />
           </Link>
         </div>
       </div>

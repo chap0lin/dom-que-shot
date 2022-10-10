@@ -7,7 +7,7 @@ function Welcome() {
   return (
     <Background>
       <div className="WelcomePage">
-        <img className="WelcomeImage" src={logo}/>
+        <img className="WelcomeImage" src={logo} />
 
         <Link to="/Tutorial">
           <button className="WelcomeButton">Entrar</button>

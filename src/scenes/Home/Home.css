@@ -1,4 +1,4 @@
-.HeaderDiv {
+.HomeHeaderDiv {
   font-weight: 700;
   font-size: 24px;
   display: flex;
@@ -7,12 +7,12 @@
   height: 107px;
 }
 
-.HeaderTitle {
+.HomeHeaderTitle {
   width: 150px;
   padding-left: 1em;
 }
 
-.HeaderLogoSpace {
+.HomeHeaderLogoSpace {
   display: flex;
   justify-content: flex-end;
   width: 103px;
@@ -21,7 +21,7 @@
   background: #403a55;
 }
 
-.HeaderLogo {
+.HomeHeaderLogo {
   background: url(../../assets/logo-darker.png);
   background-color: #170c32;
   background-size: 100% 100%;
