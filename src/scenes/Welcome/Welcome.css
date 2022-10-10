@@ -1,0 +1,21 @@
+.WelcomePage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+}
+
+.WelcomeImage {
+    width: 300px;
+    height: 300px;
+}
+
+.WelcomeButton {
+    color: black;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    width: 240px;
+    height: 56px;
+}
