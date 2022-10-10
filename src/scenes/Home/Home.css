@@ -56,14 +56,12 @@
 }
 
 .JoinRoomButton {
-  background: url(../../assets/right-arrow.png);
+  /* background: url(../../assets/right-arrow.png); */
   background-color: #8877df;
-  background-size: 50% 50%;
-  background-position: center;
-  background-repeat: no-repeat;
   border-radius: 0 10px 10px 0;
   width: 52px;
   height: 52px;
+  padding: 0;
 }
 
 .CreateRoomDiv {
