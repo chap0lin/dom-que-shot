@@ -27,7 +27,9 @@ const Router: React.FC = () => {
         <Route path="/StandardMode" element={<StandardMode />} />
         <Route path="/RandomMode" element={<RandomMode />} />
         <Route path="/CreateRoom" element={<CreateRoom />} />
-        <Route path="/JoinRoom" element={<JoinRoom />} />
+        {/* <Route path="/JoinRoom" element={<JoinRoom />} />
+        essa sala (JoinRoom) a princípio não precisa existir.
+        Confirmar se é isso mesmo e remover os arquivos correspondentes do projeto*/}
         <Route path="/ChooseAvatar" element={<ChooseAvatar />} />
         <Route path="/Lobby" element={<Lobby />} />
         <Route path="/Game" element={<Game />} />

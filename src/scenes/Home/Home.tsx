@@ -1,26 +1,18 @@
 import { Link } from 'react-router-dom';
 import { gameCards } from './GameCards';
-import ImageSlider from './ImageSlider';
-import './Home.css';
-import Background from '../../components/Background';
 import { ArrowRight } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
+import ImageSlider from './ImageSlider';
+import Background from '../../components/Background';
+import Header from '../../components/Header';
+import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
 
   return (
     <Background>
-      <div className="HomeHeaderDiv">
-        <div className="HomeHeaderTitle">
-          <p>Vamos Começar?</p>
-        </div>
-        <div className="HomeHeaderLogoSpace">
-          <Link to="/">
-            <div className="HomeHeaderLogo" />
-          </Link>
-        </div>
-      </div>
+      <Header title="Vamos começar?"/>
 
       <div className="JoinRoomDiv">
         <input
@@ -31,7 +23,7 @@ function Home() {
           <ArrowRight
             width="30px"
             height="30px"
-            onClick={() => navigate('/JoinRoom')}
+            onClick={() => navigate('/ChooseAvatar')}
           />
         </button>
       </div>

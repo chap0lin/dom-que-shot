@@ -1,0 +1,44 @@
+.HeaderDiv {
+    font-weight: 700;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 107px;
+}
+
+.HeaderArrowAndTitle {
+    display: flex;
+    align-items: center;
+}
+
+.HeaderGoBackArrow {
+    padding-left: 1em;
+}
+
+.HeaderTitle {
+    width: 150px;
+    padding-left: 1em;
+  }
+  
+.HeaderLogoSpace {
+    display: flex;
+    justify-content: flex-end;
+    width: 103px;
+    height: 107px;
+    border-radius: 30px 0 0 40px;
+    background: #403a55;
+}
+  
+.HeaderLogo {
+    background: url(../../assets/logo-darker.png);
+    background-color: #170c32;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 78px;
+    height: 88px;
+    border-radius: 28px;
+    margin-right: 5px;
+    margin-top: 5px;
+}

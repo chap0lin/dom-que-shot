@@ -1,17 +1,12 @@
 import { Link } from 'react-router-dom';
 import Background from '../../components/Background';
+import Header from '../../components/Header';
 import './Tutorial.css';
 
 function Tutorial() {
   return (
     <Background>
-      <div className="TutorialHeaderDiv">
-        <div className="TutorialHeaderLogoSpace">
-          <Link to="/">
-            <div className="TutorialHeaderLogo" />
-          </Link>
-        </div>
-      </div>
+      <Header/>
 
       <div className="TutorialSection">
         <p>
