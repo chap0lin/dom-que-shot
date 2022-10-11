@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { gameCards } from './GameCards';
 import ImageSlider from './ImageSlider';
 import './Home.css';
-import Background from '../../Components/Background';
+import Background from '../../components/Background';
 import { ArrowRight } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 

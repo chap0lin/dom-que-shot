@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Background from '../../Components/Background';
+import Background from '../../components/Background';
 import './Tutorial.css';
 
 function Tutorial() {
