@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ImageSlider from './ImageSlider';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
+import Button from '../../components/Button';
 import './Home.css';
 
 function Home() {
@@ -30,13 +31,12 @@ function Home() {
 
       <div className="CreateRoomDiv">
         <Link to="/CreateRoom">
-          <button className="CreateRoomButton">Criar Sala</button>
+          <Button width="100%">Criar Sala</Button>
         </Link>
       </div>
 
       <div className="ChooseGameDiv">
         <p>Já sabe o que quer?</p>
-
         <ImageSlider content={gameCards} />
       </div>
     </Background>

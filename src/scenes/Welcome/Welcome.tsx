@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-darker.png';
 import Background from '../../components/Background';
+import Button from '../../components/Button';
 import './Welcome.css';
 
 function Welcome() {
@@ -10,7 +11,7 @@ function Welcome() {
         <img className="WelcomeImage" src={logo} />
 
         <Link to="/Tutorial">
-          <button className="WelcomeButton">Entrar</button>
+          <Button>Entrar</Button>
         </Link>
       </div>
     </Background>
