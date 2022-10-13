@@ -13,6 +13,9 @@
     "deploy:gh": "bash ./scripts/deploy-gh.sh"
   },
   "dependencies": {
+    "@dicebear/adventurer": "^4.10.5",
+    "@dicebear/avatars": "^4.10.5",
+    "@dicebear/avatars-avataaars-sprites": "^4.10.5",
     "axios": "^0.27.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
