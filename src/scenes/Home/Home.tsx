@@ -13,7 +13,7 @@ function Home() {
 
   return (
     <Background>
-      <Header title="Vamos começar?"/>
+      <Header title="Vamos começar?" />
 
       <div className="JoinRoomDiv">
         <input

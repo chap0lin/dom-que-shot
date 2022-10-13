@@ -11,7 +11,7 @@ import StandardMode from './scenes/StandardMode';
 import RandomMode from './scenes/RandomMode';
 import CreateRoom from './scenes/CreateRoom';
 import ChooseAvatar from './scenes/ChooseAvatar';
-import JoinRoom from './scenes/JoinRoom';
+// import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 

@@ -7,7 +7,7 @@ import './Tutorial.css';
 function Tutorial() {
   return (
     <Background>
-      <Header/>
+      <Header />
 
       <div className="TutorialSection">
         <p>
