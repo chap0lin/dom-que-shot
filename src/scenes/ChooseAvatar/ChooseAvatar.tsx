@@ -9,22 +9,27 @@ import Header from '../../components/Header';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {
-  let avatarSeed = 'dqxt';
   const buttonText =
     useLocation().state.option === 'join' ? 'Entrar' : 'Criar sala';
+
+  const [avatarSeed, changeAvatarSeed] = useState('dqxt');
   const [source, changeSource] = useState(
-    `data:image/svg+xml;utf8,${encodeURIComponent(
-      createAvatar(style, { seed: avatarSeed })
-    )}`
+    `data:image/svg+xml;utf8,${encodeURIComponent(createAvatar(style))}`
   );
 
   function changeIcon() {
-    avatarSeed = Math.random().toString(36).substring(2, 6);
-    console.log('seed gerada: ' + avatarSeed);
+    const newAvatarSeed = Math.random().toString(36).substring(2, 6);
+    console.log('seed gerada: ' + newAvatarSeed);
     const src = `data:image/svg+xml;utf8,${encodeURIComponent(
-      createAvatar(style, { seed: avatarSeed })
+      createAvatar(style, { seed: newAvatarSeed })
     )}`;
+    changeAvatarSeed(newAvatarSeed);
     changeSource(src);
+  }
+
+  function saveOnLocalStorage() {
+    window.localStorage.setItem('avatarSeed', avatarSeed);
+    console.log('seed do avatar ' + avatarSeed + ' foi salva em LocalStorage');
   }
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
@@ -32,7 +37,10 @@ function ChooseAvatar() {
   const ref = useRef(null);
 
   useEffect(() => {
-    document.addEventListener('keydown', detectKeyDown, true);
+    document.addEventListener('keydown', detectKeyDown);
+    return () => {
+      document.removeEventListener('keydown', detectKeyDown);
+    };
   }, []);
 
   const detectKeyDown = (e) => {
@@ -77,7 +85,9 @@ function ChooseAvatar() {
           </div>
 
           <div className="ButtonDiv">
-            <Button>{buttonText}</Button>
+            <Button>
+              <div onClick={saveOnLocalStorage}>{buttonText}</div>
+            </Button>
           </div>
         </div>
       </div>

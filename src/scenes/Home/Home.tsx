@@ -16,7 +16,10 @@ function Home() {
   const ref = useRef(null);
 
   useEffect(() => {
-    document.addEventListener('keydown', detectKeyDown, true);
+    document.addEventListener('keydown', detectKeyDown);
+    return () => {
+      document.removeEventListener('keydown', detectKeyDown);
+    };
   }, []);
 
   const detectKeyDown = (e) => {
