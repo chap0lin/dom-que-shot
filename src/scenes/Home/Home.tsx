@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { gameCards } from './GameCards';
 import { ArrowRight } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,36 @@ import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
+
+  const [roomCode, setRoomCode] = useState('');
+  const [inputErrorMsg, setInputErrorMsg] = useState({
+    msg: '',
+    display: 'none',
+  });
+
+  const updateRoomCode = (e) => {
+    const newRoom = e.target.value.trim();
+    console.log(roomCode);
+    if (newRoom.length !== 0) {
+      setRoomCode(newRoom);
+      setInputErrorMsg({ msg: '', display: 'none' });
+      return;
+    }
+  };
+
+  const verifyRoom = () => {
+    if (roomCode.length > 3) {
+      console.log('Sala inserida: ' + roomCode);
+      navigate('/ChooseAvatar', { state: { option: 'join' } });
+      return;
+    }
+    if (roomCode.length > 0) {
+      setInputErrorMsg({ msg: 'código inválido!', display: 'block' });
+      return;
+    }
+    setInputErrorMsg({ msg: 'código vazio!', display: 'block' });
+    //console.log("Nenhum código de sala inserido, impossível prosseguir.");
+  };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
 
@@ -35,20 +65,24 @@ function Home() {
       <Header title="Vamos começar?" />
 
       <div className="JoinRoomDiv">
-        <input
-          ref={ref}
-          className="JoinRoomEnterCode"
-          placeholder="Digite o código da sala"
-        />
-        <button className="JoinRoomButton">
-          <ArrowRight
-            width="30px"
-            height="30px"
-            onClick={() =>
-              navigate('/ChooseAvatar', { state: { option: 'join' } })
-            }
+        <div className="JoinRoomWarningSpace">
+          <p
+            style={{ display: inputErrorMsg.display }}
+            className="JoinRoomWarning">
+            {inputErrorMsg.msg}
+          </p>
+        </div>
+        <div className="JoinRoomInputAndButton">
+          <input
+            ref={ref}
+            onChange={updateRoomCode}
+            className="JoinRoomEnterCode"
+            placeholder="Digite o código da sala"
           />
-        </button>
+          <button className="JoinRoomButton">
+            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+          </button>
+        </div>
       </div>
 
       <div className="CreateRoomDiv">
