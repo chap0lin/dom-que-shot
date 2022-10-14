@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { RotateCcw } from 'react-feather';
 import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/adventurer';
@@ -8,18 +9,39 @@ import Header from '../../components/Header';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {
+  let avatarSeed = 'dqxt';
+  const buttonText =
+    useLocation().state.option === 'join' ? 'Entrar' : 'Criar sala';
   const [source, changeSource] = useState(
-    `data:image/svg+xml;utf8,${encodeURIComponent(createAvatar(style))}`
+    `data:image/svg+xml;utf8,${encodeURIComponent(
+      createAvatar(style, { seed: avatarSeed })
+    )}`
   );
 
   function changeIcon() {
-    const randomString = Math.random().toString(36).substring(2, 6);
-    console.log('seed geradas: ' + randomString);
+    avatarSeed = Math.random().toString(36).substring(2, 6);
+    console.log('seed gerada: ' + avatarSeed);
     const src = `data:image/svg+xml;utf8,${encodeURIComponent(
-      createAvatar(style, { seed: randomString })
+      createAvatar(style, { seed: avatarSeed })
     )}`;
     changeSource(src);
   }
+
+  ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('keydown', detectKeyDown, true);
+  }, []);
+
+  const detectKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      ref.current.blur();
+    }
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <Background>
@@ -31,6 +53,7 @@ function ChooseAvatar() {
             <p className="NicknameTitle">Apelido:</p>
 
             <input
+              ref={ref}
               id="nickname"
               className="NicknameInput"
               placeholder="Digite seu apelido"
@@ -54,7 +77,7 @@ function ChooseAvatar() {
           </div>
 
           <div className="ButtonDiv">
-            <Button>Entrar</Button>
+            <Button>{buttonText}</Button>
           </div>
         </div>
       </div>
