@@ -34,11 +34,13 @@ function Home() {
       return;
     }
     if (roomCode.length > 0) {
-      setInputErrorMsg({ msg: 'código inválido!', display: 'block' });
+      setInputErrorMsg({
+        msg: 'Código inválido! Tente novamente!',
+        display: 'block',
+      });
       return;
     }
-    setInputErrorMsg({ msg: 'código vazio!', display: 'block' });
-    //console.log("Nenhum código de sala inserido, impossível prosseguir.");
+    setInputErrorMsg({ msg: 'Nenhum código inserido.', display: 'block' });
   };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
