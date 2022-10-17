@@ -1,19 +1,97 @@
-// import { Link } from 'react-router-dom';
-import logo from '../../assets/dummy/choose-avatar-logo.png';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { RotateCcw } from 'react-feather';
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/adventurer';
+import Background from '../../components/Background';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {
+  const buttonText =
+    useLocation().state.option === 'join' ? 'Entrar' : 'Criar sala';
+
+  const [avatarSeed, changeAvatarSeed] = useState('dqxt');
+  const [source, changeSource] = useState(
+    `data:image/svg+xml;utf8,${encodeURIComponent(createAvatar(style))}`
+  );
+
+  function changeIcon() {
+    const newAvatarSeed = Math.random().toString(36).substring(2, 6);
+    console.log('seed gerada: ' + newAvatarSeed);
+    const src = `data:image/svg+xml;utf8,${encodeURIComponent(
+      createAvatar(style, { seed: newAvatarSeed })
+    )}`;
+    changeAvatarSeed(newAvatarSeed);
+    changeSource(src);
+  }
+
+  function saveOnLocalStorage() {
+    window.localStorage.setItem('avatarSeed', avatarSeed);
+    console.log('seed do avatar ' + avatarSeed + ' foi salva em LocalStorage');
+  }
+
+  ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('keydown', detectKeyDown);
+    return () => {
+      document.removeEventListener('keydown', detectKeyDown);
+    };
+  }, []);
+
+  const detectKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      ref.current.blur();
+    }
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+
   return (
-    <div className="App">
-      <div>
-        <img src={logo} className="logo" alt="Vite logo" />
+    <Background>
+      <div className="WholeScreen">
+        <Header goBackArrow />
+
+        <div className="ChooseAvatarSection">
+          <div className="NicknameDiv">
+            <p className="NicknameTitle">Apelido:</p>
+
+            <input
+              ref={ref}
+              id="nickname"
+              className="NicknameInput"
+              placeholder="Digite seu apelido"
+            />
+          </div>
+
+          <div className="AvatarDiv">
+            <p className="AvatarTitle">Escolha o seu Avatar:</p>
+
+            <div className="AvatarIconSection">
+              <div className="SideIconSpace" />
+
+              <div className="AvatarIcon">
+                <img src={source} alt="" />
+              </div>
+
+              <div className="SideIconSpace">
+                <RotateCcw onClick={changeIcon} width="100%" height="100%" />
+              </div>
+            </div>
+          </div>
+
+          <div className="ButtonDiv">
+            <Button>
+              <div onClick={saveOnLocalStorage}>{buttonText}</div>
+            </Button>
+          </div>
+        </div>
       </div>
-      <div className="card">
-        {/* <Link to="/ChooseAvatar"> */}
-        <button>This is where we choose avatars and names!</button>
-        {/* </Link> */}
-      </div>
-    </div>
+    </Background>
   );
 }
 

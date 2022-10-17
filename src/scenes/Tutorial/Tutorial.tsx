@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom';
 import Background from '../../components/Background';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
 import './Tutorial.css';
 
 function Tutorial() {
   return (
     <Background>
-      <div className="TutorialHeaderDiv">
-        <div className="TutorialHeaderLogoSpace">
-          <Link to="/">
-            <div className="TutorialHeaderLogo" />
-          </Link>
-        </div>
-      </div>
+      <Header />
 
       <div className="TutorialSection">
         <p>
@@ -26,9 +22,9 @@ function Tutorial() {
           Bora lá?
         </p>
         <div className="TutorialButtons">
-          <button className="TutorialButton">Sim, bora lá!</button>
+          <Button>Sim, bora lá!</Button>
           <Link to="/Home">
-            <button className="TutorialButton">Não, Pular Tutorial</button>
+            <Button>Não, pular tutorial</Button>
             {/* pelo fluxograma na verdade este botão tem de levar a /Login.
             deixei assim por ora para que seja possível ver as telas já criadas
             todas interagindo entre elas, em sequência.*/}
