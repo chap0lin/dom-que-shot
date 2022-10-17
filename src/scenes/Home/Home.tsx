@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { gameCards } from './GameCards';
-import { ArrowRight } from 'react-feather';
+import { ArrowRight, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import ImageSlider from './ImageSlider';
 import Background from '../../components/Background';
@@ -68,6 +68,12 @@ function Home() {
 
       <div className="JoinRoomDiv">
         <div className="JoinRoomWarningSpace">
+          <AlertTriangle
+            width="20px"
+            height="20px"
+            color="red"
+            style={{ display: inputErrorMsg.display }}
+          />
           <p
             style={{ display: inputErrorMsg.display }}
             className="JoinRoomWarning">
