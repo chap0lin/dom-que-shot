@@ -67,7 +67,7 @@ function ChooseAvatar() {
               <div className="SideIconSpace" />
 
               <div className="AvatarIcon">
-                <Avatar seed={avatarSeed}/>
+                <Avatar seed={avatarSeed} />
               </div>
 
               <div className="SideIconSpace">

@@ -67,16 +67,14 @@ function Home() {
       <Header title="Vamos começar?" />
 
       <div className="JoinRoomDiv">
-        <div className="JoinRoomWarningSpace" style={{visibility: (inputErrorMsg.visibility==='visible')? 'visible' : 'hidden'}}>
-          <AlertTriangle
-            width="20px"
-            height="20px"
-            color="red"
-          />
-          <p
-            className="JoinRoomWarning">
-            {inputErrorMsg.msg}
-          </p>
+        <div
+          className="JoinRoomWarningSpace"
+          style={{
+            visibility:
+              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+          }}>
+          <AlertTriangle width="20px" height="20px" color="red" />
+          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
         </div>
         <div className="JoinRoomInputAndButton">
           <input

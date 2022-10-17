@@ -3,14 +3,13 @@ import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/adventurer';
 
 interface AvatarProps {
-    seed: string;
+  seed: string;
 }
 
-export default function ({seed}: AvatarProps) {
+export default function ({ seed }: AvatarProps) {
+  const source = `data:image/svg+xml;utf8,${encodeURIComponent(
+    createAvatar(style, { seed: seed })
+  )}`;
 
-  const source = `data:image/svg+xml;utf8,${encodeURIComponent(createAvatar(style, { seed: seed }))}`;
-
-  return (
-    <img src={source} alt="" />
-  );
+  return <img src={source} alt="" />;
 }
