@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { RotateCcw } from 'react-feather';
-import { createAvatar } from '@dicebear/avatars';
-import * as style from '@dicebear/adventurer';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import Avatar from '../../components/Avatar';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {
@@ -13,18 +12,11 @@ function ChooseAvatar() {
     useLocation().state.option === 'join' ? 'Entrar' : 'Criar sala';
 
   const [avatarSeed, changeAvatarSeed] = useState('dqxt');
-  const [source, changeSource] = useState(
-    `data:image/svg+xml;utf8,${encodeURIComponent(createAvatar(style))}`
-  );
 
   function changeIcon() {
     const newAvatarSeed = Math.random().toString(36).substring(2, 6);
     console.log('seed gerada: ' + newAvatarSeed);
-    const src = `data:image/svg+xml;utf8,${encodeURIComponent(
-      createAvatar(style, { seed: newAvatarSeed })
-    )}`;
     changeAvatarSeed(newAvatarSeed);
-    changeSource(src);
   }
 
   function saveOnLocalStorage() {
@@ -75,7 +67,7 @@ function ChooseAvatar() {
               <div className="SideIconSpace" />
 
               <div className="AvatarIcon">
-                <img src={source} alt="" />
+                <Avatar seed={avatarSeed}/>
               </div>
 
               <div className="SideIconSpace">
