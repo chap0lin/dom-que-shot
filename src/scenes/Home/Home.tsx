@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { gameCards } from './GameCards';
 import { ArrowRight, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ function Home() {
   const [roomCode, setRoomCode] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
-    display: 'none',
+    visibility: 'hidden',
   });
 
   const updateRoomCode = (e) => {
@@ -22,7 +22,7 @@ function Home() {
     console.log(roomCode);
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
-      setInputErrorMsg({ msg: '', display: 'none' });
+      setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
@@ -36,11 +36,11 @@ function Home() {
     if (roomCode.length > 0) {
       setInputErrorMsg({
         msg: 'Código inválido! Tente novamente!',
-        display: 'block',
+        visibility: 'visible',
       });
       return;
     }
-    setInputErrorMsg({ msg: 'Nenhum código inserido.', display: 'block' });
+    setInputErrorMsg({ msg: 'Nenhum código inserido.', visibility: 'visible' });
   };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
@@ -67,15 +67,13 @@ function Home() {
       <Header title="Vamos começar?" />
 
       <div className="JoinRoomDiv">
-        <div className="JoinRoomWarningSpace">
+        <div className="JoinRoomWarningSpace" style={{visibility: (inputErrorMsg.visibility==='visible')? 'visible' : 'hidden'}}>
           <AlertTriangle
             width="20px"
             height="20px"
             color="red"
-            style={{ display: inputErrorMsg.display }}
           />
           <p
-            style={{ display: inputErrorMsg.display }}
             className="JoinRoomWarning">
             {inputErrorMsg.msg}
           </p>
