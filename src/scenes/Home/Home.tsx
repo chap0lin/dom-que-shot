@@ -19,7 +19,6 @@ function Home() {
 
   const updateRoomCode = (e) => {
     const newRoom = e.target.value.trim();
-    console.log(roomCode);
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
@@ -29,8 +28,10 @@ function Home() {
 
   const verifyRoom = () => {
     if (roomCode.length > 3) {
-      console.log('Sala inserida: ' + roomCode);
-      navigate('/ChooseAvatar', { state: { option: 'join' } });
+      console.log('Entrando na sala ' + roomCode + '.');
+      navigate('/ChooseAvatar', {
+        state: { option: 'join', roomCode: roomCode },
+      });
       return;
     }
     if (roomCode.length > 0) {
@@ -64,7 +65,7 @@ function Home() {
 
   return (
     <Background>
-      <Header title="Vamos começar?" />
+      <Header title="Vamos começar?" logo />
 
       <div className="JoinRoomDiv">
         <div

@@ -21,6 +21,15 @@
   padding-left: 1em;
 }
 
+.HeaderSettingsAndLogo {
+  display: flex;
+  align-items: center;
+}
+
+.HeaderSettings {
+  margin-right: 1em;
+}
+
 .HeaderLogoSpace {
   display: flex;
   justify-content: flex-end;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { RotateCcw } from 'react-feather';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { RotateCcw, AlertTriangle } from 'react-feather';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
@@ -8,10 +8,31 @@ import Avatar from '../../components/Avatar';
 import './ChooseAvatar.css';
 
 function ChooseAvatar() {
+  const navigate = useNavigate();
+
   const buttonText =
     useLocation().state.option === 'join' ? 'Entrar' : 'Criar sala';
 
-  const [avatarSeed, changeAvatarSeed] = useState('dqxt');
+  const roomCode = useLocation().state.roomCode;
+
+  const [userName, setUserName] = useState('');
+  const [inputErrorMsg, setInputErrorMsg] = useState({
+    msg: '',
+    visibility: 'hidden',
+  });
+
+  const updateUserName = (e) => {
+    const newUserName = e.target.value.trim();
+    if (newUserName.length !== 0) {
+      setUserName(newUserName);
+      setInputErrorMsg({ msg: '', visibility: 'hidden' });
+      return;
+    }
+  };
+
+  const [avatarSeed, changeAvatarSeed] = useState(
+    Math.random().toString(36).substring(2, 6)
+  );
 
   function changeIcon() {
     const newAvatarSeed = Math.random().toString(36).substring(2, 6);
@@ -20,8 +41,43 @@ function ChooseAvatar() {
   }
 
   function saveOnLocalStorage() {
-    window.localStorage.setItem('avatarSeed', avatarSeed);
-    console.log('seed do avatar ' + avatarSeed + ' foi salva em LocalStorage');
+    if (userName.length > 8) {
+      setInputErrorMsg({
+        msg: 'O apelido deve ter no máximo 8 caracteres.',
+        visibility: 'visible',
+      });
+      return;
+    }
+    if (userName.length > 2) {
+      const userData = {
+        roomCode: roomCode,
+        nickname: userName,
+        avatarSeed: avatarSeed,
+      };
+      window.localStorage.setItem('userData', JSON.stringify(userData));
+      console.log(
+        'Dados salvos em LocalStorage: código da sala (' +
+          roomCode +
+          '), apelido (' +
+          userName +
+          ') e seed do avatar (' +
+          avatarSeed +
+          ').'
+      );
+      navigate('/Lobby');
+      return;
+    }
+    if (userName.length > 0) {
+      setInputErrorMsg({
+        msg: 'O apelido deve ter no mínimo 3 caracteres.',
+        visibility: 'visible',
+      });
+      return;
+    }
+    setInputErrorMsg({
+      msg: 'Você deve inserir um apelido primeiro!',
+      visibility: 'visible',
+    });
   }
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
@@ -46,7 +102,7 @@ function ChooseAvatar() {
   return (
     <Background>
       <div className="WholeScreen">
-        <Header goBackArrow />
+        <Header goBackArrow logo />
 
         <div className="ChooseAvatarSection">
           <div className="NicknameDiv">
@@ -57,7 +113,18 @@ function ChooseAvatar() {
               id="nickname"
               className="NicknameInput"
               placeholder="Digite seu apelido"
+              onChange={updateUserName}
             />
+          </div>
+
+          <div
+            className="UserNameWarningSpace"
+            style={{
+              visibility:
+                inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+            }}>
+            <AlertTriangle width="20px" height="20px" color="red" />
+            <p className="UserNameWarning">{inputErrorMsg.msg}</p>
           </div>
 
           <div className="AvatarDiv">

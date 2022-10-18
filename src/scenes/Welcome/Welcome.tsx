@@ -5,6 +5,8 @@ import Button from '../../components/Button';
 import './Welcome.css';
 
 function Welcome() {
+  window.localStorage.clear();
+
   return (
     <Background>
       <div className="WelcomePage">
