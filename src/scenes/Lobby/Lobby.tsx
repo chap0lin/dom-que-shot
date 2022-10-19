@@ -1,4 +1,5 @@
-import { Copy } from 'react-feather';
+import { useState } from 'react';
+import { CheckCircle, Copy } from 'react-feather';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -7,6 +8,10 @@ import './Lobby.css';
 
 function Lobby() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const [copyIconColor, setCopyIconColor] = useState('#8877DF');
+  const [copyWarningVisibility, setCopyWarningVisibility] = useState(
+    'CopyIconAndWarning Invisible'
+  );
 
   const jogadores = [
     { avatarSeed: 'dqxt', nickname: 'Dom Quixote', beers: 3, id: 1 },
@@ -21,7 +26,14 @@ function Lobby() {
   ];
 
   const copyToClipboard = () => {
+    navigator.clipboard.writeText(userData.roomCode);
     console.log('código da sala copiado para a área de transferência');
+    setCopyIconColor('lime');
+    setCopyWarningVisibility('CopyIconAndWarning Visible');
+    setTimeout(() => {
+      setCopyIconColor('#8877DF');
+      setCopyWarningVisibility('CopyIconAndWarning FadeOut');
+    }, 2000);
   };
 
   return (
@@ -29,13 +41,19 @@ function Lobby() {
       <Header goBackArrow settingsPage="/Home" />
 
       <div className="LobbyDiv">
-        <p className="RoomCodeSpaceTitle">Código da Sala:</p>
+        <div className="RoomCodeTitleSpace">
+          <p className="RoomCodeTitle">Código da Sala:</p>
+          <div className={copyWarningVisibility}>
+            <CheckCircle width="20px" height="20px" color="lime" />
+            <p className="CopyWarning">Copiado!</p>
+          </div>
+        </div>
         <div className="RoomCodeSpace">
           <p className="RoomCodeItself">{userData.roomCode}</p>
           <Copy
             width="22px"
             height="22px"
-            color="#8877DF"
+            color={copyIconColor}
             onClick={copyToClipboard}
           />
         </div>

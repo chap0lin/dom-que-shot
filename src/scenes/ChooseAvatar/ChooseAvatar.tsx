@@ -41,9 +41,9 @@ function ChooseAvatar() {
   }
 
   function saveOnLocalStorage() {
-    if (userName.length > 8) {
+    if (userName.length > 16) {
       setInputErrorMsg({
-        msg: 'O apelido deve ter no máximo 8 caracteres.',
+        msg: 'O nome deve ter no máximo 16 caracteres.',
         visibility: 'visible',
       });
       return;
@@ -58,7 +58,7 @@ function ChooseAvatar() {
       console.log(
         'Dados salvos em LocalStorage: código da sala (' +
           roomCode +
-          '), apelido (' +
+          '), nome (' +
           userName +
           ') e seed do avatar (' +
           avatarSeed +
@@ -69,13 +69,13 @@ function ChooseAvatar() {
     }
     if (userName.length > 0) {
       setInputErrorMsg({
-        msg: 'O apelido deve ter no mínimo 3 caracteres.',
+        msg: 'O nome deve ter no mínimo 3 caracteres.',
         visibility: 'visible',
       });
       return;
     }
     setInputErrorMsg({
-      msg: 'Você deve inserir um apelido primeiro!',
+      msg: 'Você deve inserir um nome primeiro!',
       visibility: 'visible',
     });
   }
@@ -106,13 +106,13 @@ function ChooseAvatar() {
 
         <div className="ChooseAvatarSection">
           <div className="NicknameDiv">
-            <p className="NicknameTitle">Apelido:</p>
+            <p className="NicknameTitle">Nome:</p>
 
             <input
               ref={ref}
               id="nickname"
               className="NicknameInput"
-              placeholder="Digite seu apelido"
+              placeholder="Digite seu nome"
               onChange={updateUserName}
             />
           </div>
