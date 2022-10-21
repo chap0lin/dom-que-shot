@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SocketConnection } from '../../lib/socket';
+import { useNavigate } from 'react-router-dom';
 // import { useGlobalContext } from '../../contexts/GlobalContextProvider';
 
 enum ButtonStatus {
@@ -32,6 +33,7 @@ const BangBang = () => {
   // const {user_id} = useGlobalContext()
 
   const socketConn = SocketConnection.getInstance();
+  const navigateTo = useNavigate();
 
   const startTimer = () => {
     setTimer(setInterval(run, 10));
@@ -71,6 +73,15 @@ const BangBang = () => {
       setButtonStatus(ButtonStatus.enabled);
     }
   }, [setButtonStatus, buttonStatus, msTimer]);
+
+  useEffect(() => {
+    if ( winnerStatus !== WinnerStatus.waiting) {
+
+      setTimeout(() => {
+        navigateTo(-1);
+      }, 3000);;
+    }
+  }, [setWinnerStatus, winnerStatus]);
 
   const formatedTime = (): string => {
     return (msTimer / 1000).toFixed(2);
