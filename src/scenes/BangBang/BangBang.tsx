@@ -75,11 +75,10 @@ const BangBang = () => {
   }, [setButtonStatus, buttonStatus, msTimer]);
 
   useEffect(() => {
-    if ( winnerStatus !== WinnerStatus.waiting) {
-
+    if (winnerStatus !== WinnerStatus.waiting) {
       setTimeout(() => {
         navigateTo(-1);
-      }, 3000);;
+      }, 3000);
     }
   }, [setWinnerStatus, winnerStatus]);
 
