@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle, Copy } from 'react-feather';
+import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -7,23 +8,31 @@ import PlayerList from './PlayerList';
 import './Lobby.css';
 
 function Lobby() {
-  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const userData = JSON.parse(window.localStorage.getItem('userData')); //userData = { roomCode, nickname, avatarSeed }
   const [copyIconColor, setCopyIconColor] = useState('#8877DF');
   const [copyWarningVisibility, setCopyWarningVisibility] = useState(
     'CopyIconAndWarning Invisible'
   );
 
-  const jogadores = [
-    { avatarSeed: 'dqxt', nickname: 'Dom Quixote', beers: 3, id: 1 },
-    { avatarSeed: 'sxpc', nickname: 'Sancho Pança', beers: 1, id: 2 },
-    { avatarSeed: 'dcna', nickname: 'Dulcineia', beers: 2, id: 3 },
+  const [playerList, updatePlayerList] = useState([
     {
       avatarSeed: userData.avatarSeed,
       nickname: userData.nickname,
-      beers: 1,
-      id: 4,
+      beers: 0,
+      id: 5,
     },
-  ];
+  ]);
+
+  //SOCKET///////////////////////////////////////////////////////////////////////////////////////
+
+  const socket = socketConnection.getInstance();
+
+  useEffect(() => {
+    socket.joinRoom(userData);
+    socket.setLobbyUpdateListener(updatePlayerList);
+  }, []);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
@@ -59,7 +68,7 @@ function Lobby() {
         </div>
         <p className="PlayerListTitle">Jogadores:</p>
         <div className="PlayerList">
-          <PlayerList players={jogadores} />
+          <PlayerList players={playerList} />
         </div>
         <div className="BeginButton">
           <Button width="240px" height="56px">
