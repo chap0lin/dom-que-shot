@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { SocketConnection } from '../../lib/socket';
 import { useNavigate } from 'react-router-dom';
+import socketConnection from '../../lib/socket';
 // import { useGlobalContext } from '../../contexts/GlobalContextProvider';
 
 enum ButtonStatus {
@@ -21,6 +21,8 @@ const BangBangEvents = {
 };
 
 const BangBang = () => {
+  const bangBangRoom = '1';
+
   const [msTimer, setMsTimer] = useState(5000);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
     ButtonStatus.disabled
@@ -32,8 +34,8 @@ const BangBang = () => {
 
   // const {user_id} = useGlobalContext()
 
-  const socketConn = SocketConnection.getInstance();
   const navigateTo = useNavigate();
+  const socketConn = socketConnection.getInstance();
 
   const startTimer = () => {
     setTimer(setInterval(run, 10));
@@ -46,7 +48,8 @@ const BangBang = () => {
   };
 
   useEffect(() => {
-    socketConn.pushMessage('1', 'player_ready');
+    socketConn.joinRoomWithCode(bangBangRoom);
+    socketConn.pushMessage(bangBangRoom, 'player_ready', '');
   }, []);
 
   useEffect(() => {
@@ -88,7 +91,9 @@ const BangBang = () => {
 
   const handleClick = () => {
     clearInterval(timer);
-    socketConn.pushMessage('1', BangBangEvents.FireEvent, { time: msTimer });
+    socketConn.pushMessage(bangBangRoom, BangBangEvents.FireEvent, {
+      time: msTimer,
+    });
   };
 
   return (
