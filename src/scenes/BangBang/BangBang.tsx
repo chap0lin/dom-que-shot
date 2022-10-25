@@ -80,7 +80,7 @@ const BangBang = () => {
         navigateTo(-1);
       }, 3000);
     }
-  }, [setWinnerStatus, winnerStatus]);
+  }, [winnerStatus]);
 
   const formatedTime = (): string => {
     return (msTimer / 1000).toFixed(2);
