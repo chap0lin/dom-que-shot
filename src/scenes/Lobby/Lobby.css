@@ -1,0 +1,71 @@
+.LobbyDiv {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.CopyIconAndWarning {
+  display: flex;
+  align-items: center;
+}
+
+.CopyWarning {
+  color: lime;
+  font-size: 16px;
+  margin: 20px 24px 16px 4px;
+}
+
+.RoomCodeTitle {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 16px;
+  margin-left: 24px;
+}
+
+.RoomCodeTitleSpace {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.RoomCodeSpace {
+  margin: 0 21px;
+  color: rgba(0, 0, 0, 0.54);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  height: 56px;
+  padding: 1em;
+}
+
+.RoomCodeItself {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.PlayerListTitle {
+  margin-top: 22px;
+  margin-bottom: 16px;
+  margin-left: 30px;
+}
+
+.PlayerList {
+  background-color: #403a55;
+  height: 262px;
+  border-radius: 20px;
+  margin: 0 16px;
+  padding: 8px;
+}
+
+.BeginButton {
+  margin-top: 33px;
+  display: flex;
+  justify-content: center;
+}
