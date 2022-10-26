@@ -15,15 +15,14 @@ function Home() {
   const [roomCode, setRoomCode] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
-    display: 'none',
+    visibility: 'hidden',
   });
 
   const updateRoomCode = (e) => {
     const newRoom = e.target.value.trim();
-    console.log(roomCode);
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
-      setInputErrorMsg({ msg: '', display: 'none' });
+      setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
@@ -41,13 +40,13 @@ function Home() {
         .catch(() => {
           setInputErrorMsg({
             msg: 'Sala inexistente! Tente novamente',
-            display: 'block',
+            visibility: 'visible',
           });
         });
     } else {
       setInputErrorMsg({
         msg: 'Código inválido! Tente novamente',
-        display: 'block',
+        visibility: 'hidden',
       });
     }
   };
@@ -73,21 +72,17 @@ function Home() {
 
   return (
     <Background>
-      <Header title="Vamos começar?" />
+      <Header title="Vamos começar?" logo />
 
       <div className="JoinRoomDiv">
-        <div className="JoinRoomWarningSpace">
-          <AlertTriangle
-            width="20px"
-            height="20px"
-            color="red"
-            style={{ display: inputErrorMsg.display }}
-          />
-          <p
-            style={{ display: inputErrorMsg.display }}
-            className="JoinRoomWarning">
-            {inputErrorMsg.msg}
-          </p>
+        <div
+          className="JoinRoomWarningSpace"
+          style={{
+            visibility:
+              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+          }}>
+          <AlertTriangle width="20px" height="20px" color="red" />
+          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
         </div>
         <div className="JoinRoomInputAndButton">
           <input

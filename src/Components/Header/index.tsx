@@ -1,15 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'react-feather';
+import { ArrowLeft, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
 
 interface HeaderProps {
+  logo?: boolean;
   title?: string;
   goBackArrow?: boolean;
+  settingsPage?: string;
 }
 
-export default function Header({ title, goBackArrow }: HeaderProps) {
+export default function Header({
+  logo,
+  title,
+  goBackArrow,
+  settingsPage,
+}: HeaderProps) {
   const navigateTo = useNavigate();
 
   return (
@@ -30,10 +37,23 @@ export default function Header({ title, goBackArrow }: HeaderProps) {
         </div>
       </div>
 
-      <div className="HeaderLogoSpace">
-        <Link to="/">
-          <div className="HeaderLogo" />
-        </Link>
+      <div className="HeaderSettingsAndLogo">
+        <div
+          className="HeaderSettings"
+          style={settingsPage ? {} : { display: 'none' }}>
+          <Settings
+            width="22px"
+            height="22px"
+            onClick={() => navigateTo(settingsPage)}
+          />
+        </div>
+        <div
+          className="HeaderLogoSpace"
+          style={logo ? {} : { display: 'none' }}>
+          <Link to="/">
+            <div className="HeaderLogo" />
+          </Link>
+        </div>
       </div>
     </div>
   );
