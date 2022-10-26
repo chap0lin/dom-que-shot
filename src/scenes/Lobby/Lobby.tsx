@@ -7,11 +7,12 @@ import PlayerList from './PlayerList';
 import './Lobby.css';
 
 function Lobby() {
-  const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [copyIconColor, setCopyIconColor] = useState('#8877DF');
-  const [copyWarningVisibility, setCopyWarningVisibility] = useState(
-    'CopyIconAndWarning Invisible'
-  );
+  const userData = JSON.parse(window.localStorage.getItem('userData')); //userData = { roomCode, nickname, avatarSeed }
+
+  const [copyWarning, setCopyWarning] = useState({
+    color: '#8877DF',
+    style: 'CopyIconAndWarning Invisible',
+  });
 
   const jogadores = [
     { avatarSeed: 'dqxt', nickname: 'Dom Quixote', beers: 3, id: 1 },
@@ -28,11 +29,9 @@ function Lobby() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
     console.log('código da sala copiado para a área de transferência');
-    setCopyIconColor('lime');
-    setCopyWarningVisibility('CopyIconAndWarning Visible');
+    setCopyWarning({color: 'lime', style: 'CopyIconAndWarning Visible'});
     setTimeout(() => {
-      setCopyIconColor('#8877DF');
-      setCopyWarningVisibility('CopyIconAndWarning FadeOut');
+      setCopyWarning({color: '#8877DF', style: 'CopyIconAndWarning FadeOut'});
     }, 2000);
   };
 
@@ -43,7 +42,7 @@ function Lobby() {
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
           <p className="RoomCodeTitle">Código da Sala:</p>
-          <div className={copyWarningVisibility}>
+          <div className={copyWarning.style}>
             <CheckCircle width="20px" height="20px" color="lime" />
             <p className="CopyWarning">Copiado!</p>
           </div>
@@ -53,7 +52,7 @@ function Lobby() {
           <Copy
             width="22px"
             height="22px"
-            color={copyIconColor}
+            color={copyWarning.color}
             onClick={copyToClipboard}
           />
         </div>
