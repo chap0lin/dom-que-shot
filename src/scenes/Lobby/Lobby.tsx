@@ -9,7 +9,7 @@ import './Lobby.css';
 enum CopyWarning { Visible, Invisible }
 
 function Lobby() {
-  const userData = JSON.parse(window.localStorage.getItem('userData'));               //userData = { roomCode, nickname, avatarSeed }
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [copyWarning, setCopyWarning] = useState<CopyWarning>(CopyWarning.Invisible)
 
   const jogadores = [
