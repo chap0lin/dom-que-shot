@@ -29,94 +29,96 @@ function Home() {
   };
 
   const verifyRoom = () => {
-
     if (roomCode.length == 6) {
-      api.get(`/roomCode/${roomCode}`).then((response) => {
-        console.log(response.data);
-        navigate('/ChooseAvatar', {
-          state: { option: 'join', roomCode: roomCode },
+      api
+        .get(`/roomCode/${roomCode}`)
+        .then((response) => {
+          console.log(response.data);
+          navigate('/ChooseAvatar', {
+            state: { option: 'join', roomCode: roomCode },
+          });
+        })
+        .catch(() => {
+          setInputErrorMsg({
+            msg: 'Sala inexistente! Tente novamente',
+            display: 'block',
+          });
         });
-      }).catch((error) => {
-        setInputErrorMsg({
-          msg: "Sala inexistente! Tente novamente",
-          display: 'block',
-        });
-      });
     } else {
       setInputErrorMsg({
         msg: 'Código inválido! Tente novamente',
         display: 'block',
       });
     }
-  }
+  };
 
-    ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
+  ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
 
-    const ref = useRef(null);
+  const ref = useRef(null);
 
-    useEffect(() => {
-      document.addEventListener('keydown', detectKeyDown);
-      return () => {
-        document.removeEventListener('keydown', detectKeyDown);
-      };
-    }, []);
-
-    const detectKeyDown = (e) => {
-      if (e.key === 'Enter') {
-        ref.current.blur();
-      }
+  useEffect(() => {
+    document.addEventListener('keydown', detectKeyDown);
+    return () => {
+      document.removeEventListener('keydown', detectKeyDown);
     };
+  }, []);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+  const detectKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      ref.current.blur();
+    }
+  };
 
-    return (
-      <Background>
-        <Header title="Vamos começar?" />
+  ////////////////////////////////////////////////////////////////////////////////////////////////
 
-        <div className="JoinRoomDiv">
-          <div className="JoinRoomWarningSpace">
-            <AlertTriangle
-              width="20px"
-              height="20px"
-              color="red"
-              style={{ display: inputErrorMsg.display }}
-            />
-            <p
-              style={{ display: inputErrorMsg.display }}
-              className="JoinRoomWarning">
-              {inputErrorMsg.msg}
-            </p>
+  return (
+    <Background>
+      <Header title="Vamos começar?" />
+
+      <div className="JoinRoomDiv">
+        <div className="JoinRoomWarningSpace">
+          <AlertTriangle
+            width="20px"
+            height="20px"
+            color="red"
+            style={{ display: inputErrorMsg.display }}
+          />
+          <p
+            style={{ display: inputErrorMsg.display }}
+            className="JoinRoomWarning">
+            {inputErrorMsg.msg}
+          </p>
+        </div>
+        <div className="JoinRoomInputAndButton">
+          <input
+            ref={ref}
+            onChange={updateRoomCode}
+            className="JoinRoomEnterCode"
+            placeholder="Digite o código da sala"
+          />
+          <button className="JoinRoomButton">
+            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+          </button>
+        </div>
+      </div>
+
+      <div className="CreateRoomDiv">
+        <Button width="100%">
+          <div
+            onClick={() =>
+              navigate('/ChooseAvatar', { state: { option: 'create' } })
+            }>
+            Criar Sala
           </div>
-          <div className="JoinRoomInputAndButton">
-            <input
-              ref={ref}
-              onChange={updateRoomCode}
-              className="JoinRoomEnterCode"
-              placeholder="Digite o código da sala"
-            />
-            <button className="JoinRoomButton">
-              <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
-            </button>
-          </div>
-        </div>
+        </Button>
+      </div>
 
-        <div className="CreateRoomDiv">
-          <Button width="100%">
-            <div
-              onClick={() =>
-                navigate('/ChooseAvatar', { state: { option: 'create' } })
-              }>
-              Criar Sala
-            </div>
-          </Button>
-        </div>
+      <div className="ChooseGameDiv">
+        <p>Já sabe o que quer?</p>
+        <ImageSlider content={gameCards} />
+      </div>
+    </Background>
+  );
+}
 
-        <div className="ChooseGameDiv">
-          <p>Já sabe o que quer?</p>
-          <ImageSlider content={gameCards} />
-        </div>
-      </Background>
-    );
-  }
-
-  export default Home
+export default Home;
