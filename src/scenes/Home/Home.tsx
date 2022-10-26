@@ -6,6 +6,7 @@ import ImageSlider from './ImageSlider';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import api from '../../services/api';
 import './Home.css';
 
 function Home() {
@@ -28,19 +29,27 @@ function Home() {
   };
 
   const verifyRoom = () => {
-    if (roomCode.length > 3) {
-      console.log('Sala inserida: ' + roomCode);
-      navigate('/ChooseAvatar', { state: { option: 'join' } });
-      return;
-    }
-    if (roomCode.length > 0) {
+    if (roomCode.length == 6) {
+      api
+        .get(`/roomCode/${roomCode}`)
+        .then((response) => {
+          console.log(response.data);
+          navigate('/ChooseAvatar', {
+            state: { option: 'join', roomCode: roomCode },
+          });
+        })
+        .catch(() => {
+          setInputErrorMsg({
+            msg: 'Sala inexistente! Tente novamente',
+            display: 'block',
+          });
+        });
+    } else {
       setInputErrorMsg({
-        msg: 'Código inválido! Tente novamente!',
+        msg: 'Código inválido! Tente novamente',
         display: 'block',
       });
-      return;
     }
-    setInputErrorMsg({ msg: 'Nenhum código inserido.', display: 'block' });
   };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
