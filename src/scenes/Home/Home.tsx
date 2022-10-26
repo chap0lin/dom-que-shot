@@ -46,7 +46,7 @@ function Home() {
     } else {
       setInputErrorMsg({
         msg: 'Código inválido! Tente novamente',
-        visibility: 'hidden',
+        visibility: 'visible',
       });
     }
   };
