@@ -7,11 +7,16 @@ import Button from '../../components/Button';
 import PlayerList from './PlayerList';
 import './Lobby.css';
 
-enum CopyWarning { Visible, Invisible }
+enum CopyWarning {
+  Visible,
+  Invisible,
+}
 
 function Lobby() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [copyWarning, setCopyWarning] = useState<CopyWarning>(CopyWarning.Invisible)
+  const [copyWarning, setCopyWarning] = useState<CopyWarning>(
+    CopyWarning.Invisible
+  );
 
   const [playerList, updatePlayerList] = useState([
     {
@@ -49,7 +54,12 @@ function Lobby() {
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
           <p className="RoomCodeTitle">Código da Sala:</p>
-          <div className={copyWarning === CopyWarning.Visible? 'CopyIconAndWarning Visible' : 'CopyIconAndWarning FadeOut'}>
+          <div
+            className={
+              copyWarning === CopyWarning.Visible
+                ? 'CopyIconAndWarning Visible'
+                : 'CopyIconAndWarning FadeOut'
+            }>
             <CheckCircle width="20px" height="20px" color="lime" />
             <p className="CopyWarning">Copiado!</p>
           </div>
@@ -59,7 +69,7 @@ function Lobby() {
           <Copy
             width="22px"
             height="22px"
-            color={copyWarning === CopyWarning.Visible? 'lime' : '#8877DF'}
+            color={copyWarning === CopyWarning.Visible ? 'lime' : '#8877DF'}
             onClick={copyToClipboard}
           />
         </div>
