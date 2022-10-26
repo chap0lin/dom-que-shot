@@ -89,16 +89,3 @@
   display: flex;
   justify-content: center;
 }
-
-.Visible {
-  opacity: 1;
-}
-
-.Invisible {
-  opacity: 0;
-}
-
-.FadeOut {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
