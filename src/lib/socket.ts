@@ -5,23 +5,19 @@ class SocketConnection {
   socket: Socket;
   serverAddress = 'http://localhost:3000';
 
-  constructor() {
-    if (!SocketConnection.instance) {
-      SocketConnection.instance = this;
+  connect(){
+    if(!this.socket){
       this.socket = io(this.serverAddress);
-
       this.socket.on('connection', () => {
         console.log(
           `conectado ao backend do DomQueShot (${this.serverAddress})!`
         );
       });
     }
-    return SocketConnection.instance;
   }
 
   joinRoom(userData) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
-      //join na sala e envio dos dados do player
       console.log(`resposta do servidor: ${reply}`);
       if (reply === `ingressou na sala ${userData.roomCode}.`) {
         this.addPlayer(userData);
@@ -31,7 +27,6 @@ class SocketConnection {
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
-      //join na sala e envio dos dados do player
       console.log(`resposta do servidor: ${reply}`);
     });
   }
@@ -54,7 +49,7 @@ class SocketConnection {
 
   //abaixo, as funções originalmente desenvolvidas pelo Carlos para esta classe
 
-  getInstance() {
+  static getInstance() {
     if (!SocketConnection.instance) {
       SocketConnection.instance = new SocketConnection();
     }
@@ -87,6 +82,6 @@ class SocketConnection {
   }
 }
 
-const socketConnection = new SocketConnection();
-Object.freeze(socketConnection);
-export default socketConnection;
+
+export default SocketConnection;
+

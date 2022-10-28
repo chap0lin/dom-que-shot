@@ -32,6 +32,7 @@ function Lobby() {
   const socket = socketConnection.getInstance();
 
   useEffect(() => {
+    socket.connect();
     socket.joinRoom(userData);
     socket.setLobbyUpdateListener(updatePlayerList);
   }, []);

@@ -48,6 +48,7 @@ const BangBang = () => {
   };
 
   useEffect(() => {
+    socketConn.connect();
     socketConn.joinRoomWithCode(bangBangRoom);
     socketConn.pushMessage(bangBangRoom, 'player_ready', '');
   }, []);
