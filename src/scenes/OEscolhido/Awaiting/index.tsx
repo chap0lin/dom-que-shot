@@ -1,0 +1,82 @@
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle } from 'react-feather';
+import Background from '../../../components/Background';
+import Header from '../../../components/Header';
+import Button from '../../../components/Button';
+import Avatar from '../../../components/Avatar';
+import gsap from 'gsap';
+import './Awaiting.css';
+
+interface votedPlayerProps {
+  nickname: string;
+  avatarSeed: string;
+}
+
+interface awaitingProps {
+  votedPlayer: votedPlayerProps[];
+  gamePage: any;
+  finishPage: any;
+}
+
+export default function AwaitingResults({
+  votedPlayer,
+  gamePage,
+  finishPage,
+}: awaitingProps) {
+  const dummyTimeout = setTimeout(() => {
+    //apagar quando integrar com backend
+    finishPage();
+  }, 5000);
+
+  useEffect(() => {
+    gsap.from('.AwaitingTitle, .AwaitingCheck', {
+      opacity: 0,
+      yPercent: 600,
+      delay: 0.25,
+      duration: 1,
+      ease: 'power1',
+    });
+    gsap.from('.AwaitingOuterCard', {
+      scale: 0,
+      rotation: 45,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3',
+    });
+    gsap.from('.ChangeVoteButton', { opacity: 0, duration: 1, delay: 1 });
+  }, []);
+
+  const voteAgain = () => {
+    clearTimeout(dummyTimeout); //apagar quando integrar com backend
+    gamePage();
+  };
+
+  return (
+    <Background>
+      <Header />
+      <div className="OEscolhidoDiv">
+        <p className="AwaitingTitle">Você votou!</p>
+
+        <div className="AwaitingCheck">
+          <CheckCircle color="lime" width="100%" height="100%" />
+        </div>
+
+        <div className="AwaitingOuterCard">
+          <div className="AwaitingInnerCard">
+            <div className="AwaitingAvatar">
+              <Avatar seed={votedPlayer.at(0).avatarSeed} />
+            </div>
+            <p className="AwaitingText">{votedPlayer.at(0).nickname}</p>
+          </div>
+        </div>
+        <div className="ChangeVoteButton">
+          <p className="AwaitingText">Aguardando os demais jogadores...</p>
+          <Button>
+            <div onClick={voteAgain}>Alterar voto</div>
+          </Button>
+        </div>
+      </div>
+    </Background>
+  );
+}

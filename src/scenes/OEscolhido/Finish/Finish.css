@@ -1,0 +1,92 @@
+.ResultsTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.ResultsText {
+  font-weight: 500;
+  font-size: 20px;
+  margin: 10px 4px;
+  height: 20px;
+}
+
+.ResultsOuterCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2em;
+  width: 210px;
+  height: 304px;
+  background: #403a55;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.ResultsInnerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 148px;
+  height: 211px;
+  background: #8877df;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.ResultsAvatar {
+  width: 100px;
+  height: 100px;
+  object-fit: scale-down;
+}
+
+.ResultsButtons {
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+}
+
+.ResultsButtonsSpacer {
+  padding: 4px;
+}
+
+.Tie {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.TieOuter {
+  width: 160px;
+  height: 304px;
+}
+
+.TieInner {
+  width: 120px;
+  height: 211px;
+}
+
+.TieAvatar {
+  width: 70px;
+  height: 70px;
+}
+
+.TieText {
+  font-size: 16px;
+  margin: 4px;
+}
+
+.TieTitle {
+  max-width: 260px;
+  height: auto;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 26px;
+  margin-bottom: 12px;
+}
+
+.TieSpacer {
+  padding: 8px;
+}
