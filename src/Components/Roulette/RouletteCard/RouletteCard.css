@@ -1,4 +1,7 @@
 .RouletteCardImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 140px;
   height: 140px;
   object-fit: scale-down;

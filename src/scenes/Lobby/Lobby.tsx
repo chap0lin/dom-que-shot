@@ -38,13 +38,6 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData);
     socket.setLobbyUpdateListener(updatePlayerList);
-    socket.addEventListener('begin-match', (whoBegan) => {
-      //por ora o dono da partida (whoBegan) é identificado pelo id do socket
-      console.log(`seed do avatar whoBegan: ${whoBegan}`);
-      navigate(`/SelectNextGame`, {
-        state: { owner: socket.socket.id === whoBegan ? true : false },
-      });
-    });
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +53,7 @@ function Lobby() {
 
   const startGame = () => {
     if (playerList.length >= 2) {
-      socket.socket.emit('begin-match', userData.roomCode, socket.socket.id); //temporariamente esta será a maneira de identificar o usuário que ordenou iniciar a partida
+      navigate('/SelectNextGame');
       return;
     }
     setLobbyWarning(Warning.Visible);
