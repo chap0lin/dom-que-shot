@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ interface HeaderProps {
   logo?: boolean | string;
   title?: string;
   goBackArrow?: boolean | any;
+  timer?: number;
   settingsPage?: string | any;
   infoPage?: string | any;
 }
@@ -17,10 +18,15 @@ export default function Header({
   logo,
   title,
   goBackArrow,
+  timer,
   settingsPage,
   infoPage,
 }: HeaderProps) {
   const navigateTo = useNavigate();
+
+  const seconds = timer / 1000;
+  const miliseconds = Math.floor(timer % 1000);
+  const formattedTimer = `${seconds.toFixed(1)}s`;
 
   const goToPreviousPage = () => {
     if (goBackArrow === true) {
@@ -60,6 +66,10 @@ export default function Header({
         <div className="HeaderTitle" style={title ? {} : { display: 'none' }}>
           <p>{title}</p>
         </div>
+      </div>
+
+      <div className="HeaderTimer" style={timer ? {} : { display: 'none' }}>
+        <p style={{ margin: '0' }}>{formattedTimer}</p>
       </div>
 
       <div className="HeaderInfoSettingsAndLogo">

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'react-feather';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
@@ -15,6 +14,7 @@ interface votedPlayerProps {
 
 interface awaitingProps {
   votedPlayer: votedPlayerProps[];
+  msTimeLeft: number;
   gamePage: any;
   finishPage: any;
 }
@@ -22,13 +22,8 @@ interface awaitingProps {
 export default function AwaitingResults({
   votedPlayer,
   gamePage,
-  finishPage,
+  msTimeLeft,
 }: awaitingProps) {
-  const dummyTimeout = setTimeout(() => {
-    //apagar quando integrar com backend
-    finishPage();
-  }, 5000);
-
   useEffect(() => {
     gsap.from('.AwaitingTitle, .AwaitingCheck', {
       opacity: 0,
@@ -48,13 +43,12 @@ export default function AwaitingResults({
   }, []);
 
   const voteAgain = () => {
-    clearTimeout(dummyTimeout); //apagar quando integrar com backend
     gamePage();
   };
 
   return (
     <Background>
-      <Header />
+      <Header timer={msTimeLeft} />
       <div className="OEscolhidoDiv">
         <p className="AwaitingTitle">Você votou!</p>
 

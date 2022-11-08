@@ -24,6 +24,7 @@ enum Game {
 
 export default function OEscolhido() {
   const title = 'O Escolhido';
+
   const information = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
@@ -36,6 +37,31 @@ export default function OEscolhido() {
       Boa sorte!
     </>
   );
+
+  //TIMER//////////////////////////////////////////////////////////////////////////////////////
+
+  const gameTime = 10000;
+
+  const [msTimer, setMsTimer] = useState(gameTime);
+  const [timer, setTimer] = useState<NodeJS.Timer>();
+
+  const startTimer = () => {
+    setTimer(setInterval(run, 10));
+  };
+
+  let updatedMs = msTimer;
+  const run = () => {
+    if (updatedMs > 0) {
+      updatedMs -= 10;
+      if (updatedMs === 0) {
+        console.log('Acabou o tempo.');
+        setCurrentGameState(Game.Finish);
+      }
+      setMsTimer(updatedMs);
+    }
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
@@ -62,7 +88,9 @@ export default function OEscolhido() {
   ]);
 
   useEffect(() => {
-    if (currentGameState === Game.AwaitingResults) {
+    if (currentGameState === Game.Game) {
+      startTimer();
+    } else if (currentGameState === Game.AwaitingResults) {
       const votedPlayer = window.localStorage.getItem('voted-player');
       const random = Math.round(Math.random()); //for simulating a tie; random can be 0 or 1
       let p2 = 0;
@@ -82,6 +110,13 @@ export default function OEscolhido() {
       });
     }
   }, [currentGameState]);
+
+  const playAgain = () => {
+    console.log('O usuário pediu para jogar novamente.');
+    clearInterval(timer);
+    setMsTimer(gameTime);
+    setCurrentGameState(Game.Cover);
+  };
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
@@ -119,8 +154,9 @@ export default function OEscolhido() {
     case Game.Game:
       return (
         <GamePage
+          msTimeLeft={msTimer}
           playerList={playerList}
-          coverPage={() => setCurrentGameState(Game.Cover)}
+          //coverPage={() => setCurrentGameState(Game.Cover)}
           finishPage={() => setCurrentGameState(Game.AwaitingResults)}
         />
       );
@@ -128,6 +164,7 @@ export default function OEscolhido() {
     case Game.AwaitingResults:
       return (
         <AwaitingResults
+          msTimeLeft={msTimer}
           votedPlayer={votedPlayer}
           gamePage={() => setCurrentGameState(Game.Game)}
           finishPage={() => setCurrentGameState(Game.Finish)}
@@ -136,10 +173,7 @@ export default function OEscolhido() {
 
     case Game.Finish:
       return (
-        <FinishPage
-          votedPlayer={votedPlayer}
-          coverPage={() => setCurrentGameState(Game.Cover)}
-        />
+        <FinishPage votedPlayer={votedPlayer} coverPage={() => playAgain()} />
       );
 
     default:

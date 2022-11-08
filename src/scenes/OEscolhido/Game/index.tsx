@@ -12,14 +12,16 @@ interface playerProps {
 }
 
 interface coverProps {
-  coverPage: any;
+  //coverPage: any;
   finishPage: any;
+  msTimeLeft: number;
   playerList: playerProps[];
 }
 
 export default function GamePage({
-  coverPage,
+  //coverPage,
   finishPage,
+  msTimeLeft,
   playerList,
 }: coverProps) {
   const [selectedPlayer, setSelectedPlayer] = useState('');
@@ -38,7 +40,7 @@ export default function GamePage({
 
   return (
     <Background>
-      <Header goBackArrow={coverPage} />
+      <Header timer={msTimeLeft} />
       <div className="OEscolhidoDiv">
         <p>Escolha um participante:</p>
         <div className="GamePlayerListDiv">

@@ -47,7 +47,7 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
   if (votedPlayer.length == 1) {
     return (
       <Background>
-        <Header goBackArrow={coverPage} />
+        <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">E o mais votado foi:</p>
           <div className="ResultsOuterCard">
