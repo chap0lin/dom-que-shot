@@ -5,8 +5,8 @@ class SocketConnection {
   socket: Socket;
   serverAddress = 'http://localhost:3000';
 
-  connect(){
-    if(!this.socket){
+  connect() {
+    if (!this.socket) {
       this.socket = io(this.serverAddress);
       this.socket.on('connection', () => {
         console.log(
@@ -82,6 +82,4 @@ class SocketConnection {
   }
 }
 
-
 export default SocketConnection;
-

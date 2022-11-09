@@ -15,7 +15,7 @@ export default function PlayerList({ players }: PlayerListProps) {
   return (
     <div className="PlayerListSlider">
       {players.map((player) => (
-        <div key={player.id}>
+        <div key={player.avatarSeed}>
           <ListedPlayer
             seed={player.avatarSeed}
             nickname={player.nickname}

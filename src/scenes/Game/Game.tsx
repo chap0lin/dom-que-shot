@@ -1,17 +1,21 @@
-// import { Link } from 'react-router-dom';
-import logo from '../../assets/dummy/game-logo.png';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+import Header from '../../components/Header';
+import Background from '../../components/Background';
 import './Game.css';
 
 function Game() {
+  let game = 'No game.';
+
+  if (useLocation().state.game) {
+    game = useLocation().state.game;
+  }
+
   return (
-    <div className="App">
-      <div>
-        <img src={logo} className="logo" alt="Vite logo" />
-      </div>
-      <div className="card">
-        <p>This is the game screen. the end of the line.</p>
-      </div>
-    </div>
+    <Background>
+      <Header title={game} />
+    </Background>
   );
 }
 
