@@ -70,13 +70,14 @@ export default function SelectNextGame() {
     const timeline = gsap.timeline();
     timeline
       .to('.RouletteCard', {
-        yPercent: 0,
-        duration: 0.5,
+        y: `-${3 * (games.length - 2) * 142}px`,
+        duration: 1,
+        ease: 'linear',
       })
       .to('.RouletteCard', {
         y: `-${id * 142}px`,
         duration: 2,
-        ease: 'elastic',
+        ease: 'power3',
       })
       .to('.NextGameName', {
         opacity: 1,
@@ -88,14 +89,9 @@ export default function SelectNextGame() {
       id -= games.length;
     }
 
-    let gameName = '';
-
-    games.forEach((game) => {
-      if (game.id === id) {
-        gameName = game.text;
-        setNextGameName(gameName);
-      }
-    });
+    const selectedGame = games.find((game) => game.id === id);
+    const gameName = selectedGame.text;
+    setNextGameName(gameName);
 
     setTimeout(() => {
       navigate('/Game', { state: { game: gameName } });
