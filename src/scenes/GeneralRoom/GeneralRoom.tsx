@@ -14,7 +14,7 @@ function GeneralRoom() {
   return (
     <div>
       <p>Another Screen</p>
-      <Link to="/BangBang">Bang Bang</Link>
+      <Link to="/InstructionsBangBang">Bang Bang</Link>
       <p>{response}</p>
     </div>
   );

@@ -1,0 +1,137 @@
+#ranking-page {
+  padding-top: 10%;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  background-color: #170C32;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+#ranking-page p {
+  margin: 0;
+}
+
+.container-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+}
+
+.container-winner {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding-top: 24px;
+  align-items: center;
+  background-color: #403A55;
+  width: 120px;
+  height: 180px;
+  border-radius: 10px;
+  transform: rotate(-15deg);
+  border-color: black;
+  border-width: 1px;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.container-loser {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding-top: 24px;
+  align-items: center;
+  background-color: #403A55;
+  width: 120px;
+  height: 180px;
+  border-radius: 10px;
+  transform: rotate(15deg);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 0;
+}
+
+.background-avatar {
+  border-radius: 50%;
+  background-color: #8877DF;
+  width: 64px;
+  height: 64px;
+}
+
+.container-body {
+  margin-top: -30px;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  z-index: 2;
+}
+
+.ranking-container{
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ranking-item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 48px;
+  background-color: #8877DF;
+  border-radius: 10px;
+}
+
+#ranking-page .position {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #403A55;
+  width: 56px;
+  height: 48px;
+  padding-left: 4px;
+  padding-right: 8px;
+  margin: none;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-right: 1px solid #F9C95C;
+}
+
+#ranking-page .position .circle-border {
+  margin: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #F9C95C;
+  border-radius: 50%;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infos {
+  margin-left: 16px;
+  margin-right: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 23px;
+  display: flex;
+  align-items: center;
+
+}

@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
+import './BangBang.css';
+import targetImage from '../../assets/BangBang/target.png';
+import balloon1 from '../../assets/BangBang/balao1.png';
+import balloon2 from '../../assets/BangBang/balao2.png';
+import balloon3 from '../../assets/BangBang/balao3.png';
+import balloonReady from '../../assets/BangBang/balao-prontos.png';
+import gsap from 'gsap';
+import { Link } from 'react-router-dom';
 // import { useGlobalContext } from '../../contexts/GlobalContextProvider';
 
 enum ButtonStatus {
@@ -32,6 +40,8 @@ const BangBang = () => {
   const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
     WinnerStatus.waiting
   );
+
+  const [balloonImg, setBalloonImg] = useState(balloonReady);
 
   // const {user_id} = useGlobalContext()
 
@@ -97,15 +107,44 @@ const BangBang = () => {
     });
   };
 
+  const animationBalloon = () => {
+    const timeline = gsap.timeline()
+    timeline
+      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
+      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
+        setBalloonImg(balloon3)
+      })
+      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
+        setBalloonImg(balloon2)
+      })
+      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
+        setBalloonImg(balloon1)
+      })
+      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 0, duration: 1.0 })
+        setBalloonImg(balloonReady)
+  }
+
+
   return (
-    <div>
-      <h2>{formatedTime()}</h2>
-      <p data-testid="label" style={{ color: msTimer >= 0 ? 'red' : 'green' }}>
-        Bang Bang
-      </p>
-      <button onClick={handleClick} disabled={!buttonStatus}>
-        Click
+    <div id="game-bang-bang" className="container">
+      <div className="cronometer-container" onClick={animationBalloon}>
+        <h2>{`${formatedTime()}s`}</h2>
+      </div>
+
+      <img src={targetImage} alt="Target image" className="target-image" />
+
+      <div className="animation-balloon">
+        <img src={balloonImg}/>
+      </div>
+
+      <button className='button-bang' onClick={handleClick} disabled={!buttonStatus}>
       </button>
+
+      <Link to="/Ranking">Ranking</Link>
+
       {winnerStatus !== WinnerStatus.waiting && (
         <p>You {winnerStatus === WinnerStatus.won ? 'won' : 'lost'}!</p>
       )}

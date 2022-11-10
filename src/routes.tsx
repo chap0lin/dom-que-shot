@@ -6,7 +6,7 @@ import Tutorial from './scenes/Tutorial';
 import Login from './scenes/Login';
 import Home from './scenes/Home';
 import GeneralRoom from './scenes/GeneralRoom';
-import BangBang from './scenes/BangBang';
+import BangBang, { InstructionPage, Ranking } from './scenes/BangBang';
 import StandardMode from './scenes/StandardMode';
 import RandomMode from './scenes/RandomMode';
 import ChooseAvatar from './scenes/ChooseAvatar';
@@ -32,6 +32,8 @@ const Router: React.FC = () => {
         <Route path="/Game" element={<Game />} />
         <Route path="/BangBang" element={<BangBang />} />
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
+        <Route path="/InstructionsBangBang" element={<InstructionPage />} />
+        <Route path="/Ranking" element={<Ranking />} />
       </Routes>
     </BrowserRouter>
   );

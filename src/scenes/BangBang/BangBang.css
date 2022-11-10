@@ -1,0 +1,55 @@
+.container {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #170C32;
+  align-items: center;
+}
+
+#game-bang-bang .cronometer-container {
+  width: 120;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.54);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#game-bang-bang .cronometer-container h2 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  color: #FF0000;
+}
+
+#game-bang-bang .target-image {
+  opacity: 0.5;
+}
+
+.button-bang {
+  width: 48px;
+  height: 48px;
+  background-color: red;
+  border-color: darkgray;
+  border-width: 5px;
+  border-radius: 50%;
+  margin-top: 68px;
+}
+
+.button-bang:hover {
+  border-color: darkgray;
+}
+
+.button-bang:disabled {
+  opacity: 0.5;
+}
+
+.animation-balloon {
+  width: '307px';
+  height: '296px';
+}
