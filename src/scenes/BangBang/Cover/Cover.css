@@ -1,0 +1,13 @@
+.cover-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.cover-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: white;
+  margin: 12px;
+}

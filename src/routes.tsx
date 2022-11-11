@@ -14,6 +14,7 @@ import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 import SelectNextGame from './scenes/SelectNextGame';
+import CoverPage from './scenes/BangBang/Cover';
 
 const Router: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const Router: React.FC = () => {
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
         <Route path="/InstructionsBangBang" element={<InstructionPage />} />
         <Route path="/Ranking" element={<Ranking />} />
+        <Route path="/CoverPage" element={<CoverPage title='BangBang' infoPage={ () => null } gamePage={()=>null} />} />
       </Routes>
     </BrowserRouter>
   );
