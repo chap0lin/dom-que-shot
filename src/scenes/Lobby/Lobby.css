@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.CopyIconAndWarning {
+.Warning {
   display: flex;
   align-items: center;
 }
@@ -16,6 +16,16 @@
   color: lime;
   font-size: 16px;
   margin: 20px 24px 16px 4px;
+}
+
+.Lobby {
+  justify-content: center;
+}
+
+.LobbyWarning {
+  color: red;
+  font-size: 16px;
+  margin-left: 4px;
 }
 
 .RoomCodeTitle {

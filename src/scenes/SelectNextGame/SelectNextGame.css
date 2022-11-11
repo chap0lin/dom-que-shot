@@ -1,0 +1,40 @@
+.SelectGameSection {
+  margin-top: 2em;
+  height: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.RouletteDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.RouletteSideIconSpace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  width: 60px;
+  height: 60px;
+}
+
+.RouletteCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #170c32;
+  border-radius: 10px;
+  margin-top: 2px;
+}
+
+.NextGameName {
+  opacity: 0;
+  height: 30px;
+  font-size: 25px;
+  font-weight: 700;
+  margin: 25px 0 40px 0;
+}
