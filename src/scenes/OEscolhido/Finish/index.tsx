@@ -5,19 +5,26 @@ import Header from '../../../components/Header';
 import Button from '../../../components/Button';
 import Avatar from '../../../components/Avatar';
 import gsap from 'gsap';
+import noOneVoted from '../../../assets/no-votes.png';
 import './Finish.css';
 
 interface votedPlayerProps {
   nickname: string;
   avatarSeed: string;
+  votes: number;
 }
 
 interface coverProps {
   votedPlayer: votedPlayerProps[];
   coverPage: any;
+  endGamePage: any;
 }
 
-export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
+export default function FinishPage({
+  votedPlayer,
+  coverPage,
+  endGamePage,
+}: coverProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +51,43 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
     gsap.from('.ResultsButtons', { opacity: 0, duration: 1, delay: 2 });
   }, []);
 
+  if (votedPlayer.at(0).votes === 0) {
+    return (
+      <Background>
+        <Header />
+        <div className="OEscolhidoDiv">
+          <p className="ResultsTitle">POXA! Ninguém votou?</p>
+          <p className="ResultsText">&#40;É sério isso?&#41;</p>
+          <div className="ResultsOuterCard NoVotesInner">
+            <p className="ResultsText" />
+            <div className="ResultsInnerCard NoVotesOuter">
+              <p className="ResultsText" />
+              <div className="ResultsAvatar">
+                <img src={noOneVoted} width="100px;" />
+              </div>
+              <p className="ResultsText Nickname">R.I.P. Votação</p>
+            </div>
+            <p className="ResultsText" />
+          </div>
+          <p className="ResultsText NoVotesText">
+            Neste caso...
+            <br />
+            TODO mundo bebe!
+          </p>
+          <div className="ResultsButtons">
+            <Button>
+              <div onClick={endGamePage}>Finalizar</div>
+            </Button>
+            <div className="ResultsButtonsSpacer" />
+            <Button>
+              <div onClick={coverPage}>Tentar de novo</div>
+            </Button>
+          </div>
+        </div>
+      </Background>
+    );
+  }
+
   if (votedPlayer.length == 1) {
     return (
       <Background>
@@ -61,16 +105,11 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
                 {votedPlayer.at(0).nickname}
               </p>
             </div>
-            <p className="ResultsText">8 Votos</p>
+            <p className="ResultsText">{`${votedPlayer.at(0).votes} votos`}</p>
           </div>
           <div className="ResultsButtons">
             <Button>
-              <div
-                onClick={() => {
-                  navigate('/Home');
-                }}>
-                Finalizar
-              </div>
+              <div onClick={endGamePage}>Finalizar</div>
             </Button>
             <div className="ResultsButtonsSpacer" />
             <Button>
@@ -98,7 +137,9 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
                 {votedPlayer.at(0).nickname}
               </p>
             </div>
-            <p className="ResultsText TieText">8 Votos</p>
+            <p className="ResultsText TieText">{`${
+              votedPlayer.at(0).votes
+            } votos`}</p>
           </div>
           <div className="TieSpacer" />
           <div className="ResultsOuterCard TieOuter">
@@ -111,7 +152,9 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
                 {votedPlayer.at(1).nickname}
               </p>
             </div>
-            <p className="ResultsText TieText">8 Votos</p>
+            <p className="ResultsText TieText">{`${
+              votedPlayer.at(1).votes
+            } votos`}</p>
           </div>
         </div>
         <p className="ResultsText TieTitle">
@@ -119,12 +162,7 @@ export default function FinishPage({ votedPlayer, coverPage }: coverProps) {
         </p>
         <div className="ResultsButtons">
           <Button>
-            <div
-              onClick={() => {
-                navigate('/Home');
-              }}>
-              Finalizar
-            </div>
+            <div onClick={endGamePage}>Finalizar</div>
           </Button>
           <div className="ResultsButtonsSpacer" />
           <Button>

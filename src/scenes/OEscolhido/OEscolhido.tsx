@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
 import GamePage from './Game';
 import FinishPage from './Finish';
+import AwaitingResults from './Awaiting';
 import coverImg from '../../assets/game-covers/o-escolhido.png';
 import './OEscolhido.css';
-import AwaitingResults from './Awaiting';
 
-interface playerProps {
+interface listedPlayerProps {
   nickname: string;
   avatarSeed: string;
+  id: number;
+}
+interface votedPlayerProps {
+  nickname: string;
+  avatarSeed: string;
+  votes: number;
 }
 
 enum Game {
@@ -24,7 +31,6 @@ enum Game {
 
 export default function OEscolhido() {
   const title = 'O Escolhido';
-
   const information = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
@@ -55,7 +61,7 @@ export default function OEscolhido() {
       updatedMs -= 10;
       if (updatedMs === 0) {
         console.log('Acabou o tempo.');
-        setCurrentGameState(Game.Finish);
+        socket.send('vote-results', userData.roomCode);
       }
       setMsTimer(updatedMs);
     }
@@ -63,72 +69,106 @@ export default function OEscolhido() {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
+  const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [votedPlayer, setVotedPlayer] = useState<playerProps[]>([
+  const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([
+    //contém o(s) jogador(es) mais votado(s)
     {
       nickname: 'Dom Que Shot',
       avatarSeed: 'dqxt',
+      votes: 5,
     },
   ]);
 
-  const [playerList, updatePlayerList] = useState([
+  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([
     {
       avatarSeed: userData ? userData.avatarSeed : 'Dom que shot',
       nickname: userData ? userData.nickname : 'Dom quixote',
+      id: 0,
     },
     {
       avatarSeed: 'sanchopança',
       nickname: 'Sancho Pança',
+      id: 1,
     },
     {
       avatarSeed: 'dcna',
       nickname: 'Dulcineia',
+      id: 2,
     },
   ]);
-
-  useEffect(() => {
-    if (currentGameState === Game.Game) {
-      startTimer();
-    } else if (currentGameState === Game.AwaitingResults) {
-      const votedPlayer = window.localStorage.getItem('voted-player');
-      const random = Math.round(Math.random()); //for simulating a tie; random can be 0 or 1
-      let p2 = 0;
-      if (random === 1) {
-        console.log('houve um empate.'); //random = 1 means a tie
-        while (playerList.at(p2).avatarSeed === votedPlayer) {
-          p2 = Math.floor(Math.random() * playerList.length); //selects a player which is not the one voted by the user
-        }
-      } else {
-        console.log('não houve empate.');
-      }
-
-      playerList.forEach((player) => {
-        if (player.avatarSeed === votedPlayer) {
-          setVotedPlayer(random === 0 ? [player] : [player, playerList.at(p2)]);
-        }
-      });
-    }
-  }, [currentGameState]);
 
   const playAgain = () => {
     console.log('O usuário pediu para jogar novamente.');
     clearInterval(timer);
     setMsTimer(gameTime);
-    setCurrentGameState(Game.Cover);
+    socket.send('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/OEscolhido',
+    });
+  };
+
+  const backToLobby = () => {
+    console.log('O usuário desejou voltar ao lobby');
+    clearInterval(timer);
+    socket.send('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
   };
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  let socket = socketConnection.getInstance();
 
   useEffect(() => {
-    //socket.connect();                                     //somente enquanto a tela estiver isolada
-    //socket.joinRoom(userData);                            //somente enquanto a tela estiver isolada
-    //socket.setLobbyUpdateListener(updatePlayerList);
+    socket.setLobbyUpdateListener(updatePlayerList);
+    socket.send('lobby-update', userData.roomCode);
+
+    socket.addEventListener('vote-results', (mostVotedPlayers) => {
+      console.log(
+        'resultados da votação disponíveis. Jogadores mais votados: '
+      );
+      const result = JSON.parse(mostVotedPlayers);
+      console.log(result);
+      setCurrentGameState(Game.Finish);
+      setVotedPlayers(result);
+    });
+
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      if (typeof destination === 'string') {
+        if (destination === '/OEscolhido') {
+          updatedMs = msTimer;
+          return setCurrentGameState(Game.Cover);
+        }
+        return navigate(destination);
+      }
+      setCurrentGameState(destination);
+    });
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
+
+  useEffect(() => {
+    if (currentGameState === Game.Game) {
+      socket.send('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: Game.Game,
+      });
+      startTimer();
+    } else if (currentGameState === Game.AwaitingResults) {
+      const votedPlayer = window.localStorage.getItem('voted-player');
+      console.log(votedPlayer);
+      socket.send('voted-player', {
+        roomCode: userData.roomCode,
+        player: votedPlayer,
+      });
+    } else if (currentGameState === Game.Finish) {
+      clearInterval(timer);
+      setMsTimer(gameTime);
+    }
+  }, [currentGameState]);
 
   switch (currentGameState) {
     case Game.Cover:
@@ -165,7 +205,6 @@ export default function OEscolhido() {
       return (
         <AwaitingResults
           msTimeLeft={msTimer}
-          votedPlayer={votedPlayer}
           gamePage={() => setCurrentGameState(Game.Game)}
           finishPage={() => setCurrentGameState(Game.Finish)}
         />
@@ -173,7 +212,11 @@ export default function OEscolhido() {
 
     case Game.Finish:
       return (
-        <FinishPage votedPlayer={votedPlayer} coverPage={() => playAgain()} />
+        <FinishPage
+          votedPlayer={votedPlayers}
+          coverPage={() => playAgain()}
+          endGamePage={() => backToLobby()}
+        />
       );
 
     default:
@@ -184,3 +227,25 @@ export default function OEscolhido() {
       );
   }
 }
+
+//  originalmente no useEffect do currentGameState
+//
+//   else if (currentGameState === Game.AwaitingResults) {
+//   const votedPlayer = window.localStorage.getItem('voted-player');
+//   const random = Math.round(Math.random()); //for simulating a tie; random can be 0 or 1
+//   let p2 = 0;
+//   if (random === 1) {
+//     console.log('houve um empate.'); //random = 1 means a tie
+//     while (playerList.at(p2).avatarSeed === votedPlayer) {
+//       p2 = Math.floor(Math.random() * playerList.length); //selects a player which is not the one voted by the user
+//     }
+//   } else {
+//     console.log('não houve empate.');
+//   }
+
+//   playerList.forEach((player) => {
+//     if (player.avatarSeed === votedPlayer) {
+//       setVotedPlayer(random === 0 ? [player] : [player, playerList.at(p2)]);
+//     }
+//   });
+// }

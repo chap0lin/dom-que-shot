@@ -25,7 +25,7 @@ export default function Header({
   const navigateTo = useNavigate();
 
   const seconds = timer / 1000;
-  const miliseconds = Math.floor(timer % 1000);
+  const timerColor = seconds < 3 ? 'red' : 'white';
   const formattedTimer = `${seconds.toFixed(1)}s`;
 
   const goToPreviousPage = () => {
@@ -68,7 +68,9 @@ export default function Header({
         </div>
       </div>
 
-      <div className="HeaderTimer" style={timer ? {} : { display: 'none' }}>
+      <div
+        className="HeaderTimer"
+        style={timer ? { color: timerColor } : { display: 'none' }}>
         <p style={{ margin: '0' }}>{formattedTimer}</p>
       </div>
 

@@ -72,3 +72,8 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@font-face {
+  font-family: 'Adumu';
+  src: local('Adumu'), url('./assets/fonts/Adumu.ttf') format('truetype');
+}

@@ -52,6 +52,21 @@
   padding: 4px;
 }
 
+.NoVotesOuter {
+  background-color: #222222;
+}
+
+.NoVotesInner {
+  background-color: #333333;
+}
+
+.NoVotesText {
+  margin: 1.5em;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center;
+}
+
 .Tie {
   display: flex;
   justify-content: space-evenly;

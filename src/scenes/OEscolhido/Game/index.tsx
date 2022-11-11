@@ -9,6 +9,7 @@ import './Game.css';
 interface playerProps {
   nickname: string;
   avatarSeed: string;
+  id: number;
 }
 
 interface coverProps {
@@ -24,18 +25,25 @@ export default function GamePage({
   msTimeLeft,
   playerList,
 }: coverProps) {
-  const [selectedPlayer, setSelectedPlayer] = useState('');
+  const [selectedPlayer, setSelectedPlayer] = useState<playerProps>({
+    nickname: '',
+    avatarSeed: '',
+    id: 0,
+  });
 
   useEffect(() => {
-    if (selectedPlayer !== '') {
+    if (selectedPlayer) {
       gsap.to('.selectedItem', { scale: 1.08, duration: 0.5 });
       gsap.to('.unselectedItem', { scale: 1, duration: 0.5 });
-      window.localStorage.setItem('voted-player', selectedPlayer);
+      window.localStorage.setItem(
+        'voted-player',
+        JSON.stringify(selectedPlayer)
+      ); //guardamos temporariamente o nome e o seed do avatar no localstorage
     }
   }, [selectedPlayer]);
 
-  const selectPlayer = (avatarSeed) => {
-    setSelectedPlayer(avatarSeed);
+  const selectPlayer = (player) => {
+    setSelectedPlayer(player);
   };
 
   return (
@@ -47,18 +55,20 @@ export default function GamePage({
           {playerList.map((player) => (
             <div
               onClick={() => {
-                selectPlayer(player.avatarSeed);
+                selectPlayer(player);
               }}
               className={
-                player.avatarSeed === selectedPlayer
+                player.avatarSeed === selectedPlayer.avatarSeed &&
+                player.nickname === selectedPlayer.nickname
                   ? 'selectedItem GamePlayerListItem'
                   : 'unselectedItem GamePlayerListItem'
               }
-              key={player.avatarSeed}>
+              key={player.id}>
               <p className="GamePlayerListNickname">{player.nickname}</p>
               <div
                 className={
-                  player.avatarSeed === selectedPlayer
+                  player.avatarSeed === selectedPlayer.avatarSeed &&
+                  player.nickname === selectedPlayer.nickname
                     ? 'selectedAvatar GamePlayerListAvatar'
                     : 'unselectedAvatar GamePlayerListAvatar'
                 }>
