@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Copy, AlertTriangle } from 'react-feather';
+import { useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
@@ -15,7 +15,6 @@ enum Warning {
 
 function Lobby() {
   const navigate = useNavigate();
-
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [copyWarning, setCopyWarning] = useState<Warning>(Warning.Invisible);
 

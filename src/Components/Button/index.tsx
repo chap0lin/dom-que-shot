@@ -4,12 +4,19 @@ import './Button.css';
 interface ButtonProps {
   width?: string;
   height?: string;
+  onClick?: () => void;
   children: React.ReactNode | React.ReactNode[];
 }
 
-export default function Button({ width, height, children }: ButtonProps) {
+export default function Button({
+  width,
+  height,
+  onClick,
+  children,
+}: ButtonProps) {
   return (
     <button
+      onClick={onClick}
       className="RegularButton"
       style={
         width
