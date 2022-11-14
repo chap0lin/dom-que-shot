@@ -21,6 +21,7 @@ const BangBangEvents = {
 };
 
 const BangBang = () => {
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = '1';
 
   const [msTimer, setMsTimer] = useState(5000);
@@ -48,8 +49,7 @@ const BangBang = () => {
   };
 
   useEffect(() => {
-    socketConn.connect();
-    socketConn.joinRoomWithCode(bangBangRoom);
+    socketConn.joinRoom(userData);
     socketConn.pushMessage(bangBangRoom, 'player_ready', '');
   }, []);
 
