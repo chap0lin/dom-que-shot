@@ -7,12 +7,12 @@ import './Cover.css';
 import coverImg from '../../../assets/BangBang/cover-bangbang.png';
 
 interface CoverProps {
-  title: string,
+  title?: string,
   infoPage: any;
   gamePage: any;
 }
 
-function CoverPage({title, infoPage, gamePage}: CoverProps){
+export function CoverPage({title, infoPage, gamePage}: CoverProps){
   return(
     <div id="cover-page" className="cover-page">
       <Background>
@@ -38,5 +38,3 @@ function CoverPage({title, infoPage, gamePage}: CoverProps){
   );
 
 }
-
-export default CoverPage;

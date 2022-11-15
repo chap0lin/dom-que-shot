@@ -1,30 +1,24 @@
 import React from "react";
-
+import "./styles.css";
 interface RankingItemProps {
   position: number;
   name: string;
   time: string;
-  children?: React.ReactNode | React.ReactNode[];
 }
 
-const RankingItem: React.FC<RankingItemProps> = (props) => {
+const RankingItem: React.FC<RankingItemProps> = ({position, name, time}) => {
   return(
-    <div className="ranking-container">
-          <div className="ranking-item">
-
-            <div className="position">
-              <div className="circle-border">
-                <p>{props.position}º</p>
-              </div>
-            </div>
-
-            <div className="infos">
-              <p>{props.name}</p>
-              <p>{props.time}</p>
-            </div>
-
-          </div>
+    <div id="ranking-item">
+      <div className="position">
+        <div className="circle-border">
+          <p>{position+1}º</p>
         </div>
+      </div>
+      <div className="infos">
+        <p>{name}</p>
+        <p>{time}</p>
+      </div>
+    </div>
   );
 }
 

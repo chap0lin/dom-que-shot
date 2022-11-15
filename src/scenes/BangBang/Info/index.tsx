@@ -2,14 +2,18 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'react-feather';
-import titleImage from '../../assets/BangBang/title-bangbang.png';
-import logoGame from '../../assets/BangBang/bangbang-logo.png';
-import './InstructionPage.css';
-import Button from "../../components/Button";
+import titleImage from '../../../assets/BangBang/title-bangbang.png';
+import logoGame from '../../../assets/BangBang/bangbang-logo.png';
+import './Info.css';
+import Button from "../../../components/Button";
 
 
-const InstructionPage = () => {
-  const navigateTo = useNavigate();
+interface InfoProps {
+  coverPage: () => void;
+  gamePage: () => void;
+}
+
+export function InfoPage({coverPage, gamePage} : InfoProps) {
 
   return (
     <div id="instructions-bangbang" className="container-page">
@@ -18,7 +22,7 @@ const InstructionPage = () => {
           <ArrowLeft
             width="30px"
             height="30px"
-            onClick={() => navigateTo(-1)}
+            onClick={coverPage}
           />
         </div>
 
@@ -37,14 +41,10 @@ const InstructionPage = () => {
         </p>
 
         <div className="button-container">
-          <Link to="/BangBang">
-            <Button>Iniciar</Button>
-          </Link>
+          <Button onClick={gamePage}>Iniciar</Button>
         </div>
       </div>
 
     </div>
   );
 };
-
-export { InstructionPage };

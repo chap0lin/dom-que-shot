@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
-import './BangBang.css';
-import targetImage from '../../assets/BangBang/target.png';
-import balloon1 from '../../assets/BangBang/balao1.png';
-import balloon2 from '../../assets/BangBang/balao2.png';
-import balloon3 from '../../assets/BangBang/balao3.png';
-import balloonReady from '../../assets/BangBang/balao-prontos.png';
-import gsap from 'gsap';
-import { Link } from 'react-router-dom';
-// import { useGlobalContext } from '../../contexts/GlobalContextProvider';
+import Background from '../../components/Background';
+import { CoverPage } from './Cover';
+import { InfoPage } from './Info';
+import { RankingPage } from './Ranking';
+import { GamePage } from './Game'; 
 
-enum ButtonStatus {
-  enabled = 1,
-  disabled = 0,
-}
+const bangBangRoom = "1";
 
-enum WinnerStatus {
-  won = 1,
-  lost = -1,
-  waiting = 0,
-}
+enum Game {
+  Cover,
+  Info,
+  Game,
+  Ranking
+};
+
+const players = [
+  { "name": "Alan", "seed": "1134", "time": "0.1" },
+  { "name": "Júlia", "seed": "1234", "time": "1.1" },
+  { "name": "Roberta", "seed": "2234", "time": "1.4" },
+  { "name": "Denise", "seed": "1264", "time": "2.1" },
+  { "name": "Ricardo", "seed": "1334", "time": "3.3" },
+  { "name": "Júnior", "seed": "1239", "time": "10" },
+];
 
 const BangBangEvents = {
   StartTimer: 'start_timer',
@@ -28,52 +31,29 @@ const BangBangEvents = {
   FireEvent: 'shot',
 };
 
-const BangBang = () => {
-  const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const bangBangRoom = '1';
 
-  const [msTimer, setMsTimer] = useState(5000);
-  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
-    ButtonStatus.disabled
-  );
-  const [timer, setTimer] = useState<NodeJS.Timer>();
-  const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
-    WinnerStatus.waiting
-  );
-
-  const [balloonImg, setBalloonImg] = useState(balloonReady);
-
-  // const {user_id} = useGlobalContext()
+export function BangBang() {
+  const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const [ready, setReady] = useState(false);
 
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
 
-  const startTimer = () => {
-    setTimer(setInterval(run, 10));
-  };
-
-  let updatedMs = msTimer;
-  const run = () => {
-    updatedMs -= 10;
-    return setMsTimer(updatedMs);
-  };
-
   useEffect(() => {
-    socketConn.joinRoom(userData);
-    socketConn.pushMessage(bangBangRoom, 'player_ready', '');
-  }, []);
-
-  useEffect(() => {
+    socketConn.connect();
+    socketConn.joinRoomWithCode(bangBangRoom);//// atuar em cima disso
     socketConn.onMessageReceived(({ message, id }) => {
       switch (message) {
         case BangBangEvents.StartTimer:
-          startTimer();
+          setReady(true);
           break;
         case BangBangEvents.Result:
           if (id === socketConn.getSocketId()) {
-            setWinnerStatus(WinnerStatus.won);
+            console.log("Ganhou")
+            // setWinnerStatus(WinnerStatus.won);
           } else {
-            setWinnerStatus(WinnerStatus.lost);
+            console.log("Perdou")
+            // setWinnerStatus(WinnerStatus.lost);
           }
           break;
         default:
@@ -82,74 +62,55 @@ const BangBang = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (msTimer <= 0 && buttonStatus === ButtonStatus.disabled) {
-      setButtonStatus(ButtonStatus.enabled);
-    }
-  }, [setButtonStatus, buttonStatus, msTimer]);
 
   useEffect(() => {
-    if (winnerStatus !== WinnerStatus.waiting) {
-      setTimeout(() => {
-        navigateTo(-1);
-      }, 3000);
-    }
-  }, [winnerStatus]);
+    currentGameState === Game.Game && socketConn.pushMessage(bangBangRoom, 'player_ready', ''); // temporario ate pegar o codigo do alex
+  }, [currentGameState])
 
-  const formatedTime = (): string => {
-    return (msTimer / 1000).toFixed(2);
-  };
-
-  const handleClick = () => {
-    clearInterval(timer);
+  const handleShot = (msTimer) => {
     socketConn.pushMessage(bangBangRoom, BangBangEvents.FireEvent, {
       time: msTimer,
     });
   };
 
-  const animationBalloon = () => {
-    const timeline = gsap.timeline()
-    timeline
-      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
-        setBalloonImg(balloon3)
-      })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
-        setBalloonImg(balloon2)
-      })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
-        setBalloonImg(balloon1)
-      })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 })
-        setBalloonImg(balloonReady)
+
+  switch (currentGameState) {
+    case Game.Cover:
+      return (
+        <CoverPage
+          infoPage={() => setCurrentGameState(Game.Info)}
+          gamePage={() => setCurrentGameState(Game.Game)}
+        />
+      );
+    case Game.Info:
+      return (
+        <InfoPage
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={() => setCurrentGameState(Game.Game)}
+        />
+      );
+    case Game.Game:
+      return (
+        <GamePage
+          ready={ready}
+          shot={handleShot}
+          //coverPage={() => setCurrentGameState(Game.Cover)}
+          rankingPage={() => setCurrentGameState(Game.Ranking)}
+        />
+      );
+    case Game.Ranking:
+      return (
+        <RankingPage
+          data={players}
+          gamePage={() => setCurrentGameState(Game.Game)}
+          finishPage={() => navigateTo("/Home")}
+        />
+      );
+    default:
+      return (
+        <Background>
+          <div>Erro!</div>
+        </Background>
+      );
   }
-
-
-  return (
-    <div id="game-bang-bang" className="container">
-      <div className="cronometer-container" onClick={animationBalloon}>
-        <h2>{`${formatedTime()}s`}</h2>
-      </div>
-
-      <img src={targetImage} alt="Target image" className="target-image" />
-
-      <div className="animation-balloon">
-        <img src={balloonImg}/>
-      </div>
-
-      <button className='button-bang' onClick={handleClick} disabled={!buttonStatus}>
-      </button>
-
-      <Link to="/Ranking">Ranking</Link>
-
-      {winnerStatus !== WinnerStatus.waiting && (
-        <p>You {winnerStatus === WinnerStatus.won ? 'won' : 'lost'}!</p>
-      )}
-    </div>
-  );
-};
-
-export { BangBang };
+}

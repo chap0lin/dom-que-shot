@@ -27,10 +27,6 @@
   color: #FF0000;
 }
 
-#game-bang-bang .target-image {
-  opacity: 0.5;
-}
-
 .button-bang {
   width: 48px;
   height: 48px;
@@ -52,4 +48,5 @@
 .animation-balloon {
   width: '307px';
   height: '296px';
+  padding-top: '20px';
 }
