@@ -6,44 +6,52 @@ import Button from "../../../components/Button";
 import RankingItem from "../../../components/RankingItem";
 
 type Player = {
-  name: string;
+  id: string;
+  nickname: string;
   seed: string;
-  time: string;
+  shotTime: string;
 }
 
 interface RankingProps {
   data: Player[];
+  finalRanking: boolean;
   finishPage: () => void;
   gamePage: () => void;
 }
 
-export function RankingPage({data, finishPage, gamePage} : RankingProps) {
+export function RankingPage({data, finalRanking, finishPage, gamePage} : RankingProps) {
+  if (data.length === 0) {
+    return <p>Loading...</p>
+  }
   const winner = data[0];
   const loser = data[data.length -1];
 
   return (
     <div id="ranking-page" className="ranking-page">
       <div className="container-header">
+
         <div className="container-winner">
           <div className="background-avatar">
             <Avatar seed={winner.seed} />
           </div>
-          <p>{winner.name}</p>
-          <span>{winner.time}s</span>
+          <p>{winner.nickname}</p>
+          <span>{winner.shotTime}s</span>
         </div>
+
         <div className="container-loser">
           <div className="background-avatar">
-            <Avatar seed={loser.seed} />
+          {finalRanking && <Avatar seed={loser.seed} /> }
           </div>
-          <p>{loser.name}</p>
-          <span>{loser.time}s</span>
+          {finalRanking && <p>{loser.nickname}</p> }
+          {finalRanking && <span>{loser.shotTime}s</span> }
         </div>
+
       </div>
 
       <div className="container-body">
         <div className="ranking-container">
           {data.map((player, i) => (
-            <RankingItem key={i} name={player.name} time={player.time} position={i} />
+            <RankingItem key={i} name={player.nickname} time={player.shotTime} position={i} />
           ))}
         </div>
 

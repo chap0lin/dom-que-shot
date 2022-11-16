@@ -28,6 +28,10 @@ function Home() {
   };
 
   const verifyRoom = () => {
+    navigate('/ChooseAvatar', {
+      state: { option: 'join', roomCode: roomCode },
+    });
+    
     if (roomCode.length == 6) {
       api
         .get(`/roomCode/${roomCode}`)

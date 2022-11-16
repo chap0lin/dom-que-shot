@@ -29,33 +29,34 @@ const BangBangEvents = {
   StartTimer: 'start_timer',
   Result: 'bangbang_result',
   FireEvent: 'shot',
+  FinalRanking: 'bangbang_ranking',
 };
 
 
 export function BangBang() {
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
   const [ready, setReady] = useState(false);
+  const [currentRanking, setCurrentRanking] = useState([]);
+  const [finalRanking, setFinalRanking] = useState(false);
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
-    socketConn.connect();
-    socketConn.joinRoomWithCode(bangBangRoom);//// atuar em cima disso
-    socketConn.onMessageReceived(({ message, id }) => {
+    // socketConn.joinRoomWithCode(bangBangRoom);//// atuar em cima disso
+    socketConn.joinRoom(userData);
+    socketConn.onMessageReceived(({ message, ranking }) => {
       switch (message) {
         case BangBangEvents.StartTimer:
           setReady(true);
           break;
         case BangBangEvents.Result:
-          if (id === socketConn.getSocketId()) {
-            console.log("Ganhou")
-            // setWinnerStatus(WinnerStatus.won);
-          } else {
-            console.log("Perdou")
-            // setWinnerStatus(WinnerStatus.lost);
-          }
+          setCurrentRanking(ranking);
           break;
+        case BangBangEvents.FinalRanking:
+          setCurrentRanking(ranking);
+          setFinalRanking(true);
         default:
         // unhandled events
       }
@@ -101,9 +102,10 @@ export function BangBang() {
     case Game.Ranking:
       return (
         <RankingPage
-          data={players}
+          data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
           finishPage={() => navigateTo("/Home")}
+          finalRanking={finalRanking}
         />
       );
     default:

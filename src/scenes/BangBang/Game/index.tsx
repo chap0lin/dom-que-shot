@@ -6,10 +6,12 @@ import balloon2 from '../../../assets/BangBang/balao2.png';
 import balloon3 from '../../../assets/BangBang/balao3.png';
 import balloonReady from '../../../assets/BangBang/balao-prontos.png';
 import gsap from 'gsap';
+import { RankingPage } from '../Ranking';
 
 enum ButtonStatus {
   enabled = 1,
   disabled = 0,
+  used = -1,
 }
 
 
@@ -20,13 +22,15 @@ interface GameProps {
 }
 
 
-export function GamePage({shot, ready} : GameProps) {
+export function GamePage({rankingPage, shot, ready} : GameProps) {
 
   const [msTimer, setMsTimer] = useState(5000);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
     ButtonStatus.disabled
   );
   const [timer, setTimer] = useState<NodeJS.Timer>();
+
+  const [deadline, setDeadline] = useState(false);
 
   const [balloonImg, setBalloonImg] = useState(balloonReady);
 
@@ -49,6 +53,15 @@ export function GamePage({shot, ready} : GameProps) {
       setButtonStatus(ButtonStatus.enabled);
     }
   }, [setButtonStatus, buttonStatus, msTimer]);
+
+  useEffect(() => {
+    if (msTimer <= -10000 && deadline == false){
+      setDeadline(true);
+      clearInterval(timer);
+      shot(-10000);
+      rankingPage();
+    }
+  }, [msTimer, deadline]);
 
 
   const formatedTime = (): string => {
@@ -77,8 +90,10 @@ export function GamePage({shot, ready} : GameProps) {
   }
 
   const handleClick = () => {
-    clearInterval(timer);
     shot(msTimer);
+    clearInterval(timer);
+    setButtonStatus(ButtonStatus.used);
+    rankingPage();
   }
 
 
@@ -96,7 +111,7 @@ export function GamePage({shot, ready} : GameProps) {
         <img src={balloonImg}/>
       </div>
 
-      <button className='button-bang' onClick={handleClick} disabled={!buttonStatus}>
+      <button className='button-bang' onClick={handleClick} disabled={buttonStatus !== ButtonStatus.enabled}>
       </button>
     </div>
   );
