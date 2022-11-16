@@ -104,7 +104,10 @@ export default function OEscolhido() {
     clearInterval(timer);
     setMsTimer(gameTime);
     console.log('O usuário pediu para jogar novamente.');
-    socket.send('start-game', {roomCode: userData.roomCode, gameName: 'O Escolhido'});
+    socket.send('start-game', {
+      roomCode: userData.roomCode,
+      gameName: 'O Escolhido',
+    });
     socket.send('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/OEscolhido',
@@ -164,9 +167,9 @@ export default function OEscolhido() {
       console.log(votedPlayer);
 
       socket.pushMessage(userData.roomCode, 'voted-player', {
-        roomCode: userData.roomCode, player: votedPlayer,
+        roomCode: userData.roomCode,
+        player: votedPlayer,
       });
-
     } else if (currentGameState === Game.Finish) {
       clearInterval(timer);
       setMsTimer(gameTime);
@@ -230,9 +233,3 @@ export default function OEscolhido() {
       );
   }
 }
-
-
-// socket.send('voted-player', {
-//   roomCode: userData.roomCode,
-//   player: votedPlayer,
-// });

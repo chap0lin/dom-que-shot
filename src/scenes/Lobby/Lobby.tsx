@@ -46,7 +46,10 @@ function Lobby() {
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const beginMatch = () => {
-    socket.send('start-game', {roomCode: userData.roomCode, gameName: 'O Escolhido'});
+    socket.send('start-game', {
+      roomCode: userData.roomCode,
+      gameName: 'O Escolhido',
+    });
     socket.send('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/OEscolhido',

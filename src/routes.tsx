@@ -13,7 +13,7 @@ import ChooseAvatar from './scenes/ChooseAvatar';
 import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
-import OEscolhido from './scenes/OEscolhido'
+import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
 
 const Router: React.FC = () => {
