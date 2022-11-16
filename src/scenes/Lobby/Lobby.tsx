@@ -25,7 +25,7 @@ function Lobby() {
       avatarSeed: userData.avatarSeed,
       nickname: userData.nickname,
       beers: 0,
-      id: 5,
+      playerID: 5,
     },
   ]);
 
@@ -46,6 +46,7 @@ function Lobby() {
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const beginMatch = () => {
+    socket.send('start-game', {roomCode: userData.roomCode, gameName: 'O Escolhido'});
     socket.send('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/OEscolhido',

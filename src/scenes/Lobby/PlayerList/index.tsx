@@ -7,7 +7,7 @@ interface PlayerListProps {
     avatarSeed: string;
     nickname: string;
     beers: number;
-    id: number;
+    playerID: number;
   }[];
 }
 
@@ -15,7 +15,7 @@ export default function PlayerList({ players }: PlayerListProps) {
   return (
     <div className="PlayerListSlider">
       {players.map((player) => (
-        <div key={player.avatarSeed}>
+        <div key={player.playerID}>
           <ListedPlayer
             seed={player.avatarSeed}
             nickname={player.nickname}

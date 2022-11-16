@@ -61,7 +61,8 @@ export default function OEscolhido() {
       updatedMs -= 10;
       if (updatedMs === 0) {
         console.log('Acabou o tempo.');
-        socket.send('vote-results', userData.roomCode);
+        socket.pushMessage(userData.roomCode, 'vote-results', null);
+        //socket.send('vote-results', userData.roomCode);
       }
       setMsTimer(updatedMs);
     }
@@ -100,9 +101,10 @@ export default function OEscolhido() {
   ]);
 
   const playAgain = () => {
-    console.log('O usuário pediu para jogar novamente.');
     clearInterval(timer);
     setMsTimer(gameTime);
+    console.log('O usuário pediu para jogar novamente.');
+    socket.send('start-game', {roomCode: userData.roomCode, gameName: 'O Escolhido'});
     socket.send('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/OEscolhido',
@@ -160,10 +162,11 @@ export default function OEscolhido() {
     } else if (currentGameState === Game.AwaitingResults) {
       const votedPlayer = window.localStorage.getItem('voted-player');
       console.log(votedPlayer);
-      socket.send('voted-player', {
-        roomCode: userData.roomCode,
-        player: votedPlayer,
+
+      socket.pushMessage(userData.roomCode, 'voted-player', {
+        roomCode: userData.roomCode, player: votedPlayer,
       });
+
     } else if (currentGameState === Game.Finish) {
       clearInterval(timer);
       setMsTimer(gameTime);
@@ -228,24 +231,8 @@ export default function OEscolhido() {
   }
 }
 
-//  originalmente no useEffect do currentGameState
-//
-//   else if (currentGameState === Game.AwaitingResults) {
-//   const votedPlayer = window.localStorage.getItem('voted-player');
-//   const random = Math.round(Math.random()); //for simulating a tie; random can be 0 or 1
-//   let p2 = 0;
-//   if (random === 1) {
-//     console.log('houve um empate.'); //random = 1 means a tie
-//     while (playerList.at(p2).avatarSeed === votedPlayer) {
-//       p2 = Math.floor(Math.random() * playerList.length); //selects a player which is not the one voted by the user
-//     }
-//   } else {
-//     console.log('não houve empate.');
-//   }
 
-//   playerList.forEach((player) => {
-//     if (player.avatarSeed === votedPlayer) {
-//       setVotedPlayer(random === 0 ? [player] : [player, playerList.at(p2)]);
-//     }
-//   });
-// }
+// socket.send('voted-player', {
+//   roomCode: userData.roomCode,
+//   player: votedPlayer,
+// });
