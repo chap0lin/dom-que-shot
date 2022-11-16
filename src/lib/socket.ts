@@ -31,6 +31,16 @@ class SocketConnection {
     });
   }
 
+  createRoom(userData) {
+    console.log('ENTROU AQUI!!!')
+    this.socket.emit('create-room', userData.roomCode, (reply) => {
+      console.log(`resposta do servidor: ${reply}`);
+      if (reply === `Sala ${userData.roomCode} criada com sucesso!`) {
+        this.addPlayer(userData);
+      }
+    });
+  }
+
   addPlayer(userData) {
     this.socket.emit(
       'add-player',

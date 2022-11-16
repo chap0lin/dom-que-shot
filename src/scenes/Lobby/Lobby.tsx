@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 import PlayerList from './PlayerList';
 import './Lobby.css';
+import api from '../../services/api';
 
 enum Warning {
   Visible,
@@ -35,6 +36,7 @@ function Lobby() {
 
   useEffect(() => {
     socket.connect();
+    //TODO: não deixar o usuário entrar em uma sala que não existe (não está mais na instância do Store)
     socket.joinRoom(userData);
     socket.setLobbyUpdateListener(updatePlayerList);
   }, []);
