@@ -37,9 +37,20 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData);
     socket.setLobbyUpdateListener(updatePlayerList);
+    socket.send('lobby-update', userData.roomCode);
+    socket.addEventListener('room-is-moving-to', (destination) =>
+      navigate(destination)
+    );
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
+
+  const beginMatch = () => {
+    socket.send('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/OEscolhido',
+    });
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
@@ -63,7 +74,12 @@ function Lobby() {
 
   return (
     <Background>
-      <Header goBackArrow settingsPage="/Home" />
+      <Header
+        goBackArrow={() => {
+          navigate('/ChooseAvatar');
+        }}
+        settingsPage="/Home"
+      />
 
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
@@ -93,7 +109,7 @@ function Lobby() {
         </div>
         <div className="BeginButton">
           <Button width="240px" height="56px">
-            <div onClick={startGame}>Iniciar</div>
+            <div onClick={beginMatch}>Iniciar</div>
           </Button>
         </div>
         <div

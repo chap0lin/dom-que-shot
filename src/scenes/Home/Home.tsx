@@ -33,9 +33,11 @@ function Home() {
         .get(`/roomCode/${roomCode}`)
         .then((response) => {
           console.log(response.data);
-          navigate('/ChooseAvatar', {
-            state: { option: 'join', roomCode: roomCode },
-          });
+          window.localStorage.setItem(
+            'userData',
+            JSON.stringify({ roomCode: roomCode, option: 'join' })
+          );
+          navigate('/ChooseAvatar');
         })
         .catch(() => {
           setInputErrorMsg({
