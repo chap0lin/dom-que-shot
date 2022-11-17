@@ -5,6 +5,8 @@ class SocketConnection {
   socket: Socket;
   serverAddress = 'http://localhost:3000';
 
+  private previousCallback;
+
   connect() {
     if (!this.socket) {
       this.socket = io(this.serverAddress);
@@ -15,6 +17,10 @@ class SocketConnection {
       });
     }
   }
+
+  // setMovingCallback(callback){
+  //   this.socket.on('room-is-moving-to', callback);
+  // }
 
   joinRoom(userData) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
@@ -39,12 +45,15 @@ class SocketConnection {
   }
 
   setLobbyUpdateListener(useState: any) {
-    this.socket.on('lobby-update', (reply) => {
-      //em caso de update na lista de jogadores
-      //console.log(`Reposta do servidor: ${reply}`)
+    const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
       useState(JSON.parse(reply));
     });
+    return () => this.socket.off('lobby-update', lobbyUpdate);
+  }
+
+  send(tag: string, message: any) {
+    this.socket.emit(tag, message);
   }
 
   //abaixo, as funções originalmente desenvolvidas pelo Carlos para esta classe
@@ -60,7 +69,7 @@ class SocketConnection {
     return this.socket.emit(command, message);
   }
 
-  private addEventListener(eventName, callback) {
+  addEventListener(eventName, callback) {
     const ref = this.socket.on(eventName, callback);
     return () => this.socket.off(eventName, ref);
   }

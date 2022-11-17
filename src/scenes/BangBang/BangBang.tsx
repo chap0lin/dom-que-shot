@@ -22,7 +22,7 @@ const BangBangEvents = {
 
 const BangBang = () => {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const bangBangRoom = '1';
+  const bangBangRoom = userData.roomCode;
 
   const [msTimer, setMsTimer] = useState(5000);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
@@ -49,7 +49,11 @@ const BangBang = () => {
   };
 
   useEffect(() => {
-    socketConn.joinRoom(userData);
+    //socketConn.joinRoom(userData);
+    //socketConn.addEventListener('room-is-moving-to', (destination) => {
+    //console.log(`a sala está indo para ${destination}.`);
+    //navigateTo(destination);
+    //});
     socketConn.pushMessage(bangBangRoom, 'player_ready', '');
   }, []);
 
@@ -79,9 +83,15 @@ const BangBang = () => {
   }, [setButtonStatus, buttonStatus, msTimer]);
 
   useEffect(() => {
-    if (winnerStatus !== WinnerStatus.waiting) {
+    if (winnerStatus === WinnerStatus.won) {
+      clearInterval(timer);
+      console.log();
       setTimeout(() => {
-        navigateTo(-1);
+        console.log('Encerrando o jogo Bang Bang.');
+        socketConn.send('move-room-to', {
+          roomCode: userData.roomCode,
+          destination: '/Lobby',
+        });
       }, 3000);
     }
   }, [winnerStatus]);

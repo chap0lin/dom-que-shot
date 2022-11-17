@@ -57,16 +57,16 @@ export default function SelectNextGame() {
   const socket = socketConnection.getInstance();
 
   useEffect(() => {
-    //legado da GAME-50. Se alguém girou a roleta, o servidor responde com o valor do giro (random).
-    socket.addEventListener('selected-a-game', (random) => {
-      //assim, se outra pessoa girar a roleta, a do usuário atual gira também
-      spin(random);
+    socket.addEventListener('roulette-number-is', (number) => {
+      console.log(`A roleta sorteou o número ${number}`);
+      spin(number);
     });
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const spin = (id) => {
+    gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
     timeline
       .to('.RouletteCard', {
@@ -92,10 +92,6 @@ export default function SelectNextGame() {
     const selectedGame = games.find((game) => game.id === id);
     const gameName = selectedGame.text;
     setNextGameName(gameName);
-
-    setTimeout(() => {
-      navigate('/Game', { state: { game: gameName } });
-    }, 5000);
   };
 
   const turnTheWheel = () => {
@@ -105,10 +101,23 @@ export default function SelectNextGame() {
       random = Math.floor(Math.random() * (games.length - 1) + 1);
     }
 
-    gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
-    socket.socket.emit('selected-a-game', userData.roomCode, random);
-
-    spin(random);
+    socket.send('roulette-number-is', {
+      roomCode: userData.roomCode,
+      number: random,
+    });
+    socket.send('start-game', {
+      roomCode: userData.roomCode,
+      gameName: 'Bang Bang',
+    });
+    setTimeout(() => {
+      //socket.send('start-game', {roomCode: userData.roomCode, gameName: gameName});   <-- estas linhas devem ser usadas quando mais jogos estiverem implementados
+      //navigate(`/${gameName}`);
+      //navigate('/BangBang');
+      socket.send('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: '/BangBang',
+      });
+    }, 5000);
   };
 
   return (
