@@ -17,6 +17,34 @@ import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
+const defaultGameList = [
+  {
+    id: 0,
+    text: 'Eu Nunca',
+    src: EuNunca
+  },
+  {
+    id: 1,
+    text: 'Roleta',
+    src: Roleta
+  },
+  {
+    id: 2,
+    text: 'Vrum',
+    src: Vrum
+  },
+  {
+    id: 3,
+    text: 'Bicho Bebe',
+    src: BichoBebe
+  },
+  {
+    id: 4,
+    text: 'Medusa',
+    src: Medusa
+  },
+];
+
 interface GameCard {
   id: number;
   text: string;
@@ -27,7 +55,7 @@ export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
-  const [games, updateGames] = useState<GameCard[]>([]);
+  const [games, updateGames] = useState<GameCard[]>(defaultGameList);
   const [nextGameName, setNextGameName] = useState('');
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
@@ -50,34 +78,8 @@ export default function SelectNextGame() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
-  const updateGameList = (newGames) => {
-    let newGamesWithCovers: GameCard[] = [];
-    let id = 0;
-
-    newGames.forEach((gameName) => {
-      let src;
-      switch (gameName) {
-        case 'Eu Nunca':
-          src = EuNunca;
-          break;
-        case 'Roleta':
-          src = Roleta;
-          break;
-        case 'Vrum':
-          src = Vrum;
-          break;
-        case 'Bicho Bebe':
-          src = BichoBebe;
-          break;
-        default:
-          src = Medusa;
-          break;
-      }
-      newGamesWithCovers.push({ id: id, text: gameName, src: src });
-      id += 1;
-    });
-
-    updateGames(newGamesWithCovers);
+  const updateGameList = (newGames: string[]) => {
+    updateGames(games.filter((game) => newGames.includes(game.text)));
   };
 
   const spin = (id) => {
@@ -100,7 +102,7 @@ export default function SelectNextGame() {
       });
 
     id += 2;
-    if (id > games.length) {
+    if (id >= games.length) {
       id -= games.length;
     }
     console.log(`id: ${id}`);
@@ -109,8 +111,8 @@ export default function SelectNextGame() {
     const selectedGame = games.find((game) => game.id === id); //retorna undefined, apesar de games teoricamente ter alguma coisa a essa altura.
     console.log(`selectedGame: ${selectedGame}`);
 
-    //const gameName = selectedGame.text;                          //se descomentar estas linhas, o socket vai dar o bug de recriar a conexão.
-    //setNextGameName(gameName);
+    const gameName = selectedGame.text;                          //se descomentar estas linhas, o socket vai dar o bug de recriar a conexão.
+    setNextGameName(gameName);
 
     setNextGameName(`I should be set dinamically.`); //comentar essa linha se descomentar as duas de cima.
   };
