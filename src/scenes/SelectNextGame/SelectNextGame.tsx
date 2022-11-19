@@ -9,7 +9,7 @@ import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
 import socketConnection from '../../lib/socket';
 
-import euNunca from '../../assets/game-covers/eu-nunca.png';
+import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Roleta from '../../assets/game-covers/roleta.png';
 import Vrum from '../../assets/game-covers/vrum.png';
 import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
@@ -17,53 +17,68 @@ import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
+interface GameCard {
+  id: number;
+  text: string;
+  src: string;
+}
+
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
+  const [games, updateGames] = useState<GameCard[]>([]);
   const [nextGameName, setNextGameName] = useState('');
-
-  const games = [
-    //jogos da roleta. futuramente deve ser atualizado de maneira dinâmica
-    {
-      id: 1,
-      text: 'Eu Nunca',
-      src: euNunca,
-    },
-    {
-      id: 2,
-      text: 'Roleta',
-      src: Roleta,
-    },
-    {
-      id: 3,
-      text: 'Vrum',
-      src: Vrum,
-    },
-    {
-      id: 4,
-      text: 'Bicho Bebe',
-      src: BichoBebe,
-    },
-    {
-      id: 5,
-      text: 'Medusa',
-      src: Medusa,
-    },
-  ];
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = socketConnection.getInstance();
 
   useEffect(() => {
+    socket.addEventListener('games-update', (newGames) => {
+      updateGameList(newGames);
+      console.log('Os jogos da roleta foram atualizados.');
+    });
+
     socket.addEventListener('roulette-number-is', (number) => {
       console.log(`A roleta sorteou o número ${number}`);
       spin(number);
     });
+
+    socket.send('games-update', userData.roomCode);
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
+
+  const updateGameList = (newGames) => {
+    let newGamesWithCovers: GameCard[] = [];
+    let id = 0;
+
+    newGames.forEach((gameName) => {
+      let src;
+      switch (gameName) {
+        case 'Eu Nunca':
+          src = EuNunca;
+          break;
+        case 'Roleta':
+          src = Roleta;
+          break;
+        case 'Vrum':
+          src = Vrum;
+          break;
+        case 'Bicho Bebe':
+          src = BichoBebe;
+          break;
+        default:
+          src = Medusa;
+          break;
+      }
+      newGamesWithCovers.push({ id: id, text: gameName, src: src });
+      id += 1;
+    });
+
+    updateGames(newGamesWithCovers);
+  };
 
   const spin = (id) => {
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
@@ -88,36 +103,21 @@ export default function SelectNextGame() {
     if (id > games.length) {
       id -= games.length;
     }
+    console.log(`id: ${id}`);
+    console.log(games); //games é um useState configurado previamente. Não entendo estar aparecendo vazio aqui.
 
-    const selectedGame = games.find((game) => game.id === id);
-    const gameName = selectedGame.text;
-    setNextGameName(gameName);
+    const selectedGame = games.find((game) => game.id === id); //retorna undefined, apesar de games teoricamente ter alguma coisa a essa altura.
+    console.log(`selectedGame: ${selectedGame}`);
+
+    //const gameName = selectedGame.text;                          //se descomentar estas linhas, o socket vai dar o bug de recriar a conexão.
+    //setNextGameName(gameName);
+
+    setNextGameName(`I should be set dinamically.`); //comentar essa linha se descomentar as duas de cima.
   };
 
   const turnTheWheel = () => {
-    let random = Math.floor(Math.random() * (games.length - 1) + 1);
-
-    while (random === 0) {
-      random = Math.floor(Math.random() * (games.length - 1) + 1);
-    }
-
-    socket.send('roulette-number-is', {
-      roomCode: userData.roomCode,
-      number: random,
-    });
-    socket.send('start-game', {
-      roomCode: userData.roomCode,
-      gameName: 'Bang Bang',
-    });
-    setTimeout(() => {
-      //socket.send('start-game', {roomCode: userData.roomCode, gameName: gameName});   <-- estas linhas devem ser usadas quando mais jogos estiverem implementados
-      //navigate(`/${gameName}`);
-      //navigate('/BangBang');
-      socket.send('move-room-to', {
-        roomCode: userData.roomCode,
-        destination: '/BangBang',
-      });
-    }, 5000);
+    console.log('Solicitado o sorteio do próximo jogo.');
+    socket.send('roulette-number-is', userData.roomCode);
   };
 
   return (
