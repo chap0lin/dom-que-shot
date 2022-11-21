@@ -74,7 +74,7 @@ export default function SelectNextGame() {
       console.log(`Movendo a sala para ${destination}.`);
       navigate(destination);
     });
-    socket.send('games-update', userData.roomCode);
+    socket.push('games-update', userData.roomCode);
 
     return () => {
       socket.removeAllListeners();
@@ -121,7 +121,7 @@ export default function SelectNextGame() {
   };
 
   const turnTheWheel = () => {
-    socket.send('roulette-number-is', userData.roomCode);
+    socket.push('roulette-number-is', userData.roomCode);
   };
 
   return (

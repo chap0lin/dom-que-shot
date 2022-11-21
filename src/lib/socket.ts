@@ -45,10 +45,6 @@ class SocketConnection {
     });
   }
 
-  send(tag: string, message: any) {
-    this.socket.emit(tag, message);
-  }
-
   //abaixo, as funções originalmente desenvolvidas pelo Carlos para esta classe
 
   static getInstance() {
@@ -58,8 +54,8 @@ class SocketConnection {
     return SocketConnection.instance;
   }
 
-  private push(command, message) {
-    return this.socket.emit(command, message);
+  push(tag: string, message: any) {
+    return this.socket.emit(tag, message);
   }
 
   addEventListener(eventName, callback) {

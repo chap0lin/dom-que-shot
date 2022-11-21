@@ -61,7 +61,7 @@ function Lobby() {
   const startGame = () => {
     if (playerList.length >= 2) {
       console.log('Iniciando a partida.');
-      socket.send('move-room-to', {
+      socket.push('move-room-to', {
         roomCode: userData.roomCode,
         destination: '/SelectNextGame',
       });

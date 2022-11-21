@@ -87,11 +87,9 @@ const BangBang = () => {
 
   useEffect(() => {
     if (winnerStatus === WinnerStatus.won) {
-      clearInterval(timer);
-      console.log();
       setTimeout(() => {
-        console.log('Encerrando o jogo Bang Bang.');
-        socketConn.send('move-room-to', {
+        console.log('Encerrando o jogo Bang Bang.'); //TODO: o destino não necessariamente é o Lobby. Quando houver mais jogos deve haver a opção de retornar ao lobby ou a de voltar à roleta
+        socketConn.push('move-room-to', {
           roomCode: userData.roomCode,
           destination: '/Lobby',
         });
