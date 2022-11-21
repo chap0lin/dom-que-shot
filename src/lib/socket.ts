@@ -66,7 +66,7 @@ class SocketConnection {
 
   private addEventListener(eventName, callback) {
     const ref = this.socket.on(eventName, callback);
-    //return () => this.socket.off(eventName, ref);
+    return () => this.socket.off(eventName, ref);
   }
 
   getSocketId() {

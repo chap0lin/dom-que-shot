@@ -13,14 +13,12 @@ interface playerProps {
 }
 
 interface coverProps {
-  //coverPage: any;
   finishPage: any;
   msTimeLeft: number;
   playerList: playerProps[];
 }
 
 export default function GamePage({
-  //coverPage,
   finishPage,
   msTimeLeft,
   playerList,

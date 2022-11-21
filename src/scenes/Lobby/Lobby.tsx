@@ -46,6 +46,7 @@ function Lobby() {
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const beginMatch = () => {
+    //esse beginMatch é só para esta branch. Manter o startGame() da GAME-53
     socket.send('start-game', {
       roomCode: userData.roomCode,
       gameName: 'O Escolhido',
@@ -62,17 +63,6 @@ function Lobby() {
     setCopyWarning(Warning.Visible);
     setTimeout(() => {
       setCopyWarning(Warning.Invisible);
-    }, 2000);
-  };
-
-  const startGame = () => {
-    if (playerList.length >= 2) {
-      navigate('/SelectNextGame');
-      return;
-    }
-    setLobbyWarning(Warning.Visible);
-    setTimeout(() => {
-      setLobbyWarning(Warning.Invisible);
     }, 2000);
   };
 

@@ -31,18 +31,6 @@ enum Game {
 
 export default function OEscolhido() {
   const title = 'O Escolhido';
-  const information = (
-    <>
-      Neste jogo, cada participante vai jogar com o seu aparelho.
-      <br />
-      <br />
-      Aparecerá uma lista com todos os participantes da sala e cada um votará em
-      uma pessoa da lista para virar uma dose.
-      <br />
-      <br />
-      Boa sorte!
-    </>
-  );
 
   //TIMER//////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,7 +50,6 @@ export default function OEscolhido() {
       if (updatedMs === 0) {
         console.log('Acabou o tempo.');
         socket.pushMessage(userData.roomCode, 'vote-results', null);
-        //socket.send('vote-results', userData.roomCode);
       }
       setMsTimer(updatedMs);
     }
@@ -73,32 +60,8 @@ export default function OEscolhido() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([
-    //contém o(s) jogador(es) mais votado(s)
-    {
-      nickname: 'Dom Que Shot',
-      avatarSeed: 'dqxt',
-      votes: 5,
-    },
-  ]);
-
-  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([
-    {
-      avatarSeed: userData ? userData.avatarSeed : 'Dom que shot',
-      nickname: userData ? userData.nickname : 'Dom quixote',
-      id: 0,
-    },
-    {
-      avatarSeed: 'sanchopança',
-      nickname: 'Sancho Pança',
-      id: 1,
-    },
-    {
-      avatarSeed: 'dcna',
-      nickname: 'Dulcineia',
-      id: 2,
-    },
-  ]);
+  const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([]);
+  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
 
   const playAgain = () => {
     clearInterval(timer);
@@ -190,7 +153,6 @@ export default function OEscolhido() {
     case Game.Info:
       return (
         <InfoPage
-          info={information}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
@@ -202,7 +164,6 @@ export default function OEscolhido() {
         <GamePage
           msTimeLeft={msTimer}
           playerList={playerList}
-          //coverPage={() => setCurrentGameState(Game.Cover)}
           finishPage={() => setCurrentGameState(Game.AwaitingResults)}
         />
       );

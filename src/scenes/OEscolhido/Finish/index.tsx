@@ -40,13 +40,15 @@ export default function FinishPage({
       duration: 1,
       ease: 'back',
     });
-    gsap.from('.ResultsAvatar', {
+    gsap.from('.Avatar', {
       opacity: 0,
       rotation: 180,
       delay: 1,
       duration: 1,
       ease: 'back',
     });
+    gsap.from('.MultipleTiesTextDiv', { opacity: 0, duration: 2, delay: 1 });
+    gsap.from('.MultipleTiesOuterCard', { scaleX: 0, duration: 1 });
     gsap.from('.Nickname', { opacity: 0, delay: 1, duration: 1 });
     gsap.from('.ResultsButtons', { opacity: 0, duration: 1, delay: 2 });
   }, []);
@@ -62,7 +64,7 @@ export default function FinishPage({
             <p className="ResultsText" />
             <div className="ResultsInnerCard NoVotesOuter">
               <p className="ResultsText" />
-              <div className="ResultsAvatar">
+              <div className="ResultsAvatar Avatar">
                 <img src={noOneVoted} width="100px;" />
               </div>
               <p className="ResultsText Nickname">R.I.P. Votação</p>
@@ -98,7 +100,7 @@ export default function FinishPage({
             <p className="ResultsText" />
             <div className="ResultsInnerCard">
               <p className="ResultsText" />
-              <div className="ResultsAvatar">
+              <div className="ResultsAvatar Avatar">
                 <Avatar seed={votedPlayer.at(0).avatarSeed} />
               </div>
               <p className="ResultsText Nickname">
@@ -121,41 +123,77 @@ export default function FinishPage({
     );
   }
 
+  if (votedPlayer.length == 2) {
+    return (
+      <Background>
+        <Header />
+        <div className="OEscolhidoDiv">
+          <p className="ResultsTitle">Tivemos um empate!</p>
+          <div className="Tie">
+            <div className="ResultsOuterCard TieOuter">
+              <p className="ResultsText TieText" />
+              <div className="ResultsInnerCard TieInner">
+                <div className="ResultsAvatar TieAvatar Avatar">
+                  <Avatar seed={votedPlayer.at(0).avatarSeed} />
+                </div>
+                <p className="ResultsText TieText Nickname">
+                  {votedPlayer.at(0).nickname}
+                </p>
+              </div>
+              <p className="ResultsText TieText">{`${
+                votedPlayer.at(0).votes
+              } votos`}</p>
+            </div>
+            <div className="TieSpacer" />
+            <div className="ResultsOuterCard TieOuter">
+              <p className="ResultsText TieText" />
+              <div className="ResultsInnerCard TieInner">
+                <div className="ResultsAvatar TieAvatar Avatar">
+                  <Avatar seed={votedPlayer.at(1).avatarSeed} />
+                </div>
+                <p className="ResultsText TieText Nickname">
+                  {votedPlayer.at(1).nickname}
+                </p>
+              </div>
+              <p className="ResultsText TieText">{`${
+                votedPlayer.at(1).votes
+              } votos`}</p>
+            </div>
+          </div>
+          <p className="ResultsText TieTitle">
+            Neste caso, todos os empatados devem beber!
+          </p>
+          <div className="ResultsButtons">
+            <Button>
+              <div onClick={endGamePage}>Finalizar</div>
+            </Button>
+            <div className="ResultsButtonsSpacer" />
+            <Button>
+              <div onClick={coverPage}>Jogar Novamente</div>
+            </Button>
+          </div>
+        </div>
+      </Background>
+    );
+  }
+
   return (
     <Background>
       <Header />
       <div className="OEscolhidoDiv">
         <p className="ResultsTitle">Tivemos um empate!</p>
-        <div className="Tie">
-          <div className="ResultsOuterCard TieOuter">
-            <p className="ResultsText TieText" />
-            <div className="ResultsInnerCard TieInner">
-              <div className="ResultsAvatar TieAvatar">
-                <Avatar seed={votedPlayer.at(0).avatarSeed} />
+        <div className="ResultsMultipleTies">
+          {votedPlayer.map((player) => (
+            <div className="MultipleTiesOuterCard">
+              <div className="MultipleTiesInnerCard Avatar">
+                <Avatar seed={player.avatarSeed} />
               </div>
-              <p className="ResultsText TieText Nickname">
-                {votedPlayer.at(0).nickname}
-              </p>
-            </div>
-            <p className="ResultsText TieText">{`${
-              votedPlayer.at(0).votes
-            } votos`}</p>
-          </div>
-          <div className="TieSpacer" />
-          <div className="ResultsOuterCard TieOuter">
-            <p className="ResultsText TieText" />
-            <div className="ResultsInnerCard TieInner">
-              <div className="ResultsAvatar TieAvatar">
-                <Avatar seed={votedPlayer.at(1).avatarSeed} />
+              <div className="MultipleTiesTextDiv">
+                <p className="MultipleTiesText">{player.nickname}</p>
+                <p>{player.votes} votos</p>
               </div>
-              <p className="ResultsText TieText Nickname">
-                {votedPlayer.at(1).nickname}
-              </p>
             </div>
-            <p className="ResultsText TieText">{`${
-              votedPlayer.at(1).votes
-            } votos`}</p>
-          </div>
+          ))}
         </div>
         <p className="ResultsText TieTitle">
           Neste caso, todos os empatados devem beber!

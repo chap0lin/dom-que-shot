@@ -5,18 +5,29 @@ import Button from '../../../components/Button';
 import './Info.css';
 
 interface coverProps {
-  info: string | JSX.Element;
   coverImg: string;
   coverPage: any;
   gamePage: any;
 }
 
 export default function InfoPage({
-  info,
   coverImg,
   coverPage,
   gamePage,
 }: coverProps) {
+  const info = (
+    <>
+      Neste jogo, cada participante vai jogar com o seu aparelho.
+      <br />
+      <br />
+      Aparecerá uma lista com todos os participantes da sala e cada um votará em
+      uma pessoa da lista para virar uma dose.
+      <br />
+      <br />
+      Boa sorte!
+    </>
+  );
+
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title="O Escolhido" />

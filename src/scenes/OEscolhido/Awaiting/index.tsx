@@ -17,7 +17,6 @@ export default function AwaitingResults({
   msTimeLeft,
 }: awaitingProps) {
   const votedPlayer = JSON.parse(window.localStorage.getItem('voted-player'));
-  //setTimeout(() => window.localStorage.removeItem('voted-player'), 500);       //timeout para garantir que deu tempo de pegar o voto do usuário
 
   useEffect(() => {
     gsap.from('.AwaitingTitle, .AwaitingCheck', {

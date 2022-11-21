@@ -2,6 +2,7 @@
   margin: 0;
   font-size: 24px;
   font-weight: 500;
+  font-family: Adumu;
 }
 
 .ResultsText {
@@ -105,3 +106,49 @@
 .TieSpacer {
   padding: 8px;
 }
+
+.ResultsMultipleTies {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 360px;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.MultipleTiesOuterCard {
+  background-color: #403a55;
+  width: 80%;
+  border-radius: 20px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+}
+
+.MultipleTiesInnerCard {
+  background-color: #8877df;
+  border-radius: 20px;
+  width: 120px;
+  height: 120px;
+  padding: 1em;
+  margin-right: 8px;
+}
+
+.MultipleTiesText {
+  font-family: Adumu;
+  font-size: 24px;
+}
+
+/* <div className="ResultsMultipleTies">
+          {votedPlayer.map(player => (
+            <div className='MultiplesTiesOuterCard'>
+              <div className='MultipleTiesInnerCard'>
+                <Avatar seed={player.avatarSeed}/>
+              </div>
+            </div>
+          ))}
+        </div> */
