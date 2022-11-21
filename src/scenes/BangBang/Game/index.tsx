@@ -69,7 +69,10 @@ export function GamePage({rankingPage, shot, ready} : GameProps) {
 
 
   const formatedTime = (): string => {
-    return (msTimer / 1000).toFixed(2);
+    if (msTimer > 0) {
+      return '10.0';
+    }
+    return ((10000 + msTimer)/1000).toFixed(2);
   };
 
 
@@ -80,17 +83,19 @@ export function GamePage({rankingPage, shot, ready} : GameProps) {
       .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
         setBalloonImg(balloon3)
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
       .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
         setBalloonImg(balloon2)
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
       .to('.animation-balloon', { opacity: 0, duration: 1.0 }).call( () => {
         setBalloonImg(balloon1)
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.2 })
+      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
+      .to('.target-image', { opacity: 1, duration: 0 })
       .to('.animation-balloon', { opacity: 0, duration: 1.0 })
         setBalloonImg(balloonReady)
+
   }
 
   const handleClick = () => {
@@ -107,13 +112,16 @@ export function GamePage({rankingPage, shot, ready} : GameProps) {
         <h2>{`${formatedTime()}s`}</h2>
       </div>
     
-      <div className={`target-image ${balloonImg == balloon1 ? "active" : "hidden"}`}>
+      <div className="target-image">
         <img src={targetImage} alt="Target image" />
       </div>
       
-      <div className="animation-balloon">
-        <img src={balloonImg}/>
+      <div className="container-baloon">
+        <div className="animation-balloon">
+          <img src={balloonImg}/>
+        </div>
       </div>
+        
 
       <button className='button-bang' onClick={handleClick} disabled={buttonStatus !== ButtonStatus.enabled}>
       </button>
