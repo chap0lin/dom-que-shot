@@ -41,6 +41,10 @@ function Lobby() {
       console.log(`Movendo a sala para ${destination}.`);
       navigate(destination);
     });
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////

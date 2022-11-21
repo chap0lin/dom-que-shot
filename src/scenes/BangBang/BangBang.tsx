@@ -49,12 +49,15 @@ const BangBang = () => {
   };
 
   useEffect(() => {
-    //socketConn.joinRoom(userData);
-    //socketConn.addEventListener('room-is-moving-to', (destination) => {
-    //console.log(`a sala está indo para ${destination}.`);
-    //navigateTo(destination);
-    //});
     socketConn.pushMessage(bangBangRoom, 'player_ready', '');
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigateTo(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {

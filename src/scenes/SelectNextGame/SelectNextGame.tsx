@@ -17,45 +17,45 @@ import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
-const defaultGameList = [
-  {
-    id: 0,
-    text: 'Eu Nunca',
-    src: EuNunca
-  },
-  {
-    id: 1,
-    text: 'Roleta',
-    src: Roleta
-  },
-  {
-    id: 2,
-    text: 'Vrum',
-    src: Vrum
-  },
-  {
-    id: 3,
-    text: 'Bicho Bebe',
-    src: BichoBebe
-  },
-  {
-    id: 4,
-    text: 'Medusa',
-    src: Medusa
-  },
-];
-
 interface GameCard {
   id: number;
   text: string;
   src: string;
 }
 
+let gameList: GameCard[] = [
+  {
+    id: 0,
+    text: 'Eu Nunca',
+    src: EuNunca,
+  },
+  {
+    id: 1,
+    text: 'Roleta',
+    src: Roleta,
+  },
+  {
+    id: 2,
+    text: 'Vrum',
+    src: Vrum,
+  },
+  {
+    id: 3,
+    text: 'Bicho Bebe',
+    src: BichoBebe,
+  },
+  {
+    id: 4,
+    text: 'Medusa',
+    src: Medusa,
+  },
+];
+
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
-  const [games, updateGames] = useState<GameCard[]>(defaultGameList);
+  const [games, updateGames] = useState<GameCard[]>(gameList);
   const [nextGameName, setNextGameName] = useState('');
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
@@ -65,21 +65,34 @@ export default function SelectNextGame() {
   useEffect(() => {
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
-      console.log('Os jogos da roleta foram atualizados.');
     });
-
     socket.addEventListener('roulette-number-is', (number) => {
       console.log(`A roleta sorteou o número ${number}`);
       spin(number);
     });
-
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigate(destination);
+    });
     socket.send('games-update', userData.roomCode);
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const updateGameList = (newGames: string[]) => {
-    updateGames(games.filter((game) => newGames.includes(game.text)));
+    let id = 0;
+    gameList = games.filter((game) => newGames.includes(game.text));
+
+    gameList.forEach((game) => {
+      game.id = id;
+      id++;
+    });
+
+    updateGames(gameList);
   };
 
   const spin = (id) => {
@@ -87,38 +100,27 @@ export default function SelectNextGame() {
     const timeline = gsap.timeline();
     timeline
       .to('.RouletteCard', {
-        y: `-${3 * (games.length - 2) * 142}px`,
+        y: `-${3 * (gameList.length - 2) * 142}px`,
         duration: 1,
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${id * 142}px`,
+        y: `-${(id + 4) * 142}px`,
         duration: 2,
-        ease: 'power3',
+        ease: 'elastic',
       })
       .to('.NextGameName', {
         opacity: 1,
         duration: 1,
+        ease: 'power2',
       });
 
-    id += 2;
-    if (id >= games.length) {
-      id -= games.length;
-    }
-    console.log(`id: ${id}`);
-    console.log(games); //games é um useState configurado previamente. Não entendo estar aparecendo vazio aqui.
-
-    const selectedGame = games.find((game) => game.id === id); //retorna undefined, apesar de games teoricamente ter alguma coisa a essa altura.
-    console.log(`selectedGame: ${selectedGame}`);
-
-    const gameName = selectedGame.text;                          //se descomentar estas linhas, o socket vai dar o bug de recriar a conexão.
+    const selectedGame = gameList.find((game) => game.id === id);
+    const gameName = selectedGame.text;
     setNextGameName(gameName);
-
-    setNextGameName(`I should be set dinamically.`); //comentar essa linha se descomentar as duas de cima.
   };
 
   const turnTheWheel = () => {
-    console.log('Solicitado o sorteio do próximo jogo.');
     socket.send('roulette-number-is', userData.roomCode);
   };
 

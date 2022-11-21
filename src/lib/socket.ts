@@ -18,7 +18,7 @@ class SocketConnection {
 
   joinRoom(userData) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
-      console.log(`resposta do servidor: ${reply}`);
+      //console.log(`resposta do servidor: ${reply}`);
       if (reply === `ingressou na sala ${userData.roomCode}.`) {
         this.addPlayer(userData);
       }
@@ -27,7 +27,7 @@ class SocketConnection {
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
-      console.log(`resposta do servidor: ${reply}`);
+      //console.log(`resposta do servidor: ${reply}`);
     });
   }
 
@@ -40,7 +40,7 @@ class SocketConnection {
 
   setLobbyUpdateListener(useState: any) {
     const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
-      console.log('A lista de jogadores foi atualizada.');
+      //console.log('A lista de jogadores foi atualizada.');
       useState(JSON.parse(reply));
     });
   }
@@ -63,8 +63,15 @@ class SocketConnection {
   }
 
   addEventListener(eventName, callback) {
-    const ref = this.socket.on(eventName, callback);
-    return () => this.socket.off(eventName, callback);
+    this.socket.on(eventName, callback);
+    return () => {
+      console.log('esse é o return do addEventListener.');
+      this.socket.off(eventName, callback);
+    };
+  }
+
+  removeAllListeners() {
+    this.socket.removeAllListeners();
   }
 
   getSocketId() {
