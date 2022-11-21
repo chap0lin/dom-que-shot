@@ -7,26 +7,23 @@
   align-items: center;
 }
 
-.container-header {
+/* .container-header {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 70%;
-}
+  width: 100%;
+} */
 
 .content {
-  padding-top: 57px;
+  margin: 0;
+  padding: 42px 42px;
+  font-weight: 500;
+  font-size: 23px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 70%;
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 23px;
   text-align: justify;
-  color: white;
+  flex-direction: column;
 }
 
 .button-container {

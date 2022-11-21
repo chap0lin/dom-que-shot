@@ -39,8 +39,12 @@ export function GamePage({rankingPage, shot, ready} : GameProps) {
   };
 
   useEffect(() => {
-    ready && startTimer();
+    if ( ready ) {
+      startTimer();
+      animationBalloon();
+    }
   }, [ready])
+
 
   let updatedMs = msTimer;
   const run = () => {

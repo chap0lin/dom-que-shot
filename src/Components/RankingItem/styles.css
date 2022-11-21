@@ -33,6 +33,11 @@
   align-items: center;
 }
 
+#ranking-item .position .circle-border img {
+  rotate: -0.3rad;
+  margin-top: 3px;
+}
+
 #ranking-item .infos {
   margin-left: 16px;
   margin-right: 16px;

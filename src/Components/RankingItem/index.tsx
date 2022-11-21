@@ -1,22 +1,23 @@
 import React from "react";
 import "./styles.css";
+import thumbDown from '../../assets/BangBang/thumbs-down.png';
 interface RankingItemProps {
   position: number;
   name: string;
-  time: string;
+  time: number;
 }
 
-const RankingItem: React.FC<RankingItemProps> = ({position, name, time}) => {
-  return(
+const RankingItem: React.FC<RankingItemProps> = ({ position, name, time }) => {
+  return (
     <div id="ranking-item">
       <div className="position">
         <div className="circle-border">
-          <p>{position+1}º</p>
+          {time === 10 ? <img src={thumbDown} /> : <p>{position + 1}º</p>}
         </div>
       </div>
       <div className="infos">
-        <p>{name}</p>
-        <p>{time}</p>
+        {time === 10 ? <p style={{ color: 'red', textDecoration: 'line-through' }}>{name}</p> : <p>{name}</p>}
+        {time === 10 ? <p style={{ color: 'red' }}>{time}s</p> : <p>{time.toFixed(2)}s</p>}
       </div>
     </div>
   );

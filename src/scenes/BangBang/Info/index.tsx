@@ -6,6 +6,8 @@ import titleImage from '../../../assets/BangBang/title-bangbang.png';
 import logoGame from '../../../assets/BangBang/bangbang-logo.png';
 import './Info.css';
 import Button from "../../../components/Button";
+import Header from "../../../components/Header";
+import Background from '../../../components/Background';
 
 
 interface InfoProps {
@@ -16,23 +18,9 @@ interface InfoProps {
 export function InfoPage({coverPage, gamePage} : InfoProps) {
 
   return (
-    <div id="instructions-bangbang" className="container-page">
-      <div className="container-header">
-        <div className="return-icon">
-          <ArrowLeft
-            width="30px"
-            height="30px"
-            onClick={coverPage}
-          />
-        </div>
-
-        <img src={titleImage} alt="Título BangBang" className="title-image" />
-
-        <div className="logo-game">
-          <img src={logoGame} alt="Logo BangBang" className="logo-game" />
-        </div>
-      </div>
-
+    <Background>
+      <Header logo={logoGame} goBackArrow={coverPage} title="Bang Bang"/>
+     
       <div className="content">
         <p>
           Neste jogo, cada participante vai jogar com o seu aparelho. <br /><br />
@@ -44,7 +32,6 @@ export function InfoPage({coverPage, gamePage} : InfoProps) {
           <Button onClick={gamePage}>Iniciar</Button>
         </div>
       </div>
-
-    </div>
+   </Background>
   );
 };

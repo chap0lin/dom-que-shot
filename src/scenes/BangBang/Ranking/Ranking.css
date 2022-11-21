@@ -60,6 +60,18 @@
   background-color: #8877DF;
   width: 64px;
   height: 64px;
+  position: relative;
+}
+
+.container-winner .crown {
+  position: fixed;
+  top: 6px;
+}
+
+.container-loser .thumbDown {
+  position: fixed;
+  right: 15px;
+  top: 67px;
 }
 
 .container-body {
