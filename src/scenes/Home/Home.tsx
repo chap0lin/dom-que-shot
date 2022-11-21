@@ -31,7 +31,7 @@ function Home() {
     navigate('/ChooseAvatar', {
       state: { option: 'join', roomCode: roomCode },
     });
-    
+
     if (roomCode.length == 6) {
       api
         .get(`/roomCode/${roomCode}`)

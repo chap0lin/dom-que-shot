@@ -38,7 +38,7 @@ class SocketConnection {
     );
   }
 
-  setLobbyUpdateListener(useState: any) {
+  setLobbyUpdateListener(useState) {
     this.socket.on('lobby-update', (reply) => {
       //em caso de update na lista de jogadores
       //console.log(`Reposta do servidor: ${reply}`)

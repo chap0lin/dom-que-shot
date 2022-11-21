@@ -1,7 +1,7 @@
 .container-page {
   width: 100vw;
   min-height: 100vh;
-  background-color: #170C32;
+  background-color: #170c32;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,12 +36,12 @@
   justify-content: center;
   width: 240px;
   height: 56px;
-  background: linear-gradient(180deg, #5F48A4 0%, rgba(95, 72, 164, 0) 100%);
+  background: linear-gradient(180deg, #5f48a4 0%, rgba(95, 72, 164, 0) 100%);
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
 }
 
-#instructions-bangbang a{
+#instructions-bangbang a {
   color: aliceblue;
   padding-top: 57px;
 }

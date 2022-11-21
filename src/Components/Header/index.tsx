@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,6 @@ export default function Header({
   const navigateTo = useNavigate();
 
   const seconds = timer / 1000;
-  const miliseconds = Math.floor(timer % 1000);
   const formattedTimer = `${seconds.toFixed(1)}s`;
 
   const goToPreviousPage = () => {

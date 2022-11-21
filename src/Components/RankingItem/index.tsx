@@ -1,5 +1,5 @@
-import React from "react";
-import "./styles.css";
+import React from 'react';
+import './styles.css';
 import thumbDown from '../../assets/BangBang/thumbs-down.png';
 interface RankingItemProps {
   position: number;
@@ -16,11 +16,19 @@ const RankingItem: React.FC<RankingItemProps> = ({ position, name, time }) => {
         </div>
       </div>
       <div className="infos">
-        {time === 10 ? <p style={{ color: 'red', textDecoration: 'line-through' }}>{name}</p> : <p>{name}</p>}
-        {time === 10 ? <p style={{ color: 'red' }}>{time}s</p> : <p>{time.toFixed(2)}s</p>}
+        {time === 10 ? (
+          <p style={{ color: 'red', textDecoration: 'line-through' }}>{name}</p>
+        ) : (
+          <p>{name}</p>
+        )}
+        {time === 10 ? (
+          <p style={{ color: 'red' }}>{time}s</p>
+        ) : (
+          <p>{time.toFixed(2)}s</p>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default RankingItem;

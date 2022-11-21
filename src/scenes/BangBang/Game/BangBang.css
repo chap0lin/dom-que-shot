@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #170C32;
+  background-color: #170c32;
   align-items: center;
 }
 
@@ -27,7 +27,7 @@
   font-size: 20px;
   line-height: 23px;
   text-align: center;
-  color: #FF0000;
+  color: #ff0000;
 }
 
 .button-bang {
@@ -59,7 +59,7 @@
 #game-bang-bang .container-baloon {
   width: 100%;
   height: 100%;
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
@@ -74,4 +74,3 @@
   padding-top: '20px';
   margin-top: -50px;
 }
-
