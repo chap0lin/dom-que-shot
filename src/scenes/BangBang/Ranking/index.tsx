@@ -60,7 +60,7 @@ export function RankingPage({data, finalRanking, finishPage, gamePage} : Ranking
         </div>
 
         <Button onClick={finishPage}>Finalizar</Button>
-        <Button onClick={gamePage}>Jogar novamente</Button>
+        {/* <Button onClick={gamePage}>Jogar novamente</Button> */}
       </div>
     </div>
   );
