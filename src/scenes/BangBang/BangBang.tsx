@@ -29,12 +29,34 @@ export function BangBang() {
   const [currentRanking, setCurrentRanking] = useState([]);
   const [finalRanking, setFinalRanking] = useState(false);
   const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const bangBangRoom = userData.roomCode;
+
+  const [msTimer, setMsTimer] = useState(5000);
+  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
+    ButtonStatus.disabled
+  );
+  const [timer, setTimer] = useState<NodeJS.Timer>();
+  const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
+    WinnerStatus.waiting
+  );
+
+  // const {user_id} = useGlobalContext()
 
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
-    socketConn.joinRoom(userData);
+    socketConn.addEventListener('room-is-moving-to', (destination) => { //TODO: verificar onde enviar evento para mover sala
+      console.log(`Movendo a sala para ${destination}.`);
+      navigateTo(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
+  }, []);
+
+  useEffect(() => {
     socketConn.onMessageReceived(({ message, ranking }) => {
       switch (message) {
         case BangBangEvents.StartTimer:
@@ -51,8 +73,20 @@ export function BangBang() {
   }, []);
 
   useEffect(() => {
-    if (currentGameState === Game.Game) {
-      socketConn.pushMessage(bangBangRoom, 'player_ready', ''); // temporario ate pegar o codigo do alex
+    if (msTimer <= 0 && buttonStatus === ButtonStatus.disabled) {
+      setButtonStatus(ButtonStatus.enabled);
+    }
+  }, [setButtonStatus, buttonStatus, msTimer]);
+
+  useEffect(() => {
+    if (winnerStatus === WinnerStatus.won) {
+      setTimeout(() => {
+        console.log('Encerrando o jogo Bang Bang.'); //TODO: o destino não necessariamente é o Lobby. Quando houver mais jogos deve haver a opção de retornar ao lobby ou a de voltar à roleta
+        socketConn.push('move-room-to', {
+          roomCode: userData.roomCode,
+          destination: '/Lobby',
+        });
+      }, 3000);
     }
   }, [currentGameState]);
 

@@ -1,0 +1,55 @@
+.AwaitingTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.AwaitingText {
+  font-weight: 500;
+  margin: 1em;
+  height: 20px;
+}
+
+.AwaitingCheck {
+  margin: 1em;
+  width: 35px;
+  z-index: 0;
+}
+
+.AwaitingOuterCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 210px;
+  height: 304px;
+  background: #403a55;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.AwaitingInnerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 148px;
+  height: 211px;
+  background: #8877df;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.AwaitingAvatar {
+  width: 100px;
+  height: 100px;
+  object-fit: scale-down;
+}
+
+.ChangeVoteButton {
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +25,7 @@ export default function Header({
   const navigateTo = useNavigate();
 
   const seconds = timer / 1000;
+  const timerColor = seconds < 3 ? 'red' : 'white';
   const formattedTimer = `${seconds.toFixed(1)}s`;
 
   const goToPreviousPage = () => {
@@ -67,7 +68,9 @@ export default function Header({
         </div>
       </div>
 
-      <div className="HeaderTimer" style={timer ? {} : { display: 'none' }}>
+      <div
+        className="HeaderTimer"
+        style={timer ? { color: timerColor } : { display: 'none' }}>
         <p style={{ margin: '0' }}>{formattedTimer}</p>
       </div>
 

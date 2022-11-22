@@ -12,6 +12,7 @@ import ChooseAvatar from './scenes/ChooseAvatar';
 import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
+import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
 
 const Router: React.FC = () => {
@@ -29,6 +30,8 @@ const Router: React.FC = () => {
         <Route path="/ChooseAvatar" element={<ChooseAvatar />} />
         <Route path="/Lobby" element={<Lobby />} />
         <Route path="/Game" element={<Game />} />
+        <Route path="/OEscolhido" element={<OEscolhido />} />
+        <Route path="/BangBang" element={<BangBang />} />
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
       </Routes>
     </BrowserRouter>

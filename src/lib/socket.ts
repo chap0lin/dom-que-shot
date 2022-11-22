@@ -16,18 +16,31 @@ class SocketConnection {
     }
   }
 
-  joinRoom(userData) {
+  joinRoom(userData, onError = null) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
-      console.log(`resposta do servidor: ${reply}`);
+      //console.log(`resposta do servidor: ${reply}`);
       if (reply === `ingressou na sala ${userData.roomCode}.`) {
         this.addPlayer(userData);
+      } else {
+        if (onError) {
+          onError();
+        }
       }
     });
   }
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
+      //console.log(`resposta do servidor: ${reply}`);
+    });
+  }
+
+  createRoom(userData) {
+    this.socket.emit('create-room', userData.roomCode, (reply) => {
       console.log(`resposta do servidor: ${reply}`);
+      if (reply === `Sala ${userData.roomCode} criada com sucesso!`) {
+        this.addPlayer(userData);
+      }
     });
   }
 
@@ -39,12 +52,14 @@ class SocketConnection {
   }
 
   setLobbyUpdateListener(useState) {
-    this.socket.on('lobby-update', (reply) => {
-      //em caso de update na lista de jogadores
-      //console.log(`Reposta do servidor: ${reply}`)
+    const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
       useState(JSON.parse(reply));
     });
+  }
+
+  send(tag: string, message: any) {
+    this.socket.emit(tag, message);
   }
 
   //abaixo, as funções originalmente desenvolvidas pelo Carlos para esta classe
@@ -56,13 +71,20 @@ class SocketConnection {
     return SocketConnection.instance;
   }
 
-  private push(command, message) {
-    return this.socket.emit(command, message);
+  push(tag: string, message: any) {
+    return this.socket.emit(tag, message);
   }
 
-  private addEventListener(eventName, callback) {
-    const ref = this.socket.on(eventName, callback);
-    return () => this.socket.off(eventName, ref);
+  addEventListener(eventName, callback) {
+    this.socket.on(eventName, callback);
+    return () => {
+      console.log('esse é o return do addEventListener.');
+      this.socket.off(eventName, callback);
+    };
+  }
+
+  removeAllListeners() {
+    this.socket.removeAllListeners();
   }
 
   getSocketId() {

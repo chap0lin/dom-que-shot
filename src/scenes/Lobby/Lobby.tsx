@@ -25,7 +25,7 @@ function Lobby() {
       avatarSeed: userData.avatarSeed,
       nickname: userData.nickname,
       beers: 0,
-      id: 5,
+      playerID: 5,
     },
   ]);
 
@@ -35,11 +35,32 @@ function Lobby() {
 
   useEffect(() => {
     socket.connect();
-    socket.joinRoom(userData);
+    socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigate(destination);
+    });
+
+    return () => {
+      socket.removeAllListeners();
+    };
+
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
+
+  const beginMatch = () => {
+    //esse beginMatch é só para esta branch. Manter o startGame() da GAME-53
+    socket.send('start-game', {
+      roomCode: userData.roomCode,
+      gameName: 'O Escolhido',
+    });
+    socket.send('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/OEscolhido',
+    });
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
@@ -52,7 +73,11 @@ function Lobby() {
 
   const startGame = () => {
     if (playerList.length >= 2) {
-      navigate('/SelectNextGame');
+      console.log('Iniciando a partida.');
+      socket.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: '/SelectNextGame',
+      });
       return;
     }
     setLobbyWarning(Warning.Visible);
@@ -63,7 +88,12 @@ function Lobby() {
 
   return (
     <Background>
-      <Header goBackArrow settingsPage="/Home" />
+      <Header
+        goBackArrow={() => {
+          navigate('/ChooseAvatar');
+        }}
+        settingsPage="/Home"
+      />
 
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
@@ -93,7 +123,7 @@ function Lobby() {
         </div>
         <div className="BeginButton">
           <Button width="240px" height="56px">
-            <div onClick={startGame}>Iniciar</div>
+            <div onClick={beginMatch}>Iniciar</div>
           </Button>
         </div>
         <div
