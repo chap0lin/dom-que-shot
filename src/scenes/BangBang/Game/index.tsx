@@ -26,8 +26,6 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   );
   const [timer, setTimer] = useState<NodeJS.Timer>();
 
-  const [deadline, setDeadline] = useState(false);
-
   const [balloonImg, setBalloonImg] = useState(balloonReady);
 
   const startTimer = () => {
@@ -54,13 +52,12 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   }, [setButtonStatus, buttonStatus, msTimer]);
 
   useEffect(() => {
-    if (msTimer <= -10000 && deadline == false) {
-      setDeadline(true);
+    if (msTimer <= -10000) {
       clearInterval(timer);
       shot(-10000);
       rankingPage();
     }
-  }, [msTimer, deadline]);
+  }, [msTimer]);
 
   const formatedTime = (): string => {
     if (msTimer > 0) {

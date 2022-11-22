@@ -15,7 +15,7 @@
   margin: 0;
 }
 
-.container-header {
+#ranking-page .container-header {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -23,7 +23,7 @@
   position: relative;
 }
 
-.container-winner {
+#ranking-page .container-winner {
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -40,7 +40,7 @@
   z-index: 1;
 }
 
-.container-loser {
+#ranking-page .container-loser {
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -55,7 +55,7 @@
   z-index: 0;
 }
 
-.background-avatar {
+#ranking-page .background-avatar {
   border-radius: 50%;
   background-color: #8877df;
   width: 64px;
@@ -63,18 +63,18 @@
   position: relative;
 }
 
-.container-winner .crown {
+#ranking-page .container-winner .crown {
   position: fixed;
   top: 6px;
 }
 
-.container-loser .thumbDown {
+#ranking-page .container-loser .thumbDown {
   position: fixed;
   right: 15px;
   top: 67px;
 }
 
-.container-body {
+#ranking-page .container-body {
   margin-top: -30px;
   display: flex;
   flex-direction: column;
@@ -86,7 +86,7 @@
   z-index: 2;
 }
 
-.ranking-container {
+#ranking-page .ranking-container {
   overflow-y: hidden;
   display: flex;
   flex-direction: column;

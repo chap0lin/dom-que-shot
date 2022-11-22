@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import thumbDown from '../../assets/BangBang/thumbs-down.png';
+
 interface RankingItemProps {
   position: number;
   name: string;

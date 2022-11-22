@@ -12,25 +12,27 @@ interface InfoProps {
 
 export function InfoPage({ coverPage, gamePage }: InfoProps) {
   return (
-    <Background>
-      <Header logo={logoGame} goBackArrow={coverPage} title="Bang Bang" />
+    <div id="info-page">
+      <Background>
+        <Header logo={logoGame} goBackArrow={coverPage} title="Bang Bang" />
 
-      <div className="content">
-        <p>
-          Neste jogo, cada participante vai jogar com o seu aparelho. <br />
-          <br />
-          Inciada a partida, todos os jogadores devem atirar no alvo dentro do
-          tempo de 10 segundos.
-          <br />
-          <br />
-          Quem atirar por último ou quem não atirar dentro do tempo, bebe uma
-          dose.
-        </p>
+        <div className="content">
+          <p>
+            Neste jogo, cada participante vai jogar com o seu aparelho. <br />
+            <br />
+            Inciada a partida, todos os jogadores devem atirar no alvo dentro do
+            tempo de 10 segundos.
+            <br />
+            <br />
+            Quem atirar por último ou quem não atirar dentro do tempo, bebe uma
+            dose.
+          </p>
 
-        <div className="button-container">
-          <Button onClick={gamePage}>Iniciar</Button>
+          <div className="button-container">
+            <Button onClick={gamePage}>Iniciar</Button>
+          </div>
         </div>
-      </div>
-    </Background>
+      </Background>
+    </div>
   );
 }
