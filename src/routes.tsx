@@ -14,6 +14,7 @@ import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
+import BangBang from './scenes/BangBang';
 
 const Router: React.FC = () => {
   return (

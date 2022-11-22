@@ -7,8 +7,6 @@ import { InfoPage } from './Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
 
-const bangBangRoom = '1';
-
 enum Game {
   Cover,
   Info,
@@ -31,30 +29,8 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const [msTimer, setMsTimer] = useState(5000);
-  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
-    ButtonStatus.disabled
-  );
-  const [timer, setTimer] = useState<NodeJS.Timer>();
-  const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
-    WinnerStatus.waiting
-  );
-
-  // const {user_id} = useGlobalContext()
-
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
-
-  useEffect(() => {
-    socketConn.addEventListener('room-is-moving-to', (destination) => { //TODO: verificar onde enviar evento para mover sala
-      console.log(`Movendo a sala para ${destination}.`);
-      navigateTo(destination);
-    });
-
-    return () => {
-      socketConn.removeAllListeners();
-    };
-  }, []);
 
   useEffect(() => {
     socketConn.onMessageReceived(({ message, ranking }) => {
@@ -70,29 +46,42 @@ export function BangBang() {
           setFinalRanking(true);
       }
     });
+
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      //TODO: verificar onde enviar evento para mover sala
+      if (typeof destination === 'string') {
+        console.log(`Movendo a sala para ${destination}.`);
+        navigateTo(destination);
+        return;
+      }
+      setCurrentGameState(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
-    if (msTimer <= 0 && buttonStatus === ButtonStatus.disabled) {
-      setButtonStatus(ButtonStatus.enabled);
-    }
-  }, [setButtonStatus, buttonStatus, msTimer]);
-
-  useEffect(() => {
-    if (winnerStatus === WinnerStatus.won) {
-      setTimeout(() => {
-        console.log('Encerrando o jogo Bang Bang.'); //TODO: o destino não necessariamente é o Lobby. Quando houver mais jogos deve haver a opção de retornar ao lobby ou a de voltar à roleta
-        socketConn.push('move-room-to', {
-          roomCode: userData.roomCode,
-          destination: '/Lobby',
-        });
-      }, 3000);
+    if (currentGameState === Game.Game) {
+      socketConn.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: Game.Game,
+      });
+      socketConn.pushMessage(bangBangRoom, 'player_ready', ''); // temporario ate pegar o codigo do alex
     }
   }, [currentGameState]);
 
   const handleShot = (msTimer) => {
     socketConn.pushMessage(bangBangRoom, BangBangEvents.FireEvent, {
       time: msTimer,
+    });
+  };
+
+  const backToLobby = () => {
+    socketConn.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
     });
   };
 
@@ -124,7 +113,7 @@ export function BangBang() {
         <RankingPage
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
-          finishPage={() => navigateTo('/Home')}
+          finishPage={() => backToLobby()}
           finalRanking={finalRanking}
         />
       );

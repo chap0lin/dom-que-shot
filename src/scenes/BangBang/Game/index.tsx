@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import './BangBang.css';
+import Header from '../../../components/Header';
 import targetImage from '../../../assets/BangBang/target.png';
 import balloon1 from '../../../assets/BangBang/balao1.png';
 import balloon2 from '../../../assets/BangBang/balao2.png';
 import balloon3 from '../../../assets/BangBang/balao3.png';
 import balloonReady from '../../../assets/BangBang/balao-prontos.png';
 import gsap from 'gsap';
+import './BangBang.css';
 
 enum ButtonStatus {
   enabled = 1,
@@ -59,11 +60,11 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
     }
   }, [msTimer]);
 
-  const formatedTime = (): string => {
+  const formatedTime = (): number => {
     if (msTimer > 0) {
-      return '10.0';
+      return 10000;
     }
-    return ((10000 + msTimer) / 1000).toFixed(2);
+    return 10000 + msTimer;
   };
 
   const animationBalloon = () => {
@@ -99,9 +100,7 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
 
   return (
     <div id="game-bang-bang" className="container">
-      <div className="cronometer-container" onClick={animationBalloon}>
-        <h2>{`${formatedTime()}s`}</h2>
-      </div>
+      <Header timer={formatedTime()} />
 
       <div className="target-image">
         <img src={targetImage} alt="Target image" />

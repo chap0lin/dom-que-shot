@@ -67,11 +67,11 @@ export default function OEscolhido() {
     clearInterval(timer);
     setMsTimer(gameTime);
     console.log('O usuário pediu para jogar novamente.');
-    socket.send('start-game', {
+    socket.push('start-game', {
       roomCode: userData.roomCode,
       gameName: 'O Escolhido',
     });
-    socket.send('move-room-to', {
+    socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/OEscolhido',
     });
@@ -80,7 +80,7 @@ export default function OEscolhido() {
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
     clearInterval(timer);
-    socket.send('move-room-to', {
+    socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/Lobby',
     });
@@ -92,7 +92,7 @@ export default function OEscolhido() {
 
   useEffect(() => {
     socket.setLobbyUpdateListener(updatePlayerList);
-    socket.send('lobby-update', userData.roomCode);
+    socket.push('lobby-update', userData.roomCode);
 
     socket.addEventListener('vote-results', (mostVotedPlayers) => {
       console.log(
@@ -120,7 +120,7 @@ export default function OEscolhido() {
 
   useEffect(() => {
     if (currentGameState === Game.Game) {
-      socket.send('move-room-to', {
+      socket.push('move-room-to', {
         roomCode: userData.roomCode,
         destination: Game.Game,
       });
