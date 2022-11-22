@@ -25,7 +25,7 @@ function Lobby() {
       avatarSeed: userData.avatarSeed,
       nickname: userData.nickname,
       beers: 0,
-      id: 5,
+      playerID: 5,
     },
   ]);
 
@@ -37,9 +37,25 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
+    socket.send('lobby-update', userData.roomCode);
+    socket.addEventListener('room-is-moving-to', (destination) =>
+      navigate(destination)
+    );
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
+
+  const beginMatch = () => {
+    //esse beginMatch é só para esta branch. Manter o startGame() da GAME-53
+    socket.send('start-game', {
+      roomCode: userData.roomCode,
+      gameName: 'O Escolhido',
+    });
+    socket.send('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/OEscolhido',
+    });
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
@@ -50,20 +66,14 @@ function Lobby() {
     }, 2000);
   };
 
-  const startGame = () => {
-    if (playerList.length >= 2) {
-      navigate('/SelectNextGame');
-      return;
-    }
-    setLobbyWarning(Warning.Visible);
-    setTimeout(() => {
-      setLobbyWarning(Warning.Invisible);
-    }, 2000);
-  };
-
   return (
     <Background>
-      <Header goBackArrow settingsPage="/Home" />
+      <Header
+        goBackArrow={() => {
+          navigate('/ChooseAvatar');
+        }}
+        settingsPage="/Home"
+      />
 
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
@@ -93,7 +103,7 @@ function Lobby() {
         </div>
         <div className="BeginButton">
           <Button width="240px" height="56px">
-            <div onClick={startGame}>Iniciar</div>
+            <div onClick={beginMatch}>Iniciar</div>
           </Button>
         </div>
         <div

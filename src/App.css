@@ -39,3 +39,8 @@
 .read-the-docs {
   color: #888;
 }
+
+@font-face {
+  font-family: 'Adumu';
+  src: local('Adumu'), url('./assets/fonts/Adumu.ttf') format('truetype');
+}
