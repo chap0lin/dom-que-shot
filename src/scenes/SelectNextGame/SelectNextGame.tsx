@@ -9,7 +9,7 @@ import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
 import socketConnection from '../../lib/socket';
 
-import euNunca from '../../assets/game-covers/eu-nunca.png';
+import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Roleta from '../../assets/game-covers/roleta.png';
 import Vrum from '../../assets/game-covers/vrum.png';
 import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
@@ -17,98 +17,111 @@ import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
+interface GameCard {
+  id: number;
+  text: string;
+  src: string;
+}
+
+let gameList: GameCard[] = [
+  {
+    id: 0,
+    text: 'Eu Nunca',
+    src: EuNunca,
+  },
+  {
+    id: 1,
+    text: 'Roleta',
+    src: Roleta,
+  },
+  {
+    id: 2,
+    text: 'Vrum',
+    src: Vrum,
+  },
+  {
+    id: 3,
+    text: 'Bicho Bebe',
+    src: BichoBebe,
+  },
+  {
+    id: 4,
+    text: 'Medusa',
+    src: Medusa,
+  },
+];
+
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
+  const [games, updateGames] = useState<GameCard[]>(gameList);
   const [nextGameName, setNextGameName] = useState('');
-
-  const games = [
-    //jogos da roleta. futuramente deve ser atualizado de maneira dinâmica
-    {
-      id: 1,
-      text: 'Eu Nunca',
-      src: euNunca,
-    },
-    {
-      id: 2,
-      text: 'Roleta',
-      src: Roleta,
-    },
-    {
-      id: 3,
-      text: 'Vrum',
-      src: Vrum,
-    },
-    {
-      id: 4,
-      text: 'Bicho Bebe',
-      src: BichoBebe,
-    },
-    {
-      id: 5,
-      text: 'Medusa',
-      src: Medusa,
-    },
-  ];
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = socketConnection.getInstance();
 
   useEffect(() => {
-    //legado da GAME-50. Se alguém girou a roleta, o servidor responde com o valor do giro (random).
-    socket.addEventListener('selected-a-game', (random) => {
-      //assim, se outra pessoa girar a roleta, a do usuário atual gira também
-      spin(random);
+    socket.addEventListener('games-update', (newGames) => {
+      updateGameList(newGames);
     });
+    socket.addEventListener('roulette-number-is', (number) => {
+      console.log(`A roleta sorteou o número ${number}`);
+      spin(number);
+    });
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigate(destination);
+    });
+    socket.push('games-update', userData.roomCode);
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
+  const updateGameList = (newGames: string[]) => {
+    let id = 0;
+    gameList = games.filter((game) => newGames.includes(game.text));
+
+    gameList.forEach((game) => {
+      game.id = id;
+      id++;
+    });
+
+    updateGames(gameList);
+  };
+
   const spin = (id) => {
+    gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
     timeline
       .to('.RouletteCard', {
-        y: `-${3 * (games.length - 2) * 142}px`,
+        y: `-${3 * (gameList.length - 2) * 142}px`,
         duration: 1,
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${id * 142}px`,
+        y: `-${(id + 4) * 142}px`,
         duration: 2,
-        ease: 'power3',
+        ease: 'elastic',
       })
       .to('.NextGameName', {
         opacity: 1,
         duration: 1,
+        ease: 'power2',
       });
 
-    id += 2;
-    if (id > games.length) {
-      id -= games.length;
-    }
-
-    const selectedGame = games.find((game) => game.id === id);
+    const selectedGame = gameList.find((game) => game.id === id);
     const gameName = selectedGame.text;
     setNextGameName(gameName);
-
-    setTimeout(() => {
-      navigate('/Game', { state: { game: gameName } });
-    }, 5000);
   };
 
   const turnTheWheel = () => {
-    let random = Math.floor(Math.random() * (games.length - 1) + 1);
-
-    while (random === 0) {
-      random = Math.floor(Math.random() * (games.length - 1) + 1);
-    }
-
-    gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
-    socket.socket.emit('selected-a-game', userData.roomCode, random);
-
-    spin(random);
+    socket.push('roulette-number-is', userData.roomCode);
   };
 
   return (

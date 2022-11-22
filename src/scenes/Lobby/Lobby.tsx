@@ -37,10 +37,15 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
-    socket.send('lobby-update', userData.roomCode);
-    socket.addEventListener('room-is-moving-to', (destination) =>
-      navigate(destination)
-    );
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigate(destination);
+    });
+
+    return () => {
+      socket.removeAllListeners();
+    };
+
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +68,21 @@ function Lobby() {
     setCopyWarning(Warning.Visible);
     setTimeout(() => {
       setCopyWarning(Warning.Invisible);
+    }, 2000);
+  };
+
+  const startGame = () => {
+    if (playerList.length >= 2) {
+      console.log('Iniciando a partida.');
+      socket.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: '/SelectNextGame',
+      });
+      return;
+    }
+    setLobbyWarning(Warning.Visible);
+    setTimeout(() => {
+      setLobbyWarning(Warning.Invisible);
     }, 2000);
   };
 

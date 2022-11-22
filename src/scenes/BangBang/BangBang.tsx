@@ -22,7 +22,7 @@ const BangBangEvents = {
 
 const BangBang = () => {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const bangBangRoom = '1';
+  const bangBangRoom = userData.roomCode;
 
   const [msTimer, setMsTimer] = useState(5000);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
@@ -49,8 +49,15 @@ const BangBang = () => {
   };
 
   useEffect(() => {
-    socketConn.joinRoom(userData);
     socketConn.pushMessage(bangBangRoom, 'player_ready', '');
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      console.log(`Movendo a sala para ${destination}.`);
+      navigateTo(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
@@ -79,9 +86,13 @@ const BangBang = () => {
   }, [setButtonStatus, buttonStatus, msTimer]);
 
   useEffect(() => {
-    if (winnerStatus !== WinnerStatus.waiting) {
+    if (winnerStatus === WinnerStatus.won) {
       setTimeout(() => {
-        navigateTo(-1);
+        console.log('Encerrando o jogo Bang Bang.'); //TODO: o destino não necessariamente é o Lobby. Quando houver mais jogos deve haver a opção de retornar ao lobby ou a de voltar à roleta
+        socketConn.push('move-room-to', {
+          roomCode: userData.roomCode,
+          destination: '/Lobby',
+        });
       }, 3000);
     }
   }, [winnerStatus]);
