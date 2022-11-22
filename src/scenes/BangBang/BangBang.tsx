@@ -34,7 +34,6 @@ export function BangBang() {
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
-    // socketConn.joinRoomWithCode(bangBangRoom);//// atuar em cima disso
     socketConn.joinRoom(userData);
     socketConn.onMessageReceived(({ message, ranking }) => {
       switch (message) {
@@ -83,7 +82,6 @@ export function BangBang() {
         <GamePage
           ready={ready}
           shot={handleShot}
-          //coverPage={() => setCurrentGameState(Game.Cover)}
           rankingPage={() => setCurrentGameState(Game.Ranking)}
         />
       );
