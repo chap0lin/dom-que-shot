@@ -14,8 +14,8 @@ interface PlayerListProps {
 export default function PlayerList({ players }: PlayerListProps) {
   return (
     <div className="PlayerListSlider">
-      {players.map((player) => (
-        <div key={player.playerID}>
+      {players.map((player, i) => (
+        <div key={`${i}`}>
           <ListedPlayer
             seed={player.avatarSeed}
             nickname={player.nickname}

@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 class SocketConnection {
   private static instance;
   socket: Socket;
-  serverAddress = 'http://localhost:3000';
+  serverAddress = 'http://192.168.0.13:3000';
 
   connect() {
     if (!this.socket) {
@@ -31,7 +31,7 @@ class SocketConnection {
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
-      //console.log(`resposta do servidor: ${reply}`);
+      console.log(`resposta do servidor: ${reply}`);
     });
   }
 
@@ -52,13 +52,13 @@ class SocketConnection {
   }
 
   setLobbyUpdateListener(useState) {
-    const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
+    this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
       useState(JSON.parse(reply));
     });
   }
 
-  send(tag: string, message: any) {
+  send(tag: string, message) {
     this.socket.emit(tag, message);
   }
 
@@ -71,7 +71,7 @@ class SocketConnection {
     return SocketConnection.instance;
   }
 
-  push(tag: string, message: any) {
+  push(tag: string, message) {
     return this.socket.emit(tag, message);
   }
 

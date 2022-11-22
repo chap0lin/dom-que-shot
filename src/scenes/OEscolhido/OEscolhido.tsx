@@ -88,7 +88,7 @@ export default function OEscolhido() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  let socket = socketConnection.getInstance();
+  const socket = socketConnection.getInstance();
 
   useEffect(() => {
     socket.setLobbyUpdateListener(updatePlayerList);
@@ -114,6 +114,10 @@ export default function OEscolhido() {
       }
       setCurrentGameState(destination);
     });
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////

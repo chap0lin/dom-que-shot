@@ -7,8 +7,6 @@ import { InfoPage } from './Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
 
-const bangBangRoom = '1';
-
 enum Game {
   Cover,
   Info,
@@ -31,12 +29,12 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const [msTimer, setMsTimer] = useState(5000);
+  const [msTimer] = useState(5000);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
     ButtonStatus.disabled
   );
-  const [timer, setTimer] = useState<NodeJS.Timer>();
-  const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
+  //const [timer, setTimer] = useState<NodeJS.Timer>();
+  const [winnerStatus] = useState<WinnerStatus>(
     WinnerStatus.waiting
   );
 
@@ -46,7 +44,8 @@ export function BangBang() {
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
-    socketConn.addEventListener('room-is-moving-to', (destination) => { //TODO: verificar onde enviar evento para mover sala
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      //TODO: verificar onde enviar evento para mover sala
       console.log(`Movendo a sala para ${destination}.`);
       navigateTo(destination);
     });

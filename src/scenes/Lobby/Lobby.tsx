@@ -45,22 +45,9 @@ function Lobby() {
     return () => {
       socket.removeAllListeners();
     };
-
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
-
-  const beginMatch = () => {
-    //esse beginMatch é só para esta branch. Manter o startGame() da GAME-53
-    socket.send('start-game', {
-      roomCode: userData.roomCode,
-      gameName: 'O Escolhido',
-    });
-    socket.send('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/OEscolhido',
-    });
-  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
@@ -123,7 +110,7 @@ function Lobby() {
         </div>
         <div className="BeginButton">
           <Button width="240px" height="56px">
-            <div onClick={beginMatch}>Iniciar</div>
+            <div onClick={startGame}>Iniciar</div>
           </Button>
         </div>
         <div

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
@@ -119,7 +119,7 @@ function ChooseAvatar() {
   return (
     <Background>
       <div className="WholeScreen">
-        <Header goBackArrow logo />
+        <Header goBackArrow={() => navigate('/Home')} logo />
 
         <div className="ChooseAvatarSection">
           <div className="NicknameDiv">

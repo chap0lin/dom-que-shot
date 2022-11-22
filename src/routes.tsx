@@ -13,6 +13,7 @@ import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 import OEscolhido from './scenes/OEscolhido';
+import BangBang from './scenes/BangBang';
 import SelectNextGame from './scenes/SelectNextGame';
 
 const Router: React.FC = () => {

@@ -23,9 +23,11 @@ function Home() {
       .put(`/createRoom`)
       .then((response) => {
         console.log(response.data);
-        navigate('/ChooseAvatar', {
-          state: { option: 'create', roomCode: response.data },
-        });
+        window.localStorage.setItem(
+          'userData',
+          JSON.stringify({ roomCode: response.data, option: 'create' })
+        );
+        navigate('/ChooseAvatar');
       })
       .catch(() => {
         alert(`Erro ao criar a sala: ${e}`);
