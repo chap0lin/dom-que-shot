@@ -43,16 +43,16 @@ function ChooseAvatar() {
 
   const redirect = () => {
     api
-    .get(`/roomCode/${roomCode}`)
-    .then(() => {
-      navigate('/Lobby');
-    })
-    .catch(() => {
-      // TODO: add error message handling to inform user room doesn't exist (anymore)
-      navigate('/Home');
-      return;
-    });
-  }
+      .get(`/roomCode/${roomCode}`)
+      .then(() => {
+        navigate('/Lobby');
+      })
+      .catch(() => {
+        // TODO: add error message handling to inform user room doesn't exist (anymore)
+        navigate('/Home');
+        return;
+      });
+  };
 
   function saveOnLocalStorage() {
     if (userName.length > 16) {

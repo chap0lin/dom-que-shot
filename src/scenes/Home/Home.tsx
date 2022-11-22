@@ -24,14 +24,14 @@ function Home() {
       .then((response) => {
         console.log(response.data);
         navigate('/ChooseAvatar', {
-          state: { option: 'create', roomCode: response.data }
-        })
+          state: { option: 'create', roomCode: response.data },
+        });
       })
       .catch(() => {
-        // error handling
+        alert(`Erro ao criar a sala: ${e}`);
       });
     return;
-  }
+  };
 
   const updateRoomCode = (e) => {
     const newRoom = e.target.value.trim();
@@ -114,10 +114,7 @@ function Home() {
 
       <div className="CreateRoomDiv">
         <Button width="100%">
-          <div
-            onClick={newRoom}>
-            Criar Sala
-          </div>
+          <div onClick={newRoom}>Criar Sala</div>
         </Button>
       </div>
 
