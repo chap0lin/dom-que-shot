@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Avatar from '../../components/Avatar';
 import './ChooseAvatar.css';
+import api from '../../services/api';
 
 function ChooseAvatar() {
   const navigate = useNavigate();
@@ -40,6 +41,19 @@ function ChooseAvatar() {
     changeAvatarSeed(newAvatarSeed);
   }
 
+  const redirect = () => {
+    api
+      .get(`/roomCode/${roomCode}`)
+      .then(() => {
+        navigate('/Lobby');
+      })
+      .catch(() => {
+        // TODO: add error message handling to inform user room doesn't exist (anymore)
+        navigate('/Home');
+        return;
+      });
+  };
+
   function saveOnLocalStorage() {
     if (userName.length > 16) {
       setInputErrorMsg({
@@ -64,7 +78,7 @@ function ChooseAvatar() {
           avatarSeed +
           ').'
       );
-      navigate('/Lobby');
+      redirect();
       return;
     }
     if (userName.length > 0) {

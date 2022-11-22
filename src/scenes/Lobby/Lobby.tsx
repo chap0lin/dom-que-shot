@@ -35,7 +35,7 @@ function Lobby() {
 
   useEffect(() => {
     socket.connect();
-    socket.joinRoom(userData);
+    socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
   }, []);
 

@@ -16,11 +16,15 @@ class SocketConnection {
     }
   }
 
-  joinRoom(userData) {
+  joinRoom(userData, onError = null) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
       console.log(`resposta do servidor: ${reply}`);
       if (reply === `ingressou na sala ${userData.roomCode}.`) {
         this.addPlayer(userData);
+      } else {
+        if (onError) {
+          onError();
+        }
       }
     });
   }
@@ -31,6 +35,15 @@ class SocketConnection {
     });
   }
 
+  createRoom(userData) {
+    this.socket.emit('create-room', userData.roomCode, (reply) => {
+      console.log(`resposta do servidor: ${reply}`);
+      if (reply === `Sala ${userData.roomCode} criada com sucesso!`) {
+        this.addPlayer(userData);
+      }
+    });
+  }
+
   addPlayer(userData) {
     this.socket.emit(
       'add-player',
@@ -38,7 +51,7 @@ class SocketConnection {
     );
   }
 
-  setLobbyUpdateListener(useState: any) {
+  setLobbyUpdateListener(useState) {
     this.socket.on('lobby-update', (reply) => {
       //em caso de update na lista de jogadores
       //console.log(`Reposta do servidor: ${reply}`)

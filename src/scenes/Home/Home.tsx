@@ -18,6 +18,21 @@ function Home() {
     visibility: 'hidden',
   });
 
+  const newRoom = (e) => {
+    api
+      .put(`/createRoom`)
+      .then((response) => {
+        console.log(response.data);
+        navigate('/ChooseAvatar', {
+          state: { option: 'create', roomCode: response.data },
+        });
+      })
+      .catch(() => {
+        alert(`Erro ao criar a sala: ${e}`);
+      });
+    return;
+  };
+
   const updateRoomCode = (e) => {
     const newRoom = e.target.value.trim();
     if (newRoom.length !== 0) {
@@ -99,12 +114,7 @@ function Home() {
 
       <div className="CreateRoomDiv">
         <Button width="100%">
-          <div
-            onClick={() =>
-              navigate('/ChooseAvatar', { state: { option: 'create' } })
-            }>
-            Criar Sala
-          </div>
+          <div onClick={newRoom}>Criar Sala</div>
         </Button>
       </div>
 
