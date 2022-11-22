@@ -1,26 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
-// import { useGlobalContext } from '../../contexts/GlobalContextProvider';
+import Background from '../../components/Background';
+import { CoverPage } from './Cover';
+import { InfoPage } from './Info';
+import { RankingPage } from './Ranking';
+import { GamePage } from './Game';
 
-enum ButtonStatus {
-  enabled = 1,
-  disabled = 0,
-}
+const bangBangRoom = '1';
 
-enum WinnerStatus {
-  won = 1,
-  lost = -1,
-  waiting = 0,
+enum Game {
+  Cover,
+  Info,
+  Game,
+  Ranking,
 }
 
 const BangBangEvents = {
   StartTimer: 'start_timer',
   Result: 'bangbang_result',
   FireEvent: 'shot',
+  FinalRanking: 'bangbang_ranking',
 };
 
-const BangBang = () => {
+export function BangBang() {
+  const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const [ready, setReady] = useState(false);
+  const [currentRanking, setCurrentRanking] = useState([]);
+  const [finalRanking, setFinalRanking] = useState(false);
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
@@ -38,19 +45,8 @@ const BangBang = () => {
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
 
-  const startTimer = () => {
-    setTimer(setInterval(run, 10));
-  };
-
-  let updatedMs = msTimer;
-  const run = () => {
-    updatedMs -= 10;
-    return setMsTimer(updatedMs);
-  };
-
   useEffect(() => {
-    socketConn.pushMessage(bangBangRoom, 'player_ready', '');
-    socketConn.addEventListener('room-is-moving-to', (destination) => {
+    socketConn.addEventListener('room-is-moving-to', (destination) => { //TODO: verificar onde enviar evento para mover sala
       console.log(`Movendo a sala para ${destination}.`);
       navigateTo(destination);
     });
@@ -61,20 +57,17 @@ const BangBang = () => {
   }, []);
 
   useEffect(() => {
-    socketConn.onMessageReceived(({ message, id }) => {
+    socketConn.onMessageReceived(({ message, ranking }) => {
       switch (message) {
         case BangBangEvents.StartTimer:
-          startTimer();
+          setReady(true);
           break;
         case BangBangEvents.Result:
-          if (id === socketConn.getSocketId()) {
-            setWinnerStatus(WinnerStatus.won);
-          } else {
-            setWinnerStatus(WinnerStatus.lost);
-          }
+          setCurrentRanking(ranking);
           break;
-        default:
-        // unhandled events
+        case BangBangEvents.FinalRanking:
+          setCurrentRanking(ranking);
+          setFinalRanking(true);
       }
     });
   }, []);
@@ -95,33 +88,51 @@ const BangBang = () => {
         });
       }, 3000);
     }
-  }, [winnerStatus]);
+  }, [currentGameState]);
 
-  const formatedTime = (): string => {
-    return (msTimer / 1000).toFixed(2);
-  };
-
-  const handleClick = () => {
-    clearInterval(timer);
+  const handleShot = (msTimer) => {
     socketConn.pushMessage(bangBangRoom, BangBangEvents.FireEvent, {
       time: msTimer,
     });
   };
 
-  return (
-    <div>
-      <h2>{formatedTime()}</h2>
-      <p data-testid="label" style={{ color: msTimer >= 0 ? 'red' : 'green' }}>
-        Bang Bang
-      </p>
-      <button onClick={handleClick} disabled={!buttonStatus}>
-        Click
-      </button>
-      {winnerStatus !== WinnerStatus.waiting && (
-        <p>You {winnerStatus === WinnerStatus.won ? 'won' : 'lost'}!</p>
-      )}
-    </div>
-  );
-};
-
-export { BangBang };
+  switch (currentGameState) {
+    case Game.Cover:
+      return (
+        <CoverPage
+          infoPage={() => setCurrentGameState(Game.Info)}
+          gamePage={() => setCurrentGameState(Game.Game)}
+        />
+      );
+    case Game.Info:
+      return (
+        <InfoPage
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={() => setCurrentGameState(Game.Game)}
+        />
+      );
+    case Game.Game:
+      return (
+        <GamePage
+          ready={ready}
+          shot={handleShot}
+          rankingPage={() => setCurrentGameState(Game.Ranking)}
+        />
+      );
+    case Game.Ranking:
+      return (
+        <RankingPage
+          data={currentRanking}
+          gamePage={() => setCurrentGameState(Game.Game)}
+          finishPage={() => navigateTo('/Home')}
+          finalRanking={finalRanking}
+        />
+      );
+    default:
+      return (
+        <Background>
+          <div>Erro!</div>
+        </Background>
+      );
+  }
+}

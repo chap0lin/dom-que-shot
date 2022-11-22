@@ -6,7 +6,6 @@ import Tutorial from './scenes/Tutorial';
 import Login from './scenes/Login';
 import Home from './scenes/Home';
 import GeneralRoom from './scenes/GeneralRoom';
-import BangBang from './scenes/BangBang';
 import StandardMode from './scenes/StandardMode';
 import RandomMode from './scenes/RandomMode';
 import ChooseAvatar from './scenes/ChooseAvatar';

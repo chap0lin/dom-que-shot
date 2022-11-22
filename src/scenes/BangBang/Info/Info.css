@@ -1,0 +1,17 @@
+#info-page .content p {
+  margin: 0;
+  padding: 42px 42px;
+  font-weight: 500;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  text-align: justify;
+  flex-direction: column;
+}
+
+#info-page .button-container {
+  padding-top: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
