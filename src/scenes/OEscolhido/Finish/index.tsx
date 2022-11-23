@@ -16,16 +16,19 @@ interface votedPlayerProps {
 
 interface coverProps {
   votedPlayer: votedPlayerProps[];
-  coverPage: any;
+  roulettePage: any;
   endGamePage: any;
 }
 
 export default function FinishPage({
   votedPlayer,
-  coverPage,
+  roulettePage,
   endGamePage,
 }: coverProps) {
   const navigate = useNavigate();
+
+  const lobbyButtonText = 'Voltar ao Lobby';
+  const rouletteButtonText = 'Próxima Rodada';
 
   useEffect(() => {
     gsap.from('.ResultsOuterCard', {
@@ -55,7 +58,7 @@ export default function FinishPage({
 
   if (votedPlayer.at(0).votes === 0) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">POXA! Ninguém votou?</p>
@@ -78,11 +81,11 @@ export default function FinishPage({
           </p>
           <div className="ResultsButtons">
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
+              <div onClick={endGamePage}>{lobbyButtonText}</div>
             </Button>
             <div className="ResultsButtonsSpacer" />
             <Button>
-              <div onClick={coverPage}>Tentar de novo</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -92,7 +95,7 @@ export default function FinishPage({
 
   if (votedPlayer.length == 1) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">E o mais votado foi:</p>
@@ -111,11 +114,11 @@ export default function FinishPage({
           </div>
           <div className="ResultsButtons">
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
+              <div onClick={endGamePage}>{lobbyButtonText}</div>
             </Button>
             <div className="ResultsButtonsSpacer" />
             <Button>
-              <div onClick={coverPage}>Jogar Novamente</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -125,7 +128,7 @@ export default function FinishPage({
 
   if (votedPlayer.length == 2) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">Tivemos um empate!</p>
@@ -165,11 +168,11 @@ export default function FinishPage({
           </p>
           <div className="ResultsButtons">
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
+              <div onClick={endGamePage}>{lobbyButtonText}</div>
             </Button>
             <div className="ResultsButtonsSpacer" />
             <Button>
-              <div onClick={coverPage}>Jogar Novamente</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -178,7 +181,7 @@ export default function FinishPage({
   }
 
   return (
-    <Background>
+    <Background noImage>
       <Header />
       <div className="OEscolhidoDiv">
         <p className="ResultsTitle">Tivemos um empate!</p>
@@ -200,11 +203,11 @@ export default function FinishPage({
         </p>
         <div className="ResultsButtons">
           <Button>
-            <div onClick={endGamePage}>Finalizar</div>
+            <div onClick={endGamePage}>{lobbyButtonText}</div>
           </Button>
           <div className="ResultsButtonsSpacer" />
           <Button>
-            <div onClick={coverPage}>Jogar Novamente</div>
+            <div onClick={roulettePage}>{rouletteButtonText}</div>
           </Button>
         </div>
       </div>

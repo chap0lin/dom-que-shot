@@ -77,6 +77,15 @@ export default function OEscolhido() {
     });
   };
 
+  const nextRound = () => {
+    console.log('Próximo round!');
+    clearInterval(timer);
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/SelectNextGame',
+    });
+  };
+
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
     clearInterval(timer);
@@ -114,6 +123,10 @@ export default function OEscolhido() {
       }
       setCurrentGameState(destination);
     });
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,6 +158,7 @@ export default function OEscolhido() {
         <CoverPage
           title={title}
           coverImg={coverImg}
+          goBackPage={backToLobby}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
@@ -181,7 +195,7 @@ export default function OEscolhido() {
       return (
         <FinishPage
           votedPlayer={votedPlayers}
-          coverPage={() => playAgain()}
+          roulettePage={() => nextRound()}
           endGamePage={() => backToLobby()}
         />
       );

@@ -45,7 +45,7 @@ export default function GamePage({
   };
 
   return (
-    <Background>
+    <Background noImage>
       <Header timer={msTimeLeft} />
       <div className="OEscolhidoDiv">
         <p>Escolha um participante:</p>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
+import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
@@ -12,30 +13,49 @@ function ChooseAvatar() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
-  const buttonText = userData.option
-    ? userData.option === 'join'
+  const option = userData.option; //TODO: apagar quando o código comentado abaixo der certo
+  const roomCode = userData.roomCode;
+
+  const buttonText = option
+    ? option === 'join'
       ? 'Entrar'
       : 'Criar sala'
     : 'Atualizar';
-  const roomCode = userData.roomCode;
 
+  //const location = useLocation();             //esse é o código que deveria rodar, mas ele gera erros caso o usuário venha do Lobby.
+  // const option = location.state.option;
+  // const roomCode = location.state.roomCode;
+  // const buttonText = (option)? ((option) === 'join'? 'Entrar' : 'Criar sala') : 'Atualizar';
+
+  const [inputText, setInputText] = useState(
+    userData.nickname ? userData.nickname : ''
+  );
   const [userName, setUserName] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
   });
 
+  useEffect(() => {
+    if (userData.nickname) {
+      setUserName(userData.nickname);
+    }
+  }, []);
+
   const updateUserName = (e) => {
-    const newUserName = e.target.value.trim();
-    if (newUserName.length !== 0) {
-      setUserName(newUserName);
+    const input = e.target.value;
+    setInputText(input);
+    if (input.trim().length !== 0) {
+      setUserName(input);
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
 
   const [avatarSeed, changeAvatarSeed] = useState(
-    Math.random().toString(36).substring(2, 6)
+    userData.avatarSeed
+      ? userData.avatarSeed
+      : Math.random().toString(36).substring(2, 6)
   );
 
   function changeIcon() {
@@ -116,16 +136,23 @@ function ChooseAvatar() {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const leaveMatch = () => {
+    const socket = socketConnection.getInstance();
+    socket.disconnect();
+    navigate('/Home');
+  };
+
   return (
     <Background>
       <div className="WholeScreen">
-        <Header goBackArrow logo />
+        <Header goBackArrow={leaveMatch} logo />
 
         <div className="ChooseAvatarSection">
           <div className="NicknameDiv">
             <p className="NicknameTitle">Nome:</p>
 
             <input
+              value={inputText}
               ref={ref}
               id="nickname"
               className="NicknameInput"

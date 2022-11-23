@@ -124,9 +124,19 @@ export default function SelectNextGame() {
     socket.push('roulette-number-is', userData.roomCode);
   };
 
+  const backToLobby = () => {
+    if (nextGameName === '') {
+      console.log('Voltando ao lobby.');
+      socket.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: '/Lobby',
+      });
+    }
+  };
+
   return (
     <Background>
-      <Header goBackArrow logo />
+      <Header goBackArrow={backToLobby} logo />
       <div className="SelectGameSection">
         <div className="RouletteDiv">
           <div className="RouletteSideIconSpace" />

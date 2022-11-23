@@ -12,7 +12,7 @@ function Welcome() {
       <div className="WelcomePage">
         <img className="WelcomeImage" src={logo} />
 
-        <Link to="/Tutorial">
+        <Link to="/Home">
           <Button>Entrar</Button>
         </Link>
       </div>

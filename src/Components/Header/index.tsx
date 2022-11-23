@@ -6,7 +6,7 @@ import DomQueShotLogo from '../../assets/logo-darker.png';
 import './Header.css';
 
 interface HeaderProps {
-  logo?: boolean | string;
+  logo?: boolean | any;
   title?: string;
   goBackArrow?: boolean | any;
   timer?: number;
@@ -91,13 +91,13 @@ export default function Header({
         <div
           className="HeaderLogoSpace"
           style={logo ? {} : { display: 'none' }}>
-          <Link to="/">
-            <div className="HeaderLogo">
-              <img
-                className="HeaderLogoImage"
-                src={typeof logo === 'string' ? logo : DomQueShotLogo}></img>
-            </div>
-          </Link>
+          {/* <Link to="/"> */}
+          <div className="HeaderLogo">
+            <img
+              className="HeaderLogoImage"
+              src={typeof logo === 'string' ? logo : DomQueShotLogo}></img>
+          </div>
+          {/* </Link> */}
         </div>
       </div>
     </div>

@@ -78,10 +78,10 @@ export function BangBang() {
     });
   };
 
-  const backToLobby = () => {
+  const goTo = (where: string) => {
     socketConn.push('move-room-to', {
       roomCode: userData.roomCode,
-      destination: '/Lobby',
+      destination: where,
     });
   };
 
@@ -113,7 +113,7 @@ export function BangBang() {
         <RankingPage
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
-          finishPage={() => backToLobby()}
+          finishPage={() => goTo('/SelectNextGame')}
           finalRanking={finalRanking}
         />
       );

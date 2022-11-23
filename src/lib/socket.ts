@@ -16,6 +16,13 @@ class SocketConnection {
     }
   }
 
+  disconnect() {
+    if (this.socket) {
+      this.socket.close();
+      this.socket = undefined;
+    }
+  }
+
   joinRoom(userData, onError = null) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
       //console.log(`resposta do servidor: ${reply}`);

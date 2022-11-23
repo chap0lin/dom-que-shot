@@ -8,8 +8,9 @@ import './Cover.css';
 interface coverProps {
   title: string;
   coverImg: string;
-  infoPage: any;
-  gamePage: any;
+  infoPage: () => void;
+  gamePage: () => void;
+  goBackPage: () => void;
 }
 
 export default function CoverPage({
@@ -17,6 +18,7 @@ export default function CoverPage({
   coverImg,
   infoPage,
   gamePage,
+  goBackPage,
 }: coverProps) {
   useEffect(() => {
     gsap.from('.CoverDiv', {
@@ -45,7 +47,7 @@ export default function CoverPage({
 
   return (
     <Background>
-      <Header goBackArrow infoPage={infoPage} />
+      <Header goBackArrow={goBackPage} infoPage={infoPage} />
       <div className="OEscolhidoDiv">
         <div className="CoverDiv">
           <img className="CoverImage" src={coverImg} />

@@ -79,7 +79,7 @@ function Lobby() {
         goBackArrow={() => {
           navigate('/ChooseAvatar');
         }}
-        settingsPage="/Home"
+        settingsPage={() => {}}
       />
 
       <div className="LobbyDiv">
