@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import coverImg from '../../assets/game-covers/vrum.png';
+import coverImg from '../../assets/game-covers/bicho-bebe.png';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
-import './Vrum.css';
+import './BichoBebe.css';
 
 enum Game {
   Cover,
   Info,
 }
 
-export default function Vrum() {
+export default function BichoBebe() {
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const title = 'Vrum';
+  const title = 'Bicho Bebe';
   const navigate = useNavigate();
 
   const endOfGame = () => {
@@ -70,6 +70,7 @@ export default function Vrum() {
           title={title}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
+          endPage={endOfGame}
         />
       );
 

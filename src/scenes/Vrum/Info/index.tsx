@@ -8,15 +8,9 @@ interface coverProps {
   coverImg: string;
   title: string;
   coverPage: any;
-  endPage: any;
 }
 
-export default function InfoPage({
-  title,
-  coverImg,
-  coverPage,
-  endPage,
-}: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   const info = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:
