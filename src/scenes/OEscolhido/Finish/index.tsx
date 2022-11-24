@@ -28,7 +28,7 @@ export default function FinishPage({
   const navigate = useNavigate();
 
   const lobbyButtonText = 'Voltar ao Lobby';
-  const rouletteButtonText = 'Próxima Rodada';
+  const rouletteButtonText = 'Próximo jogo';
 
   useEffect(() => {
     gsap.from('.ResultsOuterCard', {

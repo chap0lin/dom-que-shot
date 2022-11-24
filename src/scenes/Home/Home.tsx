@@ -23,10 +23,7 @@ function Home() {
       .put(`/createRoom`)
       .then((response) => {
         console.log(response.data);
-        window.localStorage.setItem(
-          'userData',
-          JSON.stringify({ roomCode: response.data, option: 'create' })
-        );
+        window.localStorage.setItem('userData', JSON.stringify({}));
         navigate('/ChooseAvatar', {
           state: { option: 'create', roomCode: response.data },
         });
@@ -52,12 +49,8 @@ function Home() {
         .get(`/roomCode/${roomCode}`)
         .then((response) => {
           console.log(response.data);
-          window.localStorage.setItem(
-            'userData',
-            JSON.stringify({ roomCode: roomCode, option: 'join' })
-          );
+          window.localStorage.setItem('userData', JSON.stringify({}));
           navigate('/ChooseAvatar', {
-            //deveria ser esse, não a duas linhas acima. Mas usar esse leva a erros de execução.
             state: { option: 'join', roomCode: roomCode },
           });
         })

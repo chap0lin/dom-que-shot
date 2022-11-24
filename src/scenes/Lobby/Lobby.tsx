@@ -77,7 +77,9 @@ function Lobby() {
     <Background>
       <Header
         goBackArrow={() => {
-          navigate('/ChooseAvatar');
+          navigate('/ChooseAvatar', {
+            state: { option: 'update', roomCode: userData.roomCode },
+          });
         }}
         settingsPage={() => {}}
       />

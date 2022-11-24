@@ -4,3 +4,7 @@
   overflow-y: scroll;
   height: 100%;
 }
+
+.PlayerListSlider::-webkit-scrollbar {
+  display: none;
+}

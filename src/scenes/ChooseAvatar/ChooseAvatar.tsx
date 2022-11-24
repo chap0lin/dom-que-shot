@@ -12,20 +12,15 @@ import api from '../../services/api';
 function ChooseAvatar() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-
-  const option = userData.option; //TODO: apagar quando o código comentado abaixo der certo
-  const roomCode = userData.roomCode;
-
-  const buttonText = option
-    ? option === 'join'
+  const location = useLocation();
+  const option = location.state.option;
+  const roomCode = location.state.roomCode;
+  const buttonText =
+    option === 'join'
       ? 'Entrar'
-      : 'Criar sala'
-    : 'Atualizar';
-
-  //const location = useLocation();             //esse é o código que deveria rodar, mas ele gera erros caso o usuário venha do Lobby.
-  // const option = location.state.option;
-  // const roomCode = location.state.roomCode;
-  // const buttonText = (option)? ((option) === 'join'? 'Entrar' : 'Criar sala') : 'Atualizar';
+      : option === 'create'
+      ? 'Criar sala'
+      : 'Atualizar';
 
   const [inputText, setInputText] = useState(
     userData.nickname ? userData.nickname : ''
