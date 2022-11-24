@@ -13,13 +13,18 @@ enum Visibility {
   Invisible,
 }
 
-
 function Lobby() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [copyWarning, setCopyWarning] = useState<Visibility>(Visibility.Invisible);
-  const [lobbyWarning, setLobbyWarning] = useState<Visibility>(Visibility.Invisible);
-  const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(Visibility.Visible);
+  const [copyWarning, setCopyWarning] = useState<Visibility>(
+    Visibility.Invisible
+  );
+  const [lobbyWarning, setLobbyWarning] = useState<Visibility>(
+    Visibility.Invisible
+  );
+  const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
 
   const [playerList, updatePlayerList] = useState([
     {
@@ -38,9 +43,9 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
-    
-    socket.addEventListener('room-owner-is', (ownerName) => {
-      if(ownerName === userData.nickname) {
+
+    socket.addEventListener('room-owner-is', (ownerID) => {
+      if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
         return;
       }
@@ -83,8 +88,8 @@ function Lobby() {
     }, 2000);
   };
 
-  return (
-    <Background>
+  const header =
+    ownerVisibility === Visibility.Visible ? (
       <Header
         goBackArrow={() => {
           navigate('/ChooseAvatar', {
@@ -93,7 +98,19 @@ function Lobby() {
         }}
         settingsPage={() => {}}
       />
+    ) : (
+      <Header
+        goBackArrow={() => {
+          navigate('/ChooseAvatar', {
+            state: { option: 'update', roomCode: userData.roomCode },
+          });
+        }}
+      />
+    );
 
+  return (
+    <Background>
+      {header}
       <div className="LobbyDiv">
         <div className="RoomCodeTitleSpace">
           <p className="RoomCodeTitle">Código da Sala:</p>
@@ -120,7 +137,13 @@ function Lobby() {
         <div className="PlayerList">
           <PlayerList players={playerList} />
         </div>
-        <div className="BeginButton" style={(ownerVisibility === Visibility.Visible)? {visibility: 'visible'} : {visibility: 'hidden'}}>
+        <div
+          className="BeginButton"
+          style={
+            ownerVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button width="240px" height="56px" onClick={beginMatch}>
             Iniciar
           </Button>
