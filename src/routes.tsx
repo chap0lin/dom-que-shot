@@ -14,6 +14,7 @@ import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 import Vrum from './scenes/Vrum';
 import BichoBebe from './scenes/BichoBebe';
+import Medusa from './scenes/Medusa';
 import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
 
@@ -36,6 +37,7 @@ const Router: React.FC = () => {
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
         <Route path="/Vrum" element={<Vrum />} />
         <Route path="/BichoBebe" element={<BichoBebe />} />
+        <Route path="/Medusa" element={<Medusa />} />
       </Routes>
     </BrowserRouter>
   );
