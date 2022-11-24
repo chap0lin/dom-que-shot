@@ -55,7 +55,6 @@ function ChooseAvatar() {
 
   function changeIcon() {
     const newAvatarSeed = Math.random().toString(36).substring(2, 6);
-    console.log('seed gerada: ' + newAvatarSeed);
     changeAvatarSeed(newAvatarSeed);
   }
 

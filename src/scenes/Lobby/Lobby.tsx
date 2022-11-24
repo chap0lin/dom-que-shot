@@ -8,17 +8,18 @@ import Button from '../../components/Button';
 import PlayerList from './PlayerList';
 import './Lobby.css';
 
-enum Warning {
+enum Visibility {
   Visible,
   Invisible,
 }
 
+
 function Lobby() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [copyWarning, setCopyWarning] = useState<Warning>(Warning.Invisible);
-
-  const [lobbyWarning, setLobbyWarning] = useState<Warning>(Warning.Invisible);
+  const [copyWarning, setCopyWarning] = useState<Visibility>(Visibility.Invisible);
+  const [lobbyWarning, setLobbyWarning] = useState<Visibility>(Visibility.Invisible);
+  const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(Visibility.Visible);
 
   const [playerList, updatePlayerList] = useState([
     {
@@ -37,6 +38,15 @@ function Lobby() {
     socket.connect();
     socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
+    
+    socket.addEventListener('room-owner-is', (ownerName) => {
+      if(ownerName === userData.nickname) {
+        setOwnerVisibility(Visibility.Visible);
+        return;
+      }
+      setOwnerVisibility(Visibility.Invisible);
+    });
+
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
       navigate(destination);
@@ -52,9 +62,9 @@ function Lobby() {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
     console.log('código da sala copiado para a área de transferência');
-    setCopyWarning(Warning.Visible);
+    setCopyWarning(Visibility.Visible);
     setTimeout(() => {
-      setCopyWarning(Warning.Invisible);
+      setCopyWarning(Visibility.Invisible);
     }, 2000);
   };
 
@@ -67,9 +77,9 @@ function Lobby() {
       });
       return;
     }
-    setLobbyWarning(Warning.Visible);
+    setLobbyWarning(Visibility.Visible);
     setTimeout(() => {
-      setLobbyWarning(Warning.Invisible);
+      setLobbyWarning(Visibility.Invisible);
     }, 2000);
   };
 
@@ -89,7 +99,7 @@ function Lobby() {
           <p className="RoomCodeTitle">Código da Sala:</p>
           <div
             className={
-              copyWarning === Warning.Visible
+              copyWarning === Visibility.Visible
                 ? 'Warning Visible'
                 : 'Warning FadeOut'
             }>
@@ -102,7 +112,7 @@ function Lobby() {
           <Copy
             width="22px"
             height="22px"
-            color={copyWarning === Warning.Visible ? 'lime' : '#8877DF'}
+            color={copyWarning === Visibility.Visible ? 'lime' : '#8877DF'}
             onClick={copyToClipboard}
           />
         </div>
@@ -110,14 +120,14 @@ function Lobby() {
         <div className="PlayerList">
           <PlayerList players={playerList} />
         </div>
-        <div className="BeginButton">
-          <Button width="240px" height="56px">
-            <div onClick={beginMatch}>Iniciar</div>
+        <div className="BeginButton" style={(ownerVisibility === Visibility.Visible)? {visibility: 'visible'} : {visibility: 'hidden'}}>
+          <Button width="240px" height="56px" onClick={beginMatch}>
+            Iniciar
           </Button>
         </div>
         <div
           className={
-            lobbyWarning === Warning.Visible
+            lobbyWarning === Visibility.Visible
               ? 'Lobby Warning Visible'
               : 'Lobby Warning FadeOut'
           }>
