@@ -20,6 +20,7 @@ class SocketConnection {
     if (this.socket) {
       this.socket.close();
       this.socket = undefined;
+      this.socket.removeAllListeners();
     }
   }
 

@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import DomQueShotLogo from '../../assets/logo-darker.png';
@@ -91,13 +89,11 @@ export default function Header({
         <div
           className="HeaderLogoSpace"
           style={logo ? {} : { display: 'none' }}>
-          {/* <Link to="/"> */}
           <div className="HeaderLogo">
             <img
               className="HeaderLogoImage"
               src={typeof logo === 'string' ? logo : DomQueShotLogo}></img>
           </div>
-          {/* </Link> */}
         </div>
       </div>
     </div>
