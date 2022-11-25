@@ -18,6 +18,7 @@ import Medusa from './scenes/Medusa';
 import CSComposto from './scenes/CSComposto';
 import PensaRapido from './scenes/PensaRapido';
 import DireitaEsquerda from './scenes/DireitaEsquerda';
+import Buzz from './scenes/Buzz';
 import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
 
@@ -44,6 +45,7 @@ const Router: React.FC = () => {
         <Route path="/CSComposto" element={<CSComposto />} />
         <Route path="/DireitaEsquerda" element={<DireitaEsquerda />}/>
         <Route path="/PensaRapido" element={<PensaRapido />} />
+        <Route path="/Buzz" element={<Buzz />}/> 
       </Routes>
     </BrowserRouter>
   );
