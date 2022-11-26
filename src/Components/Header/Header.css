@@ -18,6 +18,7 @@
 
 .HeaderTitle {
   padding-left: 1em;
+  max-width: 30px;
 }
 
 .HeaderTimer {
