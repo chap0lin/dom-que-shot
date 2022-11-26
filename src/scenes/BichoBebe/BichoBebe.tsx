@@ -5,33 +5,28 @@ import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
-import WhoDrankPage from './WhoDrank';
 import './BichoBebe.css';
 
 enum Game {
   Cover,
   Info,
-  WhoDrank,
-}
-interface listedPlayerProps {
-  nickname: string;
-  avatarSeed: string;
-  id: number;
 }
 
 export default function BichoBebe() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
 
   const title = 'Bicho Bebe';
   const navigate = useNavigate();
 
   const endOfGame = () => {
-    socket.push('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/SelectNextGame',
-    });
+    navigate('/WhoDrank', {state: {     //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
+      coverImg: coverImg
+    }})
+    // socket.push('move-room-to', {
+    //   roomCode: userData.roomCode,
+    //   destination: '/WhoDrank',
+    // });
   };
 
   const backToLobby = () => {
@@ -47,14 +42,10 @@ export default function BichoBebe() {
 
   useEffect(() => {
     socket.connect();
-    socket.setLobbyUpdateListener(updatePlayerList);
-    //socket.send('lobby-update', userData.roomCode);
-
     socket.addEventListener('room-is-moving-to', (destination) => {
-      if (typeof destination === 'string') {
-        return navigate(destination);
-      }
-      setCurrentGameState(destination);
+      navigate(destination, {state: {
+        coverImg: coverImg
+      }})
     });
 
     return () => {
@@ -71,7 +62,7 @@ export default function BichoBebe() {
           title={title}
           coverImg={coverImg}
           infoPage={() => setCurrentGameState(Game.Info)}
-          endPage={() => setCurrentGameState(Game.WhoDrank)}
+          endPage={endOfGame}
         />
       );
 
@@ -81,15 +72,6 @@ export default function BichoBebe() {
           title={title}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
-        />
-      );
-
-    case Game.WhoDrank:
-      return (
-        <WhoDrankPage
-          coverImg={coverImg}
-          playerList={playerList}
-          finishPage={endOfGame}
         />
       );
 

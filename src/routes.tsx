@@ -12,6 +12,7 @@ import ChooseAvatar from './scenes/ChooseAvatar';
 import JoinRoom from './scenes/JoinRoom';
 import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
+import WhoDrank from './scenes/WhoDrank/WhoDrank';
 import Vrum from './scenes/Vrum';
 import BichoBebe from './scenes/BichoBebe';
 import Medusa from './scenes/Medusa';
@@ -39,6 +40,7 @@ const Router: React.FC = () => {
         <Route path="/Game" element={<Game />} />
         <Route path="/OEscolhido" element={<OEscolhido />} />
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
+        <Route path="/WhoDrank" element={<WhoDrank />} />
         <Route path="/Vrum" element={<Vrum />} />
         <Route path="/BichoBebe" element={<BichoBebe />} />
         <Route path="/Medusa" element={<Medusa />} />

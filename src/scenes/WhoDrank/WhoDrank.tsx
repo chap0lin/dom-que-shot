@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Background from '../../../components/Background';
-import Header from '../../../components/Header';
-import Button from '../../../components/Button';
-import Avatar from '../../../components/Avatar';
+import { useNavigate, useLocation } from 'react-router-dom';
+import socketConnection from '../../lib/socket';
+import Background from '../../components/Background';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import Avatar from '../../components/Avatar';
 import gsap from 'gsap';
 import './WhoDrank.css';
 
@@ -12,27 +14,44 @@ interface playerProps {
   id: number;
 }
 
-interface whoDrankProps {
-  coverImg: string;
-  finishPage: () => void;
-  playerList: playerProps[];
-}
+export default function WhoDrankPage() {
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const coverImg = location.state.coverImg;
 
-export default function WhoDrankPage({
-  finishPage,
-  playerList,
-  coverImg,
-}: whoDrankProps) {
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const [playerList, updatePlayerList] = useState<playerProps[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<playerProps>({
     avatarSeed: '',
     nickname: '',
     id: 0,
   });
 
+  //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
+
+  const socket = socketConnection.getInstance();
+
+  useEffect(() => {
+    socket.connect();
+    socket.setLobbyUpdateListener(updatePlayerList);
+    //socket.send('lobby-update', userData.roomCode);
+
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      navigate(destination);
+    });
+
+    return () => {
+      socket.removeAllListeners();
+    };
+  }, []);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     if (selectedPlayer) {
-      gsap.to('.selectedItem', { scale: 1.08, duration: 0.5 });
-      gsap.to('.unselectedItem', { scale: 1, duration: 0.5 });
+      gsap.to('.WhoDrankSelectedItem', { scale: 1.08, duration: 0.5 });
+      gsap.to('.WhoDrankUnselectedItem', { scale: 1, duration: 0.5 });
 
       gsap.to('.WhoDrankSelectedAvatar', {rotate: 180, duration: 0.5});
       gsap.to('.WhoDrankUnselectedAvatar', {rotate: 0, duration: 0.5});
@@ -47,10 +66,18 @@ export default function WhoDrankPage({
     setSelectedPlayer(player);
   };
 
+  const backToRoulette = () => {
+    socket.push('player-who-drank-is', JSON.stringify(selectedPlayer));
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/SelectNextGame',
+    });
+  }
+
   return (
     <Background>
       <Header logo={coverImg}/>
-      <div className="CSCompostoDiv">
+      <div className="WhoDrankDiv">
         <p className="WhoDrankTitle">E aí, quem perdeu?</p>
         <p style={{margin: 0}}>Selecione o jogador que bebeu uma dose:</p>
         <div className="WhoDrankPlayerListDiv">
@@ -62,8 +89,8 @@ export default function WhoDrankPage({
               className={
                 player.avatarSeed === selectedPlayer.avatarSeed &&
                 player.nickname === selectedPlayer.nickname
-                  ? 'selectedItem WhoDrankPlayerListItem'
-                  : 'unselectedItem WhoDrankPlayerListItem'
+                  ? 'WhoDrankSelectedItem WhoDrankPlayerListItem'
+                  : 'WhoDrankUnselectedItem WhoDrankPlayerListItem'
               }
               key={player.id}>
               <p className="WhoDrankPlayerListNickname">{player.nickname}</p>
@@ -81,7 +108,7 @@ export default function WhoDrankPage({
         </div>
         <div className="WhoDrankVoteButton">
           <Button>
-            <div onClick={finishPage}>Finalizar jogo</div>
+            <div onClick={backToRoulette}>Finalizar jogo</div>
           </Button>
         </div>
       </div>

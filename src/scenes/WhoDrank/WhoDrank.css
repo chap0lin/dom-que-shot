@@ -1,3 +1,10 @@
+.WhoDrankDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 .WhoDrankPlayerListDiv {
     padding: 1em;
     height: 400px;
@@ -23,11 +30,11 @@
     margin-bottom: 8px;
   }
   
-  .selectedItem {
+  .WhoDrankSelectedItem {
     background: #403a55;
   }
   
-  .unselectedItem {
+  .WhoDrankUnselectedItem {
     background: #8877df;
   }
   
