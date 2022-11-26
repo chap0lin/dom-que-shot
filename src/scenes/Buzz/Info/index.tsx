@@ -8,14 +8,12 @@ interface coverProps {
   coverImg: string;
   title: string;
   coverPage: any;
-  endPage: any;
 }
 
 export default function InfoPage({
   title,
   coverImg,
   coverPage,
-  endPage,
 }: coverProps) {
   const info = (
     <>

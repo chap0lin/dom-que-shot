@@ -5,53 +5,64 @@ import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
+import WhoDrankPage from './WhoDrank';
 import './Vrum.css';
 
 enum Game {
   Cover,
   Info,
+  WhoDrank,
+}
+interface listedPlayerProps {
+  nickname: string;
+  avatarSeed: string;
+  id: number;
 }
 
 export default function Vrum() {
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+
   const title = 'Vrum';
   const navigate = useNavigate();
 
   const endOfGame = () => {
-    navigate('/SelectNextGame');
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/SelectNextGame',
+    });
   };
 
-  // //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
+  const backToLobby = () => {
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
+  };
 
-  //     let socket = socketConnection.getInstance();
+  //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
-  //     useEffect(() => {
-  //         socket.setLobbyUpdateListener(updatePlayerList);
-  //         socket.send('lobby-update', userData.roomCode);
+  const socket = socketConnection.getInstance();
 
-  //         socket.addEventListener('vote-results', (mostVotedPlayers) => {
-  //         console.log(
-  //             'resultados da votação disponíveis. Jogadores mais votados: '
-  //         );
-  //         const result = JSON.parse(mostVotedPlayers);
-  //         console.log(result);
-  //         setCurrentGameState(Game.Finish);
-  //         setVotedPlayers(result);
-  //         });
+  useEffect(() => {
+    socket.connect();
+    socket.setLobbyUpdateListener(updatePlayerList);
+    //socket.send('lobby-update', userData.roomCode);
 
-  //         socket.addEventListener('room-is-moving-to', (destination) => {
-  //         if (typeof destination === 'string') {
-  //             if (destination === '/OEscolhido') {
-  //             updatedMs = msTimer;
-  //             return setCurrentGameState(Game.Cover);
-  //             }
-  //             return navigate(destination);
-  //         }
-  //         setCurrentGameState(destination);
-  //         });
-  //     }, []);
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      if (typeof destination === 'string') {
+        return navigate(destination);
+      }
+      setCurrentGameState(destination);
+    });
 
-  // //////////////////////////////////////////////////////////////////////////////////////////////////////
+    return () => {
+      socket.removeAllListeners();
+    };
+  }, []);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   switch (currentGameState) {
     case Game.Cover:
@@ -60,7 +71,7 @@ export default function Vrum() {
           title={title}
           coverImg={coverImg}
           infoPage={() => setCurrentGameState(Game.Info)}
-          endPage={endOfGame}
+          endPage={() => setCurrentGameState(Game.WhoDrank)}
         />
       );
 
@@ -70,6 +81,15 @@ export default function Vrum() {
           title={title}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
+        />
+      );
+
+    case Game.WhoDrank:
+      return (
+        <WhoDrankPage
+          coverImg={coverImg}
+          playerList={playerList}
+          finishPage={endOfGame}
         />
       );
 

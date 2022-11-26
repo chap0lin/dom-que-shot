@@ -51,7 +51,7 @@ export default function CoverPage({
         </div>
         <div className="VrumCoverStartButton">
           <Button>
-            <div onClick={endPage}>Próximo jogo</div>
+            <div onClick={endPage}>Começar jogo</div>
           </Button>
         </div>
       </div>

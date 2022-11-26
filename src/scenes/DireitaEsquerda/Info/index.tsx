@@ -14,14 +14,12 @@ interface coverProps {
   coverImg: string;
   title: string;
   coverPage: any;
-  endPage: any;
 }
 
 export default function InfoPage({
   title,
   coverImg,
   coverPage,
-  endPage,
 }: coverProps) {
   const info = (
     <>
@@ -40,7 +38,7 @@ export default function InfoPage({
         </div>
         <div className="DireitaEsquerdaDiceRule">
           <img className="DireitaEsquerdaDiceSide" src={D3}/>
-          Você &agrave; bebe
+          Você bebe
         </div>
         <div className="DireitaEsquerdaDiceRule">
           <img className="DireitaEsquerdaDiceSide" src={D4}/>
