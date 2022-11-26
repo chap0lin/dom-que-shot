@@ -67,7 +67,10 @@ export default function WhoDrankPage() {
   };
 
   const backToRoulette = () => {
-    socket.push('player-who-drank-is', JSON.stringify(selectedPlayer));
+    socket.push('player-who-drank-is', {
+      roomCode: userData.roomCode,
+      player: JSON.stringify(selectedPlayer),
+    });
     socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/SelectNextGame',
