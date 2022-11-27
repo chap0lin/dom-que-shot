@@ -15,6 +15,7 @@ function ChooseAvatar() {
   const location = useLocation();
   const option = location.state.option;
   const roomCode = location.state.roomCode;
+  const oldNickname = userData.nickname;
   const buttonText =
     option === 'join'
       ? 'Entrar'
@@ -23,7 +24,7 @@ function ChooseAvatar() {
       : 'Atualizar';
 
   const [inputText, setInputText] = useState(
-    userData.nickname ? userData.nickname : ''
+    oldNickname ? oldNickname : ''
   );
   const [userName, setUserName] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
@@ -41,6 +42,7 @@ function ChooseAvatar() {
     const input = e.target.value;
     setInputText(input);
     if (input.trim().length !== 0) {
+      console.log(input);
       setUserName(input);
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
@@ -71,31 +73,29 @@ function ChooseAvatar() {
       });
   };
 
-  function saveOnLocalStorage() {
+  function checkNameInput() {
+    if ((userName.length > 2) && (userName.length < 16)) {
+      api
+        .get(`/nicknameCheck/${roomCode}/${userName}`)
+        .then(() => {
+            return saveOnLocalStorage();
+        })
+        .catch(() => {
+          if(oldNickname !== userName){
+            return setInputErrorMsg({
+              msg: 'O nome inserido já está em uso.',
+              visibility: 'visible',
+            });
+          }
+          return saveOnLocalStorage();
+        });
+      return;
+    }
     if (userName.length > 16) {
       setInputErrorMsg({
         msg: 'O nome deve ter no máximo 16 caracteres.',
         visibility: 'visible',
       });
-      return;
-    }
-    if (userName.length > 2) {
-      const newUserData = {
-        roomCode: roomCode,
-        nickname: userName,
-        avatarSeed: avatarSeed,
-      };
-      window.localStorage.setItem('userData', JSON.stringify(newUserData));
-      console.log(
-        'Dados salvos em LocalStorage: código da sala (' +
-          roomCode +
-          '), nome (' +
-          userName +
-          ') e seed do avatar (' +
-          avatarSeed +
-          ').'
-      );
-      redirect();
       return;
     }
     if (userName.length > 0) {
@@ -109,6 +109,25 @@ function ChooseAvatar() {
       msg: 'Você deve inserir um nome primeiro!',
       visibility: 'visible',
     });
+  }
+
+  const saveOnLocalStorage = () => {
+    const newUserData = {
+      roomCode: roomCode,
+      nickname: userName,
+      avatarSeed: avatarSeed,
+    };
+    window.localStorage.setItem('userData', JSON.stringify(newUserData));
+    console.log(
+      'Dados salvos em LocalStorage: código da sala (' +
+        roomCode +
+        '), nome (' +
+        userName +
+        ') e seed do avatar (' +
+        avatarSeed +
+        ').'
+    );
+    redirect();
   }
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
@@ -183,7 +202,7 @@ function ChooseAvatar() {
 
           <div className="ButtonDiv">
             <Button>
-              <div onClick={saveOnLocalStorage}>{buttonText}</div>
+              <div onClick={checkNameInput}>{buttonText}</div>
             </Button>
           </div>
         </div>
