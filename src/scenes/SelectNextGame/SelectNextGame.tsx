@@ -17,6 +17,11 @@ import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
+enum Visibility {
+  Visible,
+  Invisible,
+}
+
 interface GameCard {
   id: number;
   text: string;
@@ -57,12 +62,22 @@ export default function SelectNextGame() {
   const navigate = useNavigate();
   const [games, updateGames] = useState<GameCard[]>(gameList);
   const [nextGameName, setNextGameName] = useState('');
+  const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = socketConnection.getInstance();
 
   useEffect(() => {
+    socket.addEventListener('player-turn', (turnID) => {
+      if (turnID === socket.socket.id) {
+        setTurnVisibility(Visibility.Visible);
+      }
+    });
+    socket.push('player-turn', userData.roomCode);
+    
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
@@ -163,9 +178,15 @@ export default function SelectNextGame() {
           </div>
         </div>
         <p className="NextGameName">{nextGameName}</p>
-        <div className="RouletteButton">
+        <div className="RouletteButton" onClick={turnTheWheel} style={
+
+          turnVisibility === Visibility.Visible
+            ? { visibility: 'visible' }
+            : { visibility: 'hidden' }
+
+        }>
           <Button>
-            <div onClick={turnTheWheel}>Girar</div>
+            <div>Girar</div>
           </Button>
         </div>
       </div>

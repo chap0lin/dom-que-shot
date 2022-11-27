@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import socketConnection from '../../../lib/socket';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
 import gsap from 'gsap';
 import './Cover.css';
+
+enum Visibility {
+  Visible,
+  Invisible
+}
 
 interface coverProps {
   title: string;
@@ -20,7 +26,20 @@ export default function CoverPage({
   gamePage,
   goBackPage,
 }: coverProps) {
+  const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
+
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const socket = socketConnection.getInstance();
+
   useEffect(() => {
+    socket.push('player-turn', userData.roomCode);
+    socket.addEventListener('player-turn', (turnID) => {
+      if (turnID === socket.socket.id) {
+        setTurnVisibility(Visibility.Visible);
+      }
+    });
     gsap.from('.CoverDiv', {
       rotation: -45,
       scale: 0,
@@ -53,7 +72,13 @@ export default function CoverPage({
           <img className="CoverImage" src={coverImg} />
           <p className="CoverTitle">{title}</p>
         </div>
-        <div className="CoverStartButton">
+        <div className="CoverStartButton" style={
+
+          turnVisibility === Visibility.Visible
+            ? { visibility: 'visible' }
+            : { visibility: 'hidden' }
+
+        }>
           <Button>
             <div onClick={gamePage}>Começar</div>
           </Button>

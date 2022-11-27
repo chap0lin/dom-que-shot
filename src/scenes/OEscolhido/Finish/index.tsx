@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import socketConnection from '../../../lib/socket';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -7,6 +7,11 @@ import Avatar from '../../../components/Avatar';
 import gsap from 'gsap';
 import noOneVoted from '../../../assets/no-votes.png';
 import './Finish.css';
+
+enum Visibility {
+  Visible,
+  Invisible
+}
 
 interface votedPlayerProps {
   nickname: string;
@@ -23,14 +28,23 @@ interface coverProps {
 export default function FinishPage({
   votedPlayer,
   roulettePage,
-  endGamePage,
 }: coverProps) {
-  const navigate = useNavigate();
+  const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
 
-  const lobbyButtonText = 'Voltar ao Lobby';
   const rouletteButtonText = 'Próximo jogo';
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const socket = socketConnection.getInstance();
 
   useEffect(() => {
+    socket.push('player-turn', userData.roomCode);
+    console.log('Updating turn');
+    socket.addEventListener('player-turn', (turnID) => {
+      if (turnID === socket.socket.id) {
+        setTurnVisibility(Visibility.Visible);
+      }
+    });
     gsap.from('.ResultsOuterCard', {
       opacity: 0,
       xPercent: 100,
@@ -79,11 +93,13 @@ export default function FinishPage({
             <br />
             TODO mundo bebe!
           </p>
-          <div className="ResultsButtons">
-            <Button>
-              <div onClick={endGamePage}>{lobbyButtonText}</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
+          <div className="ResultsButtons" style={
+
+            turnVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+
+          }>
             <Button>
               <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
@@ -112,11 +128,13 @@ export default function FinishPage({
             </div>
             <p className="ResultsText">{`${votedPlayer.at(0).votes} votos`}</p>
           </div>
-          <div className="ResultsButtons">
-            <Button>
-              <div onClick={endGamePage}>{lobbyButtonText}</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
+          <div className="ResultsButtons" style={
+
+            turnVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+
+          }>
             <Button>
               <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
@@ -143,9 +161,8 @@ export default function FinishPage({
                   {votedPlayer.at(0).nickname}
                 </p>
               </div>
-              <p className="ResultsText TieText">{`${
-                votedPlayer.at(0).votes
-              } votos`}</p>
+              <p className="ResultsText TieText">{`${votedPlayer.at(0).votes
+                } votos`}</p>
             </div>
             <div className="TieSpacer" />
             <div className="ResultsOuterCard TieOuter">
@@ -158,19 +175,20 @@ export default function FinishPage({
                   {votedPlayer.at(1).nickname}
                 </p>
               </div>
-              <p className="ResultsText TieText">{`${
-                votedPlayer.at(1).votes
-              } votos`}</p>
+              <p className="ResultsText TieText">{`${votedPlayer.at(1).votes
+                } votos`}</p>
             </div>
           </div>
           <p className="ResultsText TieTitle">
             Neste caso, todos os empatados devem beber!
           </p>
-          <div className="ResultsButtons">
-            <Button>
-              <div onClick={endGamePage}>{lobbyButtonText}</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
+          <div className="ResultsButtons" style={
+
+            turnVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+
+          }>
             <Button>
               <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
@@ -201,11 +219,13 @@ export default function FinishPage({
         <p className="ResultsText TieTitle">
           Neste caso, todos os empatados devem beber!
         </p>
-        <div className="ResultsButtons">
-          <Button>
-            <div onClick={endGamePage}>{lobbyButtonText}</div>
-          </Button>
-          <div className="ResultsButtonsSpacer" />
+        <div className="ResultsButtons" style={
+
+          turnVisibility === Visibility.Visible
+            ? { visibility: 'visible' }
+            : { visibility: 'hidden' }
+
+        }>
           <Button>
             <div onClick={roulettePage}>{rouletteButtonText}</div>
           </Button>

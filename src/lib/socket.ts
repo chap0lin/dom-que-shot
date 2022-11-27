@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 class SocketConnection {
   private static instance;
   socket: Socket;
-  serverAddress = 'http://localhost:3000';
+  serverAddress = 'http://192.168.0.49:3000';
 
   connect() {
     if (!this.socket) {
@@ -39,7 +39,7 @@ class SocketConnection {
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
-      //console.log(`resposta do servidor: ${reply}`);
+      console.log(`resposta do servidor: ${reply}`);
     });
   }
 
@@ -60,10 +60,15 @@ class SocketConnection {
   }
 
   setLobbyUpdateListener(useState) {
-    const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
+    this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
+      console.log(reply)
       useState(JSON.parse(reply));
     });
+  }
+
+  send(tag: string, message) {
+    this.socket.emit(tag, message);
   }
 
   //abaixo, as funções originalmente desenvolvidas pelo Carlos para esta classe
@@ -75,7 +80,7 @@ class SocketConnection {
     return SocketConnection.instance;
   }
 
-  push(tag: string, message: any) {
+  push(tag: string, message) {
     return this.socket.emit(tag, message);
   }
 

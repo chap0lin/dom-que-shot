@@ -89,7 +89,7 @@ function Home() {
 
   return (
     <Background>
-      <Header title={"Vamos começar?"} logo />
+      <Header title={'Vamos começar?'} logo />
 
       <div className="JoinRoomDiv">
         <p className="HelpInfo">Já possui uma sala?</p>
@@ -116,7 +116,6 @@ function Home() {
         </div>
       </div>
 
-      
       <div className="CreateRoomDiv">
         <p className="HelpInfo">Se ainda não possui:</p>
         <Button width="100%">

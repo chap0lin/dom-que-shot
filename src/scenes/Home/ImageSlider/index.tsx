@@ -8,8 +8,8 @@ interface ImageSliderProps {
 export default function ImageSlider({ content }: ImageSliderProps) {
   return (
     <div className="slider">
-      {content.map((slide, key) => (
-        <div className="card" style={{background: slide.color}}>
+      {content.map((slide) => (
+        <div className="card" style={{ background: slide.color }}>
           <img className="image" src={slide.image} alt="game" />
           <p className="title">{slide.title}</p>
         </div>

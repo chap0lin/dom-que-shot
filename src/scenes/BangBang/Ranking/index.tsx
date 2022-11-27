@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import socketConnection from '../../../lib/socket';
 import './Ranking.css';
 import Avatar from '../../../components/Avatar';
 import Button from '../../../components/Button';
 import RankingItem from '../../../components/RankingItem';
 import thumbDown from '../../../assets/BangBang/thumbs-down.png';
 import crown from '../../../assets/BangBang/crown.png';
+
+enum Visibility {
+  Visible,
+  Invisible
+}
 
 type Player = {
   id: string;
@@ -16,11 +22,25 @@ type Player = {
 interface RankingProps {
   data: Player[];
   finalRanking: boolean;
-  finishPage: () => void;
+  roulettePage: () => void;
   gamePage: () => void;
 }
 
-export function RankingPage({ data, finalRanking, finishPage }: RankingProps) {
+export function RankingPage({ data, finalRanking, roulettePage }: RankingProps) {
+  const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
+  const userData = JSON.parse(window.localStorage.getItem('userData'));
+  const socket = socketConnection.getInstance();
+
+  useEffect(() => {
+    socket.addEventListener('player-turn', (turnID) => {
+      if (turnID === socket.socket.id) {
+        setTurnVisibility(Visibility.Visible);
+      }
+    });
+  }, []);
+
   if (data.length === 0) {
     return <p>Loading...</p>;
   }
@@ -62,8 +82,16 @@ export function RankingPage({ data, finalRanking, finishPage }: RankingProps) {
             />
           ))}
         </div>
+        <div style={
 
-        <Button onClick={finishPage}>Finalizar</Button>
+          turnVisibility === Visibility.Visible
+            ? { visibility: 'visible' }
+            : { visibility: 'hidden' }
+
+        }>
+          <Button onClick={roulettePage}>Próximo jogo</Button>
+        </div>
+
       </div>
     </div>
   );

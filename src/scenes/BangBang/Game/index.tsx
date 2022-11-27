@@ -56,6 +56,7 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
     if (msTimer <= -10000) {
       clearInterval(timer);
       shot(-10000);
+      // TODO: atualizar turno dos jogadores aqui
       rankingPage();
     }
   }, [msTimer]);
