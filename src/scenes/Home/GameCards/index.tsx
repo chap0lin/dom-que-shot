@@ -9,25 +9,30 @@ export const gameCards = [
     image: euNunca,
     title: 'Eu nunca...',
     id: 1,
+    color: '#8877DF',
   },
   {
     image: Roleta,
     title: 'Roleta',
     id: 2,
+    color: '#403A55',
   },
   {
     image: Vrum,
     title: 'Vrum',
     id: 3,
+    color: '#800080',
   },
   {
     image: BichoBebe,
     title: 'Bicho bebe',
     id: 4,
+    color: '#8877DF',
   },
   {
     image: Medusa,
     title: 'Medusa',
     id: 5,
+    color: '#403A55',
   },
 ];
