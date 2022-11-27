@@ -49,7 +49,6 @@ function Lobby() {
         setOwnerVisibility(Visibility.Visible);
         return;
       }
-      setOwnerVisibility(Visibility.Invisible);
     });
 
     socket.addEventListener('room-is-moving-to', (destination) => {
@@ -140,9 +139,11 @@ function Lobby() {
         <div
           className="BeginButton"
           style={
+          
             ownerVisibility === Visibility.Visible
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
+          
           }>
           <Button width="240px" height="56px" onClick={beginMatch}>
             Iniciar
