@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';

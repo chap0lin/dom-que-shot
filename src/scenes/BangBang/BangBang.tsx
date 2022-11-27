@@ -125,8 +125,8 @@ export function BangBang() {
         <RankingPage
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
-          roulettePage={() => goTo('/SelectNextGame')}
           finalRanking={finalRanking}
+          roulettePage={() => goTo('/SelectNextGame')}
         />
       );
     default:

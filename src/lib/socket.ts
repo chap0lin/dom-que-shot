@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 class SocketConnection {
   private static instance;
   socket: Socket;
-  serverAddress = 'http://192.168.0.13:3000';
+  serverAddress = 'http://192.168.0.49:3000';
 
   connect() {
     if (!this.socket) {
@@ -62,6 +62,7 @@ class SocketConnection {
   setLobbyUpdateListener(useState) {
     this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
+      console.log(reply)
       useState(JSON.parse(reply));
     });
   }

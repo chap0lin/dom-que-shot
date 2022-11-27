@@ -75,6 +75,7 @@ function Lobby() {
   const beginMatch = () => {
     if (playerList.length >= 2) {
       console.log('Iniciando a partida.');
+      socket.push('set-turn', userData.roomCode);
       socket.push('move-room-to', {
         roomCode: userData.roomCode,
         destination: '/SelectNextGame',

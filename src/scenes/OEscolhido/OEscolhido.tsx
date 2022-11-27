@@ -126,7 +126,6 @@ export default function OEscolhido() {
       startTimer();
     } else if (currentGameState === Game.AwaitingResults) {
       const votedPlayer = window.localStorage.getItem('voted-player');
-      console.log(votedPlayer);
 
       socket.pushMessage(userData.roomCode, 'voted-player', {
         roomCode: userData.roomCode,
