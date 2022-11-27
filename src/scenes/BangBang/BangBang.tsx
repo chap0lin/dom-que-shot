@@ -33,6 +33,18 @@ export function BangBang() {
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      //TODO: verificar onde enviar evento para mover sala
+      console.log(`Movendo a sala para ${destination}.`);
+      navigateTo(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
+  }, []);
+
+  useEffect(() => {
     socketConn.onMessageReceived(({ message, ranking }) => {
       switch (message) {
         case BangBangEvents.StartTimer:
@@ -113,7 +125,7 @@ export function BangBang() {
         <RankingPage
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
-          finishPage={() => goTo('/SelectNextGame')}
+          roulettePage={() => goTo('/SelectNextGame')}
           finalRanking={finalRanking}
         />
       );

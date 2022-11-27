@@ -95,7 +95,9 @@ function Lobby() {
             state: { option: 'update', roomCode: userData.roomCode },
           });
         }}
-        settingsPage={() => {}}
+        settingsPage={() => {
+          /*TODO: add settings page*/
+        }}
       />
     ) : (
       <Header
@@ -139,11 +141,9 @@ function Lobby() {
         <div
           className="BeginButton"
           style={
-          
             ownerVisibility === Visibility.Visible
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
-          
           }>
           <Button width="240px" height="56px" onClick={beginMatch}>
             Iniciar

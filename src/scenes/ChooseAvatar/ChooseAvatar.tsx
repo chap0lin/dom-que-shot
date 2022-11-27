@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
@@ -23,9 +23,7 @@ function ChooseAvatar() {
       ? 'Criar sala'
       : 'Atualizar';
 
-  const [inputText, setInputText] = useState(
-    oldNickname ? oldNickname : ''
-  );
+  const [inputText, setInputText] = useState(oldNickname ? oldNickname : '');
   const [userName, setUserName] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
@@ -74,14 +72,14 @@ function ChooseAvatar() {
   };
 
   function checkNameInput() {
-    if ((userName.length > 2) && (userName.length < 16)) {
+    if (userName.length > 2 && userName.length < 16) {
       api
         .get(`/nicknameCheck/${roomCode}/${userName}`)
         .then(() => {
-            return saveOnLocalStorage();
+          return saveOnLocalStorage();
         })
         .catch(() => {
-          if(oldNickname !== userName){
+          if (oldNickname !== userName) {
             return setInputErrorMsg({
               msg: 'O nome inserido já está em uso.',
               visibility: 'visible',
@@ -128,7 +126,7 @@ function ChooseAvatar() {
         ').'
     );
     redirect();
-  }
+  };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
 
