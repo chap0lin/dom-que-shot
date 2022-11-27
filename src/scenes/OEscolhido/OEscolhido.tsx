@@ -63,20 +63,6 @@ export default function OEscolhido() {
   const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([]);
   const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
 
-  const playAgain = () => {
-    clearInterval(timer);
-    setMsTimer(gameTime);
-    console.log('O usuário pediu para jogar novamente.');
-    socket.push('start-game', {
-      roomCode: userData.roomCode,
-      gameName: 'O Escolhido',
-    });
-    socket.push('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/OEscolhido',
-    });
-  };
-
   const nextRound = () => {
     console.log('Próximo round!');
     clearInterval(timer);
@@ -97,7 +83,7 @@ export default function OEscolhido() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  let socket = socketConnection.getInstance();
+  const socket = socketConnection.getInstance();
 
   useEffect(() => {
     socket.setLobbyUpdateListener(updatePlayerList);

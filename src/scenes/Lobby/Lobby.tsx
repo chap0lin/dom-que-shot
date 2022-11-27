@@ -49,7 +49,6 @@ function Lobby() {
         setOwnerVisibility(Visibility.Visible);
         return;
       }
-      setOwnerVisibility(Visibility.Invisible);
     });
 
     socket.addEventListener('room-is-moving-to', (destination) => {
@@ -96,7 +95,9 @@ function Lobby() {
             state: { option: 'update', roomCode: userData.roomCode },
           });
         }}
-        settingsPage={() => {}}
+        settingsPage={() => {
+          /*TODO: add settings page*/
+        }}
       />
     ) : (
       <Header

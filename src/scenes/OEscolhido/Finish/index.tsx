@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -25,8 +24,6 @@ export default function FinishPage({
   roulettePage,
   endGamePage,
 }: coverProps) {
-  const navigate = useNavigate();
-
   const lobbyButtonText = 'Voltar ao Lobby';
   const rouletteButtonText = 'Próximo jogo';
 

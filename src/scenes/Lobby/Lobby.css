@@ -43,7 +43,6 @@
 
 .RoomCodeSpace {
   margin: 0 21px;
-  color: rgba(0, 0, 0, 0.54);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -55,6 +54,7 @@
 }
 
 .RoomCodeItself {
+  color: rgba(0, 0, 0, 0.54);
   margin: 0;
   width: 100%;
   text-align: center;
