@@ -10,18 +10,16 @@ interface coverProps {
   coverPage: any;
 }
 
-export default function InfoPage({
-  title,
-  coverImg,
-  coverPage,
-}: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   const info = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:
       <br />
       <br />
-      Um jogador inicia a contagem com o número 1. O próximo na roda continua com o 2, o seguinte com o 3 e assim por diante.
-      A contagem continua até que alguém cometa o erro fatal: Não dizer "Buzz" para determinados números.
+      Um jogador inicia a contagem com o número 1. O próximo na roda continua
+      com o 2, o seguinte com o 3 e assim por diante. A contagem continua até
+      que alguém cometa o erro fatal: Não dizer "Buzz" para determinados
+      números.
       <br />
       Os números em questão são:
       <ul>

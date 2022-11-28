@@ -10,22 +10,21 @@ interface coverProps {
   coverPage: any;
 }
 
-export default function InfoPage({
-  title,
-  coverImg,
-  coverPage,
-}: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   const info = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:
       <br />
       <br />
-      É recomendado jogar com várias pessoas. Façam um círculo com todos olhando para baixo.
+      É recomendado jogar com várias pessoas. Façam um círculo com todos olhando
+      para baixo.
       <br />
-      Depois de uma contagem, todos devem levantar a cabeça e olhar fixamente para outra pessoa.
-      Se a pessoa escolhida por você não estiver te encarando, você ganha a rodada.
+      Depois de uma contagem, todos devem levantar a cabeça e olhar fixamente
+      para outra pessoa. Se a pessoa escolhida por você não estiver te
+      encarando, você ganha a rodada.
       <br />
-      Se duas pessoas olharem ao mesmo tempo uma para a outra, quem gritar "Medusa!" por último deve virar uma dose.
+      Se duas pessoas olharem ao mesmo tempo uma para a outra, quem gritar
+      "Medusa!" por último deve virar uma dose.
     </>
   );
 

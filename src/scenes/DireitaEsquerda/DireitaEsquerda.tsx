@@ -20,9 +20,12 @@ export default function DireitaEsquerda() {
   const navigate = useNavigate();
 
   const endOfGame = () => {
-    navigate('/WhoDrank', {state: {     //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
-      coverImg: coverImg
-    }})
+    navigate('/WhoDrank', {
+      state: {
+        //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
+        coverImg: coverImg,
+      },
+    });
     // socket.push('move-room-to', {
     //   roomCode: userData.roomCode,
     //   destination: '/WhoDrank',
@@ -43,9 +46,11 @@ export default function DireitaEsquerda() {
   useEffect(() => {
     socket.connect();
     socket.addEventListener('room-is-moving-to', (destination) => {
-      navigate(destination, {state: {
-        coverImg: coverImg
-      }})
+      navigate(destination, {
+        state: {
+          coverImg: coverImg,
+        },
+      });
     });
 
     return () => {

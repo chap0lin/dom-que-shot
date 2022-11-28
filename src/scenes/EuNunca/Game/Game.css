@@ -1,12 +1,12 @@
-.EuNuncaGameTitle{
+.EuNuncaGameTitle {
   width: 80%;
   font-size: 20px;
   font-weight: 700;
 }
 
 .EuNuncaSuggestionsDiv {
-  background: #403A55;
-  border: 3px solid #F9C95C;
+  background: #403a55;
+  border: 3px solid #f9c95c;
   border-radius: 16px;
   width: 90%;
   height: 400px;

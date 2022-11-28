@@ -10,23 +10,21 @@ interface coverProps {
   coverPage: any;
 }
 
-export default function InfoPage({
-  title,
-  coverImg,
-  coverPage,
-}: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   const info = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:
       <br />
       <br />
-      A regra geral do jogo é que estão proibidas palavras que comecem em C, S ou que sejam compostas &#40;que levem espaço ou hífen&#41;.
+      A regra geral do jogo é que estão proibidas palavras que comecem em C, S
+      ou que sejam compostas &#40;que levem espaço ou hífen&#41;.
       <br />
-      Os participantes se organizam numa roda e come&ccedil;am a brincadeira. Um jogador inicia a partida falando qualquer palavra
-      &#40;desde que não infrinja as regras iniciais&#41;, e em seguida, o próximo da roda continua o jogo dizendo uma palavra relacionada
-      &agrave; anterior.
-      <br />
-      O primeiro que demorar a falar uma palavra ou infringir as regras acima deve virar uma dose!
+      Os participantes se organizam numa roda e come&ccedil;am a brincadeira. Um
+      jogador inicia a partida falando qualquer palavra &#40;desde que não
+      infrinja as regras iniciais&#41;, e em seguida, o próximo da roda continua
+      o jogo dizendo uma palavra relacionada &agrave; anterior.
+      <br />O primeiro que demorar a falar uma palavra ou infringir as regras
+      acima deve virar uma dose!
     </>
   );
 

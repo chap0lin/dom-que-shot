@@ -22,9 +22,12 @@ export default function EuNunca() {
   const navigate = useNavigate();
 
   const endOfGame = () => {
-    navigate('/WhoDrank', {state: {     //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
-      coverImg: coverImg
-    }})
+    navigate('/WhoDrank', {
+      state: {
+        //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
+        coverImg: coverImg,
+      },
+    });
     // socket.push('move-room-to', {
     //   roomCode: userData.roomCode,
     //   destination: '/WhoDrank',
@@ -38,7 +41,7 @@ export default function EuNunca() {
     });
   };
 
-  const [euNuncaSuggestions, setEuNuncaSuggestions] = useState<string[]>()
+  const [euNuncaSuggestions, setEuNuncaSuggestions] = useState<string[]>();
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,15 +50,17 @@ export default function EuNunca() {
   useEffect(() => {
     socket.connect();
     socket.addEventListener('room-is-moving-to', (destination) => {
-      navigate(destination, {state: {
-        coverImg: coverImg
-      }})
+      navigate(destination, {
+        state: {
+          coverImg: coverImg,
+        },
+      });
     });
 
     socket.addEventListener('eu-nunca-suggestions', (suggestions) => {
       console.log('Recebidas as sugestões de Eu Nunca do backend.');
       setEuNuncaSuggestions(suggestions);
-    })
+    });
 
     socket.push('eu-nunca-suggestions', 'please');
 
@@ -93,7 +98,7 @@ export default function EuNunca() {
           finishPage={endOfGame}
           coverImg={coverImg}
         />
-      )
+      );
 
     default:
       return (

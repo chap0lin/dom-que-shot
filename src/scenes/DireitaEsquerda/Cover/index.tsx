@@ -24,7 +24,11 @@ export default function CoverPage({
       yPercent: 100,
       ease: 'elastic',
     });
-    gsap.from('.DireitaEsquerdaCoverTitle', { opacity: 0, duration: 1, delay: 1.25 });
+    gsap.from('.DireitaEsquerdaCoverTitle', {
+      opacity: 0,
+      duration: 1,
+      delay: 1.25,
+    });
     gsap.from('.DireitaEsquerdaCoverImage', {
       yPercent: 100,
       duration: 2,

@@ -16,40 +16,36 @@ interface coverProps {
   coverPage: any;
 }
 
-export default function InfoPage({
-  title,
-  coverImg,
-  coverPage,
-}: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   const info = (
     <>
-      Este jogo deve ser jogado com dados.
-      O número que cair corresponde a um comando, conforme a seguir:
+      Este jogo deve ser jogado com dados. O número que cair corresponde a um
+      comando, conforme a seguir:
       <br />
       <br />
       <div className="DireitaEsquerdaDiceRules">
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D1}/>
+          <img className="DireitaEsquerdaDiceSide" src={D1} />
           Pessoa &agrave; sua esquerda bebe
         </div>
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D2}/>
+          <img className="DireitaEsquerdaDiceSide" src={D2} />
           Pessoa &agrave; sua direita bebe
         </div>
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D3}/>
+          <img className="DireitaEsquerdaDiceSide" src={D3} />
           Você bebe
         </div>
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D4}/>
+          <img className="DireitaEsquerdaDiceSide" src={D4} />
           Você aponta quem deve beber
         </div>
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D5}/>
+          <img className="DireitaEsquerdaDiceSide" src={D5} />
           Todos bebem
         </div>
         <div className="DireitaEsquerdaDiceRule">
-          <img className="DireitaEsquerdaDiceSide" src={D6}/>
+          <img className="DireitaEsquerdaDiceSide" src={D6} />
           Você bebe duas vezes
         </div>
       </div>

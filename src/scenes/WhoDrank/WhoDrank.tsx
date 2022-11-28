@@ -15,7 +15,6 @@ interface playerProps {
 }
 
 export default function WhoDrankPage() {
-  
   const navigate = useNavigate();
   const location = useLocation();
   const coverImg = location.state.coverImg;
@@ -53,8 +52,8 @@ export default function WhoDrankPage() {
       gsap.to('.WhoDrankSelectedItem', { scale: 1.08, duration: 0.5 });
       gsap.to('.WhoDrankUnselectedItem', { scale: 1, duration: 0.5 });
 
-      gsap.to('.WhoDrankSelectedAvatar', {rotate: 180, duration: 0.5});
-      gsap.to('.WhoDrankUnselectedAvatar', {rotate: 0, duration: 0.5});
+      gsap.to('.WhoDrankSelectedAvatar', { rotate: 180, duration: 0.5 });
+      gsap.to('.WhoDrankUnselectedAvatar', { rotate: 0, duration: 0.5 });
       window.localStorage.setItem(
         'voted-player',
         JSON.stringify(selectedPlayer)
@@ -75,14 +74,14 @@ export default function WhoDrankPage() {
       roomCode: userData.roomCode,
       destination: '/SelectNextGame',
     });
-  }
+  };
 
   return (
     <Background>
-      <Header logo={coverImg}/>
+      <Header logo={coverImg} />
       <div className="WhoDrankDiv">
         <p className="WhoDrankTitle">E aí, quem perdeu?</p>
-        <p style={{margin: 0}}>Selecione o jogador que bebeu uma dose:</p>
+        <p style={{ margin: 0 }}>Selecione o jogador que bebeu uma dose:</p>
         <div className="WhoDrankPlayerListDiv">
           {playerList.map((player) => (
             <div
