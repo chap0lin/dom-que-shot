@@ -18,8 +18,8 @@ import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
 enum Visibility {
-  Visible,
   Invisible,
+  Visible,
 }
 
 interface GameCard {
@@ -69,15 +69,17 @@ export default function SelectNextGame() {
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = socketConnection.getInstance();
+  let isMyTurn = false;
 
   useEffect(() => {
     socket.addEventListener('player-turn', (turnID) => {
       if (turnID === socket.socket.id) {
         setTurnVisibility(Visibility.Visible);
+        isMyTurn = true;
       }
     });
     socket.push('player-turn', userData.roomCode);
-    
+
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
@@ -87,7 +89,7 @@ export default function SelectNextGame() {
     });
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
-      navigate(destination);
+      navigate(destination, { state: { isYourTurn: isMyTurn } });
     });
     socket.push('games-update', userData.roomCode);
 
@@ -178,13 +180,14 @@ export default function SelectNextGame() {
           </div>
         </div>
         <p className="NextGameName">{nextGameName}</p>
-        <div className="RouletteButton" onClick={turnTheWheel} style={
-
-          turnVisibility === Visibility.Visible
-            ? { visibility: 'visible' }
-            : { visibility: 'hidden' }
-
-        }>
+        <div
+          className="RouletteButton"
+          onClick={turnTheWheel}
+          style={
+            turnVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button>
             <div>Girar</div>
           </Button>

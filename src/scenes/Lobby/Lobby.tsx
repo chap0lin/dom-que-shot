@@ -9,8 +9,8 @@ import PlayerList from './PlayerList';
 import './Lobby.css';
 
 enum Visibility {
-  Visible,
   Invisible,
+  Visible,
 }
 
 function Lobby() {

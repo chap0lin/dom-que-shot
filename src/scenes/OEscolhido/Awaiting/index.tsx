@@ -8,8 +8,8 @@ import gsap from 'gsap';
 import './Awaiting.css';
 interface awaitingProps {
   msTimeLeft: number;
-  gamePage: any;
-  finishPage: any;
+  gamePage: () => void;
+  finishPage: () => void;
 }
 
 export default function AwaitingResults({

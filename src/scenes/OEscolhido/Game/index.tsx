@@ -13,7 +13,7 @@ interface playerProps {
 }
 
 interface coverProps {
-  finishPage: any;
+  finishPage: () => void;
   msTimeLeft: number;
   playerList: playerProps[];
 }

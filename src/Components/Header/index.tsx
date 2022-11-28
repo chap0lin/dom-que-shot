@@ -4,12 +4,12 @@ import DomQueShotLogo from '../../assets/logo-darker.png';
 import './Header.css';
 
 interface HeaderProps {
-  logo?: boolean | any;
+  logo?: boolean | string;
   title?: string;
   goBackArrow?: boolean | any;
   timer?: number;
   settingsPage?: string | any;
-  infoPage?: string | any;
+  infoPage?: string | (() => void);
 }
 
 export default function Header({

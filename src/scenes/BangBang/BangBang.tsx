@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import { CoverPage } from './Cover';
@@ -26,6 +26,7 @@ export function BangBang() {
   const [ready, setReady] = useState(false);
   const [currentRanking, setCurrentRanking] = useState([]);
   const [finalRanking, setFinalRanking] = useState(false);
+  const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
@@ -103,6 +104,7 @@ export function BangBang() {
         <CoverPage
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          turnVisibility={turnVisibility}
         />
       );
     case Game.Info:
@@ -126,7 +128,11 @@ export function BangBang() {
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
           finalRanking={finalRanking}
-          roulettePage={() => goTo('/SelectNextGame')}
+          turnVisibility={turnVisibility}
+          roulettePage={() => {
+            socketConn.push('update-turn', userData.roomCode);
+            goTo('/SelectNextGame');
+          }}
         />
       );
     default:

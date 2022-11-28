@@ -6,8 +6,8 @@ import './Info.css';
 
 interface coverProps {
   coverImg: string;
-  coverPage: any;
-  gamePage: any;
+  coverPage: () => void;
+  gamePage: () => void;
 }
 
 export default function InfoPage({

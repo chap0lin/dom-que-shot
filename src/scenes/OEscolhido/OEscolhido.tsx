@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
@@ -15,6 +15,7 @@ interface listedPlayerProps {
   avatarSeed: string;
   id: number;
 }
+
 interface votedPlayerProps {
   nickname: string;
   avatarSeed: string;
@@ -58,13 +59,14 @@ export default function OEscolhido() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const navigate = useNavigate();
+  const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
   const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([]);
   const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
 
   const nextRound = () => {
-    console.log('Próximo round!');
+    socket.push('update-turn', userData.roomCode);
     clearInterval(timer);
     socket.push('move-room-to', {
       roomCode: userData.roomCode,
@@ -144,6 +146,7 @@ export default function OEscolhido() {
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
+          turnVisibility={turnVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
@@ -180,6 +183,7 @@ export default function OEscolhido() {
       return (
         <FinishPage
           votedPlayer={votedPlayers}
+          turnVisibility={turnVisibility}
           roulettePage={() => nextRound()}
           endGamePage={() => backToLobby()}
         />
