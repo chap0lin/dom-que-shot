@@ -20,12 +20,22 @@ export default function WhoDrankPage() {
   const coverImg = location.state.coverImg;
 
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [playerList, updatePlayerList] = useState<playerProps[]>([]);
-  const [selectedPlayer, setSelectedPlayer] = useState<playerProps>({
-    avatarSeed: '',
-    nickname: '',
-    id: 0,
-  });
+  const [playerList, updatePlayerList] = useState<playerProps[]>([
+    {
+      nickname: 'Alex',
+      avatarSeed: 'alex',
+      id: 0,
+    },
+    {
+      nickname: 'Carlos',
+      avatarSeed: 'carlos',
+      id: 1,
+    },
+  ]);
+
+  const [selectedPlayers, setSelectedPlayers] = useState<playerProps[]>([]);  //por algum motivo estranho esse useState não dispara o useEffect da linha 65 quando é vetor player[] ao invés de só player
+  const [dummyNumber, setDummyNumber] = useState<number>(0);                  //aí para conseguir que ele funcione eu precisei setar esse useState auxiliar, que muda toda vez que selectedPlayers mudar
+  const [buttonText, setButtonText] = useState('Ninguém bebeu');
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,8 +43,13 @@ export default function WhoDrankPage() {
 
   useEffect(() => {
     socket.connect();
-    socket.setLobbyUpdateListener(updatePlayerList);
-    //socket.send('lobby-update', userData.roomCode);
+    //socket.setLobbyUpdateListener(updatePlayerList);
+    socket.addEventListener('lobby-update', (players) => {
+      console.log("atuaizando os jogadores da sala fodasss");
+      updatePlayerList(players);
+    })
+    socket.push('who-drank-dummy-players', 'please');   //apagar esta linha e descomentar a de baixo quando for integrar ao resto do jogo
+    //socket.push('lobby-update', userData.roomCode);
 
     socket.addEventListener('room-is-moving-to', (destination) => {
       navigate(destination);
@@ -48,32 +63,44 @@ export default function WhoDrankPage() {
   //////////////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
-    if (selectedPlayer) {
+    if (selectedPlayers) {
       gsap.to('.WhoDrankSelectedItem', { scale: 1.08, duration: 0.5 });
       gsap.to('.WhoDrankUnselectedItem', { scale: 1, duration: 0.5 });
 
       gsap.to('.WhoDrankSelectedAvatar', { rotate: 180, duration: 0.5 });
-      gsap.to('.WhoDrankUnselectedAvatar', { rotate: 0, duration: 0.5 });
-      window.localStorage.setItem(
-        'voted-player',
-        JSON.stringify(selectedPlayer)
-      ); //guardamos temporariamente o nome e o seed do avatar no localstorage
+      gsap.to('.WhoDrankUnselectedAvatar', { rotate: 0, duration: 0.5 }); 
     }
-  }, [selectedPlayer]);
+  }, [dummyNumber]);
 
-  const selectPlayer = (player) => {
-    setSelectedPlayer(player);
+  const selectPlayer = (player:playerProps) => {
+    console.log('jogadores selecionados:');
+    console.log(selectedPlayers);
+    let selectedOnes = selectedPlayers;
+    let index = selectedPlayers.findIndex(p => p.nickname === player.nickname);
+    if(index !== -1){
+      selectedOnes.splice(index, 1);
+      if(selectedOnes.length === 0){
+        setButtonText('Ninguém bebeu');
+      }
+    } else {
+      selectedOnes.push(player);
+      setButtonText('Salvar e continuar');
+    }
+    setSelectedPlayers(selectedOnes);
+    setDummyNumber(Math.random())
   };
 
   const backToRoulette = () => {
-    socket.push('player-who-drank-is', {
-      roomCode: userData.roomCode,
-      player: JSON.stringify(selectedPlayer),
-    });
-    socket.push('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/SelectNextGame',
-    });
+    socket.push('players-who-drank-are', {
+      //roomCode: userData.roomCode,        //descomentar esta linha e remover a de baixo quando integrar ao resto do código
+      roomCode: '',
+      players: JSON.stringify(selectedPlayers)
+    }); 
+    // socket.push('move-room-to', {      //descomentar estas também
+    //   roomCode: userData.roomCode,
+    //   destination: '/SelectNextGame',
+
+    // });
   };
 
   return (
@@ -81,16 +108,16 @@ export default function WhoDrankPage() {
       <Header logo={coverImg} />
       <div className="WhoDrankDiv">
         <p className="WhoDrankTitle">E aí, quem perdeu?</p>
-        <p style={{ margin: 0 }}>Selecione o jogador que bebeu uma dose:</p>
+        <p style={{ margin: 0 }}>Selecione quem bebeu uma dose:</p>
         <div className="WhoDrankPlayerListDiv">
           {playerList.map((player) => (
             <div
               onClick={() => {
+                console.log('aaah');
                 selectPlayer(player);
               }}
               className={
-                player.avatarSeed === selectedPlayer.avatarSeed &&
-                player.nickname === selectedPlayer.nickname
+                selectedPlayers.find(p => p.nickname === player.nickname)
                   ? 'WhoDrankSelectedItem WhoDrankPlayerListItem'
                   : 'WhoDrankUnselectedItem WhoDrankPlayerListItem'
               }
@@ -98,8 +125,7 @@ export default function WhoDrankPage() {
               <p className="WhoDrankPlayerListNickname">{player.nickname}</p>
               <div
                 className={
-                  player.avatarSeed === selectedPlayer.avatarSeed &&
-                  player.nickname === selectedPlayer.nickname
+                  selectedPlayers.find(p => p.nickname === player.nickname)
                     ? 'WhoDrankSelectedAvatar WhoDrankPlayerListAvatar'
                     : 'WhoDrankUnselectedAvatar WhoDrankPlayerListAvatar'
                 }>
@@ -110,7 +136,7 @@ export default function WhoDrankPage() {
         </div>
         <div className="WhoDrankVoteButton">
           <Button>
-            <div onClick={backToRoulette}>Finalizar jogo</div>
+            <div onClick={backToRoulette}>{buttonText}</div>
           </Button>
         </div>
       </div>
