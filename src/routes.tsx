@@ -20,6 +20,7 @@ import CSComposto from './scenes/CSComposto';
 import PensaRapido from './scenes/PensaRapido';
 import DireitaEsquerda from './scenes/DireitaEsquerda';
 import Buzz from './scenes/Buzz';
+import EuNunca from './scenes/EuNunca';
 import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
 
@@ -48,6 +49,7 @@ const Router: React.FC = () => {
         <Route path="/DireitaEsquerda" element={<DireitaEsquerda />}/>
         <Route path="/PensaRapido" element={<PensaRapido />} />
         <Route path="/Buzz" element={<Buzz />}/> 
+        <Route path="/EuNunca" element={<EuNunca />} />
       </Routes>
     </BrowserRouter>
   );
