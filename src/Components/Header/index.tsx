@@ -6,9 +6,9 @@ import './Header.css';
 interface HeaderProps {
   logo?: boolean | string;
   title?: string;
-  goBackArrow?: boolean | any;
+  goBackArrow?: true | (() => void);
   timer?: number;
-  settingsPage?: string | any;
+  settingsPage?: string | (() => void);
   infoPage?: string | (() => void);
 }
 
@@ -48,6 +48,7 @@ export default function Header({
     if (typeof settingsPage === 'string') {
       //settingsPage pode ser string com o endereço da página OU pode ser uma arrow function
       navigateTo(settingsPage);
+      return;
     }
     settingsPage();
   };
