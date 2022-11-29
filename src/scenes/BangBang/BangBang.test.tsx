@@ -1,9 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import { BangBang } from './Game';
+// import { render, screen } from '@testing-library/react';
+// import { BangBang } from './Game';
 
-describe('Bang Bang Game', () => {
-  it('should render label', () => {
-    render(<BangBang />);
-    expect(screen.queryByTestId('label')).not.toBeNull();
-  });
-});
+// describe('Bang Bang Game', () => {
+//   it('should render label', () => {
+//     render(<BangBang />);
+//     expect(screen.queryByTestId('label')).not.toBeNull();
+//   });
+// });
+
+export {}
