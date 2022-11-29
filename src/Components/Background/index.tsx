@@ -13,7 +13,9 @@ export default function (props: BackgroundProps) {
     <div
       className={classes}
       style={props.color ? { backgroundColor: props.color } : {}}>
-      {props.children}
+      <div id="external-container" className="external-container">
+        {props.children}
+      </div>
     </div>
   );
 }

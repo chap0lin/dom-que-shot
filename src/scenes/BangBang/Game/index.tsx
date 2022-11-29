@@ -7,6 +7,7 @@ import balloon3 from '../../../assets/BangBang/balao3.png';
 import balloonReady from '../../../assets/BangBang/balao-prontos.png';
 import gsap from 'gsap';
 import './BangBang.css';
+import Background from '../../../components/Background';
 
 enum ButtonStatus {
   enabled = 1,
@@ -100,23 +101,25 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   };
 
   return (
-    <div id="game-bang-bang" className="container">
-      <Header timer={formatedTime()} />
+    <Background>
+      <div id="game-bang-bang" className="container">
+        <Header timer={formatedTime()} />
 
-      <div className="target-image">
-        <img src={targetImage} alt="Target image" />
-      </div>
-
-      <div className="container-baloon">
-        <div className="animation-balloon">
-          <img src={balloonImg} />
+        <div className="target-image">
+          <img src={targetImage} alt="Target image" />
         </div>
-      </div>
 
-      <button
-        className="button-bang"
-        onClick={handleClick}
-        disabled={buttonStatus !== ButtonStatus.enabled}></button>
-    </div>
+        <div className="container-baloon">
+          <div className="animation-balloon">
+            <img src={balloonImg} />
+          </div>
+        </div>
+
+        <button
+          className="button-bang"
+          onClick={handleClick}
+          disabled={buttonStatus !== ButtonStatus.enabled}></button>
+      </div>
+    </Background>
   );
 }
