@@ -20,20 +20,19 @@
   justify-content: center;
 }
 
-
-@media (max-width: 500px) {  
+@media (max-width: 500px) {
   .external-container {
     width: 100%;
     min-height: 100%;
   }
 }
 
-@media (min-width: 500px) {  
+@media (min-width: 500px) {
   .external-container {
     max-width: 412px;
     min-width: 412px;
     box-sizing: border-box;
-    height: 100vh;   
+    height: 100vh;
     border: 2px solid white;
     border-radius: 20px;
   }
