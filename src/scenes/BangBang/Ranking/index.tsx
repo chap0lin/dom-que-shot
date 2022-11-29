@@ -71,7 +71,7 @@ export function RankingPage({
             ))}
           </div>
 
-          <Button onClick={finishPage}>Finalizar</Button>
+          <Button onClick={roulettePage}>Finalizar</Button>
         </div>
       </div>
 
