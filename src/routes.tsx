@@ -14,12 +14,12 @@ import Lobby from './scenes/Lobby';
 import Game from './scenes/Game';
 import WhoDrank from './scenes/WhoDrank/WhoDrank';
 import Vrum from './scenes/Vrum';
-import BichoBebe from './scenes/BichoBebe';
-import Medusa from './scenes/Medusa';
-import CSComposto from './scenes/CSComposto';
-import PensaRapido from './scenes/PensaRapido';
-import DireitaEsquerda from './scenes/DireitaEsquerda';
-import Buzz from './scenes/Buzz';
+// import BichoBebe from './scenes/BichoBebe';
+// import Medusa from './scenes/Medusa';
+// import CSComposto from './scenes/CSComposto';
+// import PensaRapido from './scenes/PensaRapido';
+// import DireitaEsquerda from './scenes/DireitaEsquerda';
+// import Buzz from './scenes/Buzz';
 import EuNunca from './scenes/EuNunca';
 import OEscolhido from './scenes/OEscolhido';
 import SelectNextGame from './scenes/SelectNextGame';
@@ -43,12 +43,12 @@ const Router: React.FC = () => {
         <Route path="/SelectNextGame" element={<SelectNextGame />} />
         <Route path="/WhoDrank" element={<WhoDrank />} />
         <Route path="/Vrum" element={<Vrum />} />
-        <Route path="/BichoBebe" element={<BichoBebe />} />
+        {/* <Route path="/BichoBebe" element={<BichoBebe />} />   //descomentar quando devolver os demais jogos
         <Route path="/Medusa" element={<Medusa />} />
         <Route path="/CSComposto" element={<CSComposto />} />
         <Route path="/DireitaEsquerda" element={<DireitaEsquerda />} />
         <Route path="/PensaRapido" element={<PensaRapido />} />
-        <Route path="/Buzz" element={<Buzz />} />
+        <Route path="/Buzz" element={<Buzz />} /> */}
         <Route path="/EuNunca" element={<EuNunca />} />
       </Routes>
     </BrowserRouter>
