@@ -81,7 +81,7 @@ export function BangBang() {
         roomCode: userData.roomCode,
         destination: Game.Game,
       });
-      socketConn.pushMessage(bangBangRoom, 'player_ready', ''); // temporario ate pegar o codigo do alex
+      socketConn.pushMessage(bangBangRoom, 'player_ready', '');
     }
   }, [currentGameState]);
 

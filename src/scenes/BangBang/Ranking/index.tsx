@@ -5,6 +5,7 @@ import Button from '../../../components/Button';
 import RankingItem from '../../../components/RankingItem';
 import thumbDown from '../../../assets/BangBang/thumbs-down.png';
 import crown from '../../../assets/BangBang/crown.png';
+import Background from '../../../components/Background';
 
 type Player = {
   id: string;
@@ -34,26 +35,43 @@ export function RankingPage({
   const loser = data[data.length - 1];
 
   return (
-    <div id="ranking-page" className="ranking-page">
-      <div className="container-header">
-        <div className="container-winner">
-          <div className="background-avatar">
-            <img className="crown" src={crown} />
-            <Avatar seed={winner.seed} />
+    <Background>
+      <div id="ranking-page" className="ranking-page">
+        <div className="container-header">
+          <div className="container-winner">
+            <div className="background-avatar">
+              <img className="crown" src={crown} />
+              <Avatar seed={winner.seed} />
+            </div>
+            <p>{winner.nickname}</p>
+            <span>{(parseInt(winner.shotTime) / -1000).toFixed(2)}s</span>
           </div>
-          <p>{winner.nickname}</p>
-          <span>{(parseInt(winner.shotTime) / -1000).toFixed(2)}s</span>
+
+          <div className="container-loser">
+            <div className="background-avatar">
+              {finalRanking && <Avatar seed={loser.seed} />}
+              <img className="thumbDown" src={thumbDown} />
+            </div>
+            {finalRanking && <p>{loser.nickname}</p>}
+            {finalRanking && (
+              <span>{(parseInt(loser.shotTime) / -1000).toFixed(2)}s</span>
+            )}
+          </div>
         </div>
 
-        <div className="container-loser">
-          <div className="background-avatar">
-            {finalRanking && <Avatar seed={loser.seed} />}
-            <img className="thumbDown" src={thumbDown} />
+        <div className="container-body">
+          <div className="ranking-container">
+            {data.map((player, i) => (
+              <RankingItem
+                key={i}
+                name={player.nickname}
+                time={parseInt(player.shotTime) / -1000}
+                position={i}
+              />
+            ))}
           </div>
-          {finalRanking && <p>{loser.nickname}</p>}
-          {finalRanking && (
-            <span>{(parseInt(loser.shotTime) / -1000).toFixed(2)}s</span>
-          )}
+
+          <Button onClick={roulettePage}>Finalizar</Button>
         </div>
       </div>
 
@@ -77,6 +95,6 @@ export function RankingPage({
           <Button onClick={roulettePage}>Próximo jogo</Button>
         </div>
       </div>
-    </div>
+    </Background>
   );
 }
