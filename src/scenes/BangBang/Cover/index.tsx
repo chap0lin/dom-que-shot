@@ -9,15 +9,28 @@ interface CoverProps {
   title?: string;
   infoPage: () => void;
   gamePage: () => void;
+  goBackPage: () => void;
   turnVisibility: boolean;
+  ownerVisibility: boolean;
 }
 
-export function CoverPage({ infoPage, gamePage, turnVisibility }: CoverProps) {
+export function CoverPage({
+  infoPage,
+  gamePage,
+  goBackPage,
+  turnVisibility,
+  ownerVisibility,
+}: CoverProps) {
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
+
   return (
     <div id="cover-page" className="cover-page">
       <Background>
-        <Header goBackArrow infoPage={infoPage} />
-
+        {header}
         <div className="cover-container">
           <div className="cover-infos">
             <img src={coverImg}></img>

@@ -59,6 +59,7 @@ export default function OEscolhido() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const navigate = useNavigate();
+  const ownerVisibility = useLocation().state.isOwner;
   const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
@@ -147,6 +148,7 @@ export default function OEscolhido() {
           coverImg={coverImg}
           goBackPage={backToLobby}
           turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />

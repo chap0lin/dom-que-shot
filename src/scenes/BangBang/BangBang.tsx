@@ -27,11 +27,20 @@ export function BangBang() {
   const [currentRanking, setCurrentRanking] = useState([]);
   const [finalRanking, setFinalRanking] = useState(false);
   const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
   const navigateTo = useNavigate();
   const socketConn = socketConnection.getInstance();
+
+  const backToLobby = () => {
+    console.log('O usuário desejou voltar ao lobby');
+    socketConn.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
+  };
 
   useEffect(() => {
     socketConn.addEventListener('room-is-moving-to', (destination) => {
@@ -104,7 +113,9 @@ export function BangBang() {
         <CoverPage
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          goBackPage={() => backToLobby()}
           turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
         />
       );
     case Game.Info:
