@@ -1,4 +1,4 @@
-.BichoBebeInfoDiv {
+.EuNuncaInfoDiv {
   margin: 20px 0;
   padding: 0 40px;
   font-weight: 500;
@@ -9,6 +9,6 @@
   overflow-x: hidden;
 }
 
-.BichoBebeInfoDiv::-webkit-scrollbar {
+.EuNuncaInfoDiv::-webkit-scrollbar {
   display: none;
 }

@@ -33,8 +33,8 @@ export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title={title} />
-      <div className="BichoBebeDiv">
-        <p className="BichoBebeInfoDiv">{info}</p>
+      <div className="EuNuncaDiv">
+        <p className="EuNuncaInfoDiv">{info}</p>
         <Button>
           <div onClick={coverPage}>Voltar</div>
         </Button>
