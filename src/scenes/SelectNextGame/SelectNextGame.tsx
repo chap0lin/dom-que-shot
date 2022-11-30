@@ -60,9 +60,12 @@ export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
-  const [games, updateGames] = useState<GameCard[]>(gameList);
   const [nextGameName, setNextGameName] = useState('');
+  const [games, updateGames] = useState<GameCard[]>(gameList);
   const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
+  const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
 
@@ -70,6 +73,7 @@ export default function SelectNextGame() {
 
   const socket = socketConnection.getInstance();
   let isMyTurn = false;
+  let amIOwner = false;
 
   useEffect(() => {
     socket.addEventListener('player-turn', (turnID) => {
@@ -80,6 +84,14 @@ export default function SelectNextGame() {
     });
     socket.push('player-turn', userData.roomCode);
 
+    socket.addEventListener('room-owner-is', (ownerID) => {
+      if (ownerID === socket.socket.id) {
+        setOwnerVisibility(Visibility.Visible);
+        amIOwner = true;
+      }
+    });
+    socket.push('room-owner-is', userData.roomCode);
+
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
@@ -89,7 +101,12 @@ export default function SelectNextGame() {
     });
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
-      navigate(destination, { state: { isYourTurn: isMyTurn } });
+      navigate(destination, {
+        state: {
+          isYourTurn: isMyTurn,
+          isOwner: amIOwner,
+        },
+      });
     });
     socket.push('games-update', userData.roomCode);
 
@@ -151,9 +168,16 @@ export default function SelectNextGame() {
     }
   };
 
+  const header =
+    ownerVisibility === Visibility.Visible ? (
+      <Header goBackArrow={backToLobby} logo />
+    ) : (
+      <Header logo />
+    );
+
   return (
     <Background>
-      <Header goBackArrow={backToLobby} logo />
+      {header}
       <div className="SelectGameSection">
         <div className="RouletteDiv">
           <div className="RouletteSideIconSpace" />

@@ -9,6 +9,7 @@ interface coverProps {
   title: string;
   coverImg: string;
   turnVisibility: boolean;
+  ownerVisibility: boolean;
   infoPage: () => void;
   gamePage: () => void;
   goBackPage: () => void;
@@ -18,6 +19,7 @@ export default function CoverPage({
   title,
   coverImg,
   turnVisibility,
+  ownerVisibility,
   infoPage,
   gamePage,
   goBackPage,
@@ -47,9 +49,15 @@ export default function CoverPage({
     });
   }, []);
 
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
+
   return (
     <Background>
-      <Header goBackArrow={goBackPage} infoPage={infoPage} />
+      {header}
       <div className="OEscolhidoDiv">
         <div className="CoverDiv">
           <img className="CoverImage" src={coverImg} />

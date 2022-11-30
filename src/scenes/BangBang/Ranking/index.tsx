@@ -70,29 +70,14 @@ export function RankingPage({
               />
             ))}
           </div>
-
-          <Button onClick={roulettePage}>Finalizar</Button>
-        </div>
-      </div>
-
-      <div className="container-body">
-        <div className="ranking-container">
-          {data.map((player, i) => (
-            <RankingItem
-              key={i}
-              name={player.nickname}
-              time={parseInt(player.shotTime) / -1000}
-              position={i}
-            />
-          ))}
-        </div>
-        <div
-          style={
-            turnVisibility && finalRanking
-              ? { visibility: 'visible' }
-              : { visibility: 'hidden' }
-          }>
-          <Button onClick={roulettePage}>Próximo jogo</Button>
+          <div
+            style={
+              turnVisibility && finalRanking
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }>
+            <Button onClick={roulettePage}>Próximo Jogo</Button>
+          </div>
         </div>
       </div>
     </Background>

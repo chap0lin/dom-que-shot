@@ -29,6 +29,8 @@ export default function GamePage({
     id: 0,
   });
 
+  let hasSelected = false;
+
   useEffect(() => {
     if (selectedPlayer) {
       gsap.to('.selectedItem', { scale: 1.08, duration: 0.5 });
@@ -43,6 +45,8 @@ export default function GamePage({
   const selectPlayer = (player) => {
     setSelectedPlayer(player);
   };
+
+  if (selectedPlayer.nickname != '') hasSelected = true;
 
   return (
     <Background noImage>
@@ -76,8 +80,8 @@ export default function GamePage({
           ))}
         </div>
         <div className="GameVoteButton">
-          <Button>
-            <div onClick={finishPage}>Votar</div>
+          <Button isDisabled={!hasSelected} onClick={finishPage}>
+            Votar
           </Button>
         </div>
       </div>
