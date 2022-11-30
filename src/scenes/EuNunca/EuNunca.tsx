@@ -17,21 +17,26 @@ enum Game {
 export default function EuNunca() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const [turnVisibility, setTurnVisibility] = useState<boolean>(false); //TODO trocar para isMyTurn = useLocation().state.isYourTurn
 
+  let isMyTurn = false;
   const title = 'Eu Nunca';
   const navigate = useNavigate();
 
-  const endOfGame = () => {
-    navigate('/WhoDrank', {
-      state: {
-        //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
-        coverImg: coverImg,
-      },
+  const startGame = () => {
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: Game.Game,
     });
-    // socket.push('move-room-to', {
-    //   roomCode: userData.roomCode,
-    //   destination: '/WhoDrank',
-    // });
+    isMyTurn = true; //TODO remover estas duas linhas quando adequar aos fluxos do owner e do jogador da vez
+    setTurnVisibility(true); //
+  };
+
+  const endOfGame = () => {
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/WhoDrank',
+    });
   };
 
   const backToLobby = () => {
@@ -50,11 +55,16 @@ export default function EuNunca() {
   useEffect(() => {
     socket.connect();
     socket.addEventListener('room-is-moving-to', (destination) => {
-      navigate(destination, {
-        state: {
-          coverImg: coverImg,
-        },
-      });
+      if (typeof destination === 'string') {
+        return navigate(destination, {
+          state: {
+            coverImg: coverImg,
+            isYourTurn: Math.round(Math.random()) === 0 ? true : false, //TODO adequar aos fluxos do owner e do jogador da vez
+            isOwner: true, //aqui também, claro
+          },
+        });
+      }
+      setCurrentGameState(destination);
     });
 
     socket.addEventListener('eu-nunca-suggestions', (suggestions) => {
@@ -78,7 +88,8 @@ export default function EuNunca() {
           title={title}
           coverImg={coverImg}
           infoPage={() => setCurrentGameState(Game.Info)}
-          endPage={() => setCurrentGameState(Game.Game)}
+          endPage={startGame}
+          turnVisibility={true} //TODO alterar para turnVisibility quando integrar ao resto do código
         />
       );
 
@@ -97,6 +108,7 @@ export default function EuNunca() {
           suggestions={euNuncaSuggestions}
           finishPage={endOfGame}
           coverImg={coverImg}
+          turnVisibility={turnVisibility}
         />
       );
 

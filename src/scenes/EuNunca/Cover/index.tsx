@@ -10,6 +10,7 @@ interface coverProps {
   coverImg: string;
   infoPage: any;
   endPage: any;
+  turnVisibility: boolean;
 }
 
 export default function CoverPage({
@@ -17,6 +18,7 @@ export default function CoverPage({
   coverImg,
   infoPage,
   endPage,
+  turnVisibility,
 }: coverProps) {
   useEffect(() => {
     gsap.from('.EuNuncaCoverDiv', {
@@ -53,7 +55,13 @@ export default function CoverPage({
           <img className="EuNuncaCoverImage" src={coverImg} />
           <p className="EuNuncaCoverTitle">{title}</p>
         </div>
-        <div className="EuNuncaCoverStartButton">
+        <div
+          className="EuNuncaCoverStartButton"
+          style={
+            turnVisibility === true
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button>
             <div onClick={endPage}>Começar jogo</div>
           </Button>

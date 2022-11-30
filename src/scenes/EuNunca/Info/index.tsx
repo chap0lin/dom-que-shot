@@ -18,7 +18,7 @@ export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
       <br />
       <br />
       O jogador da vez deve dizer em voz alta uma frase iniciada por "Eu
-      nunca...", seguidas por algo ou situação que pode ter acontecido com algum
+      nunca...", seguida por algo ou situação que pode ter acontecido com algum
       dos jogadores. Se faltar criatividade, na tela do celular vão aparecer
       algumas sugestões.
       <br />

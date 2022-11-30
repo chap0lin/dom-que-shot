@@ -46,7 +46,8 @@ export function BangBang() {
   const socketConn = socketConnection.getInstance();
 
   useEffect(() => {
-    socketConn.addEventListener('room-is-moving-to', (destination) => { //TODO: verificar onde enviar evento para mover sala
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      //TODO: verificar onde enviar evento para mover sala
       console.log(`Movendo a sala para ${destination}.`);
       navigateTo(destination);
     });

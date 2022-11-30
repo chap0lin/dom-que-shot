@@ -54,3 +54,27 @@
 .WhoDrankPoteButton {
   margin: 2em;
 }
+
+.WhoDrankAwaitingDiv {
+  margin-top: 3em;
+  width: 80%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #8877df;
+  padding: 1.5em;
+  font-size: 20px;
+  text-justify: justify;
+  border-radius: 16px;
+}
+
+.WhoDrankAwaitingIcon {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+/* <div className="WhoDrankAwaitingDiv">
+          <img className="WhoDrankAwaitingIcon" src={beer} />
+          <div className="WhoDrankAwaitingTitle"> */

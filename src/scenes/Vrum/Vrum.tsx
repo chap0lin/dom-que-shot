@@ -20,16 +20,10 @@ export default function Vrum() {
   const navigate = useNavigate();
 
   const endOfGame = () => {
-    navigate('/WhoDrank', {
-      state: {
-        //apagar estas linhas e deixar somente o que está comentado (descomentado, obviamente) quando for integrar ao resto do código
-        coverImg: coverImg,
-      },
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/WhoDrank',
     });
-    // socket.push('move-room-to', {
-    //   roomCode: userData.roomCode,
-    //   destination: '/WhoDrank',
-    // });
   };
 
   const backToLobby = () => {
@@ -49,6 +43,7 @@ export default function Vrum() {
       navigate(destination, {
         state: {
           coverImg: coverImg,
+          isYourTurn: Math.round(Math.random()) === 0 ? true : false,
         },
       });
     });

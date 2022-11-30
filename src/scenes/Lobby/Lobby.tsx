@@ -49,18 +49,6 @@ function Lobby() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
-  const beginMatch = () => {
-    //esse beginMatch é só para esta branch. Manter o startGame() da GAME-53
-    socket.send('start-game', {
-      roomCode: userData.roomCode,
-      gameName: 'O Escolhido',
-    });
-    socket.send('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/OEscolhido',
-    });
-  };
-
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
     console.log('código da sala copiado para a área de transferência');
@@ -70,7 +58,7 @@ function Lobby() {
     }, 2000);
   };
 
-  const startGame = () => {
+  const beginMatch = () => {
     if (playerList.length >= 2) {
       console.log('Iniciando a partida.');
       socket.push('move-room-to', {
