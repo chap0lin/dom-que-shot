@@ -187,7 +187,6 @@ export default function OEscolhido() {
           votedPlayer={votedPlayers}
           turnVisibility={turnVisibility}
           roulettePage={() => nextRound()}
-          endGamePage={() => backToLobby()}
         />
       );
 
