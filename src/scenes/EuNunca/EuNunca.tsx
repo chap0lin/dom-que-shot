@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/eu-nunca.png';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
-import CoverPage from './Cover';
+import CoverPage from '../../components/Game/Cover';
 import InfoPage from './Info';
 import GamePage from './Game';
 import './EuNunca.css';
@@ -85,11 +85,13 @@ export default function EuNunca() {
     case Game.Cover:
       return (
         <CoverPage
+          type="dynamic"
           title={title}
           coverImg={coverImg}
+          goBackPage={backToLobby}
           infoPage={() => setCurrentGameState(Game.Info)}
-          endPage={startGame}
-          turnVisibility={true} //TODO alterar para turnVisibility quando integrar ao resto do código
+          gamePage={startGame}
+          //turnVisibility={true} //TODO alterar para turnVisibility quando integrar ao resto do código
         />
       );
 

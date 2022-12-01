@@ -1,4 +1,10 @@
-.VrumCoverDiv {
+.CoverPageDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+}
+
+.CoverPageCardDiv {
   margin-top: 2em;
   display: flex;
   flex-direction: column;
@@ -6,18 +12,17 @@
   align-items: center;
   width: 307px;
   height: 426px;
-  background-color: #403a55;
   border-radius: 10px;
   z-index: 1;
 }
 
-.VrumCoverImage {
+.CoverPageImage {
   width: 280px;
   height: 280px;
   object-fit: scale-down;
 }
 
-.VrumCoverTitle {
+.CoverPageTitle {
   font-family: 'Adumu';
   font-size: 36px;
   font-weight: 700;
@@ -25,7 +30,7 @@
   margin: 12px;
 }
 
-.VrumCoverStartButton {
+.CoverPageStartButton {
   margin: 2em;
   z-index: 0;
 }

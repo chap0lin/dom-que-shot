@@ -1,85 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/vrum.png';
-import socketConnection from '../../lib/socket';
-import Background from '../../components/Background';
-import CoverPage from './Cover';
-import InfoPage from './Info';
-import './Vrum.css';
+import SimpleCardGame from '../../components/Game/SimpleCardGame';
 
-enum Game {
-  Cover,
-  Info,
-}
 
 export default function Vrum() {
-  const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const title = "Vrum"
+  const info = (
+    <>
+      Este jogo deve ser jogado fora do aparelho. Funciona assim:
+      <br />
+      <br />
+      Os jogadores devem se organizar em uma roda. Começando em sentido horário,
+      cada participante vai ter que dizer uma dessas três opções quando chegar a
+      sua vez:
+      <br />
+      <br />
+      1 - Falar VRUM &#40;imitando o barulho de um motor de carro&#41;: O jogo
+      segue normal, sendo a vez do próximo jogador.
+      <br />
+      <br />
+      2 - Falar IHHH &#40;imitando o barulho de um freio de carro&#41;: O
+      sentido da roda inverte, e o próximo jogador passa a ser o que acabou de
+      jogar.
+      <br />
+      <br />
+      3 - Falar PLOFT &#40;imitando o barulho de uma lombada&#41;: O sentido da
+      roda se mantém, mas o jogador seguinte é pulado.
+      <br />
+      <br />O resultado acaba sendo muito engraçado. Quem errar a vez, ou errar
+      a palavra, tem de virar uma dose.
+    </>
+  );
 
-  const title = 'Vrum';
-  const navigate = useNavigate();
-
-  const endOfGame = () => {
-    socket.push('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/WhoDrank',
-    });
-  };
-
-  const backToLobby = () => {
-    socket.push('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/Lobby',
-    });
-  };
-
-  //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
-
-  const socket = socketConnection.getInstance();
-
-  useEffect(() => {
-    socket.connect();
-    socket.addEventListener('room-is-moving-to', (destination) => {
-      navigate(destination, {
-        state: {
-          coverImg: coverImg,
-          isYourTurn: Math.round(Math.random()) === 0 ? true : false,
-        },
-      });
-    });
-
-    return () => {
-      socket.removeAllListeners();
-    };
-  }, []);
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  switch (currentGameState) {
-    case Game.Cover:
-      return (
-        <CoverPage
-          title={title}
-          coverImg={coverImg}
-          infoPage={() => setCurrentGameState(Game.Info)}
-          endPage={endOfGame}
-        />
-      );
-
-    case Game.Info:
-      return (
-        <InfoPage
-          title={title}
-          coverImg={coverImg}
-          coverPage={() => setCurrentGameState(Game.Cover)}
-        />
-      );
-
-    default:
-      return (
-        <Background>
-          <div>Erro!</div>
-        </Background>
-      );
-  }
+  return <SimpleCardGame title={title} description={info} coverImg={coverImg}/>;
 }

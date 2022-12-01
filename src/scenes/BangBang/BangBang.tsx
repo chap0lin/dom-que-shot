@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
-import CoverPage from './Cover';
+import CoverPage from '../../components/Game/Cover';
 import { InfoPage } from './Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
@@ -114,11 +114,12 @@ export function BangBang() {
     case Game.Cover:
       return (
         <CoverPage
+          type="round"
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          turnVisibility={turnVisibility}
-          ownerVisibility={ownerVisibility}
+          // turnVisibility={turnVisibility}
+          // ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
