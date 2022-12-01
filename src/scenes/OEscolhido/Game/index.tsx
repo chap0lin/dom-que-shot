@@ -29,8 +29,6 @@ export default function GamePage({
     id: 0,
   });
 
-  let hasSelected = false;
-
   useEffect(() => {
     if (selectedPlayer) {
       gsap.to('.selectedItem', { scale: 1.08, duration: 0.5 });
@@ -46,7 +44,7 @@ export default function GamePage({
     setSelectedPlayer(player);
   };
 
-  if (selectedPlayer.nickname != '') hasSelected = true;
+  const hasSelected = selectedPlayer.nickname != '';
 
   return (
     <Background noImage>
@@ -54,8 +52,9 @@ export default function GamePage({
       <div className="OEscolhidoDiv">
         <p>Escolha um participante:</p>
         <div className="GamePlayerListDiv">
-          {playerList.map((player) => (
+          {playerList.map((player, i) => (
             <div
+              key={`${i}`}
               onClick={() => {
                 selectPlayer(player);
               }}
@@ -64,8 +63,7 @@ export default function GamePage({
                 player.nickname === selectedPlayer.nickname
                   ? 'selectedItem GamePlayerListItem'
                   : 'unselectedItem GamePlayerListItem'
-              }
-              key={player.id}>
+              }>
               <p className="GamePlayerListNickname">{player.nickname}</p>
               <div
                 className={

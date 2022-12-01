@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 class SocketConnection {
   private static instance;
   socket: Socket;
-  serverAddress = 'http://192.168.0.11:3000';
+  serverAddress = 'http://localhost:3000';
 
   connect() {
     if (!this.socket) {
@@ -18,9 +18,9 @@ class SocketConnection {
 
   disconnect() {
     if (this.socket) {
+      this.socket.removeAllListeners();
       this.socket.close();
       this.socket = undefined;
-      this.socket.removeAllListeners();
     }
   }
 

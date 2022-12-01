@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
@@ -86,7 +86,7 @@ export default function OEscolhido() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.setLobbyUpdateListener(updatePlayerList);
@@ -187,7 +187,6 @@ export default function OEscolhido() {
           votedPlayer={votedPlayers}
           turnVisibility={turnVisibility}
           roulettePage={() => nextRound()}
-          endGamePage={() => backToLobby()}
         />
       );
 

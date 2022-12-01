@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
@@ -13,8 +13,7 @@ function ChooseAvatar() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const location = useLocation();
-  const option = location.state.option;
-  const roomCode = location.state.roomCode;
+  const { option, roomCode } = location.state;
   const oldNickname = userData.nickname;
   const buttonText =
     option === 'join'
@@ -148,7 +147,7 @@ function ChooseAvatar() {
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   const leaveMatch = () => {
-    const socket = socketConnection.getInstance();
+    const socket = SocketConnection.getInstance();
     socket.disconnect();
     navigate('/Home');
   };

@@ -17,7 +17,6 @@ interface coverProps {
   votedPlayer: votedPlayerProps[];
   turnVisibility: boolean;
   roulettePage: () => void;
-  endGamePage: () => void;
 }
 
 export default function FinishPage({
@@ -211,9 +210,7 @@ export default function FinishPage({
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
           }>
-          <Button>
-            <div onClick={roulettePage}>{rouletteButtonText}</div>
-          </Button>
+          <Button onClick={roulettePage}>{rouletteButtonText}</Button>
         </div>
       </div>
     </Background>
