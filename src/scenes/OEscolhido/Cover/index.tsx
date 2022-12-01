@@ -5,7 +5,7 @@ import Button from '../../../components/Button';
 import gsap from 'gsap';
 import './Cover.css';
 
-interface coverProps {
+interface CoverProps {
   title: string;
   coverImg: string;
   turnVisibility: boolean;
@@ -23,7 +23,7 @@ export default function CoverPage({
   infoPage,
   gamePage,
   goBackPage,
-}: coverProps) {
+}: CoverProps) {
   useEffect(() => {
     gsap.from('.CoverDiv', {
       rotation: -45,

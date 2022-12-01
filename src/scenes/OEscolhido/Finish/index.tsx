@@ -7,14 +7,14 @@ import gsap from 'gsap';
 import noOneVoted from '../../../assets/no-votes.png';
 import './Finish.css';
 
-interface votedPlayerProps {
+interface VotedPlayerProps {
   nickname: string;
   avatarSeed: string;
   votes: number;
 }
 
 interface coverProps {
-  votedPlayer: votedPlayerProps[];
+  votedPlayer: VotedPlayerProps[];
   turnVisibility: boolean;
   roulettePage: () => void;
 }

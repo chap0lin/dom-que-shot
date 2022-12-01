@@ -6,7 +6,7 @@ import Button from '../../../components/Button';
 import Avatar from '../../../components/Avatar';
 import gsap from 'gsap';
 import './Awaiting.css';
-interface awaitingProps {
+interface AwaitingProps {
   msTimeLeft: number;
   gamePage: () => void;
   finishPage: () => void;
@@ -15,7 +15,7 @@ interface awaitingProps {
 export default function AwaitingResults({
   gamePage,
   msTimeLeft,
-}: awaitingProps) {
+}: AwaitingProps) {
   const votedPlayer = JSON.parse(window.localStorage.getItem('voted-player'));
 
   useEffect(() => {

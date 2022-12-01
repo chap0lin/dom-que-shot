@@ -10,7 +10,7 @@ import AwaitingResults from './Awaiting';
 import coverImg from '../../assets/game-covers/o-escolhido.png';
 import './OEscolhido.css';
 
-interface listedPlayerProps {
+interface ListedPlayerProps {
   nickname: string;
   avatarSeed: string;
   id: number;
@@ -63,8 +63,8 @@ export default function OEscolhido() {
   const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([]);
-  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
+  const [votedPlayers, setVotedPlayers] = useState<VotedPlayerProps[]>([]);
+  const [playerList, updatePlayerList] = useState<ListedPlayerProps[]>([]);
 
   const nextRound = () => {
     socket.push('update-turn', userData.roomCode);
