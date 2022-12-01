@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
-import { CoverPage } from './Cover';
+import CoverPage from './Cover';
 import { InfoPage } from './Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
+import coverImg from '../../assets/game-covers/bang-bang.png';
+import './BangBang.css';
 
 enum Game {
   Cover,
@@ -31,6 +33,7 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
+  const title="Bang Bang";
   const navigateTo = useNavigate();
   const socketConn = SocketConnection.getInstance();
 
@@ -111,18 +114,23 @@ export function BangBang() {
     case Game.Cover:
       return (
         <CoverPage
-          infoPage={() => setCurrentGameState(Game.Info)}
-          gamePage={() => setCurrentGameState(Game.Game)}
-          goBackPage={() => backToLobby()}
+          title={title}
+          coverImg={coverImg}
+          goBackPage={backToLobby}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
+          infoPage={() => setCurrentGameState(Game.Info)}
+          gamePage={() => setCurrentGameState(Game.Game)}
         />
       );
     case Game.Info:
       return (
         <InfoPage
+          title={title}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          turnVisibility={turnVisibility}
+          coverImg={coverImg}
         />
       );
     case Game.Game:

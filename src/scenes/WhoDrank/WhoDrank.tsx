@@ -25,6 +25,7 @@ export default function WhoDrankPage() {
   const [playerList, updatePlayerList] = useState<PlayerProps[]>([]);
 
   const [selectedPlayers, setSelectedPlayers] = useState<PlayerProps[]>([]);
+  const [SP, setSP] = useState<number>(Math.random());
   const [buttonText, setButtonText] = useState('Ninguém bebeu');
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +56,7 @@ export default function WhoDrankPage() {
       gsap.to('.WhoDrankSelectedAvatar', { rotate: 180, duration: 0.5 });
       gsap.to('.WhoDrankUnselectedAvatar', { rotate: 0, duration: 0.5 });
     }
-  }, [selectedPlayers.length]);
+  }, [SP]);
 
   useEffect(() => {
     gsap.to('.WhoDrankAwaitingIcon', {
@@ -81,6 +82,7 @@ export default function WhoDrankPage() {
       setButtonText('Salvar e continuar');
     }
     setSelectedPlayers(selectedOnes);
+    setSP(Math.random());
   };
 
   const backToRoulette = () => {

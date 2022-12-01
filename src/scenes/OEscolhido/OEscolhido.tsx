@@ -160,6 +160,7 @@ export default function OEscolhido() {
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          turnVisibility={turnVisibility}
         />
       );
 

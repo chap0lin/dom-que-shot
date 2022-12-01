@@ -47,8 +47,16 @@
 }
 
 .animation-balloon {
-  width: '307px';
-  height: '296px';
-  padding-top: '30px';
+  padding: 30px;
   margin-top: -50px;
+}
+
+.balloon-img {
+  width: 360px;
+  object-fit: scale-down;
+}
+
+.target-img {
+  width: 360px;
+  object-fit: scale-down;
 }

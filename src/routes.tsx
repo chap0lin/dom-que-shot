@@ -41,6 +41,7 @@ const Router: React.FC = () => {
         <Route path="/PensaRapido" element={<PensaRapido />} />
         <Route path="/Buzz" element={<Buzz />} /> */}
         <Route path="/EuNunca" element={<EuNunca />} />
+        <Route path="/BangBang" element={<BangBang />} />
       </Routes>
     </BrowserRouter>
   );

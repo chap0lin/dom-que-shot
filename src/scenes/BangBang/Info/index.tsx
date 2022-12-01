@@ -1,20 +1,22 @@
 import React from 'react';
-import logoGame from '../../../assets/BangBang/bangbang-logo.png';
 import './Info.css';
 import Button from '../../../components/Button';
 import Header from '../../../components/Header';
 import Background from '../../../components/Background';
 
 interface InfoProps {
+  title: string;
   coverPage: () => void;
   gamePage: () => void;
+  turnVisibility: boolean;
+  coverImg: string;
 }
 
-export function InfoPage({ coverPage, gamePage }: InfoProps) {
+export function InfoPage({ title, coverPage, gamePage, turnVisibility, coverImg }: InfoProps) {
   return (
     <div id="info-page">
       <Background>
-        <Header logo={logoGame} goBackArrow={coverPage} title="Bang Bang" />
+        <Header logo={coverImg} goBackArrow={coverPage} title={title} />
 
         <div className="content">
           <p>
@@ -28,7 +30,11 @@ export function InfoPage({ coverPage, gamePage }: InfoProps) {
             dose.
           </p>
 
-          <div className="button-container">
+          <div className="button-container" style={
+            turnVisibility
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
             <Button onClick={gamePage}>Iniciar</Button>
           </div>
         </div>

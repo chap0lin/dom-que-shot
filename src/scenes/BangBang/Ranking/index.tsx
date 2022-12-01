@@ -2,9 +2,9 @@ import React from 'react';
 import './Ranking.css';
 import Avatar from '../../../components/Avatar';
 import Button from '../../../components/Button';
-import RankingItem from '../../../components/RankingItem';
-import thumbDown from '../../../assets/BangBang/thumbs-down.png';
-import crown from '../../../assets/BangBang/crown.png';
+import RankingItem from './RankingItem';
+import thumbDown from './img/thumbs-down.png';
+import crown from './img/crown.png';
 import Background from '../../../components/Background';
 
 type Player = {
