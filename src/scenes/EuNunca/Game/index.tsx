@@ -5,7 +5,7 @@ import Button from '../../../components/Button';
 import glassIcon from '../../../assets/glass-icon-yellow-background.png';
 import './Game.css';
 
-interface coverProps {
+interface GameProps {
   suggestions: string[];
   finishPage: () => void;
   coverImg: string;
@@ -17,7 +17,7 @@ export default function GamePage({
   finishPage,
   coverImg,
   turnVisibility,
-}: coverProps) {
+}: GameProps) {
   if (turnVisibility === true) {
     return (
       <Background>

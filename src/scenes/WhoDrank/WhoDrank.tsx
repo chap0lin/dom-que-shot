@@ -9,7 +9,7 @@ import beer from '../../assets/beer.png';
 import gsap from 'gsap';
 import './WhoDrank.css';
 
-interface playerProps {
+interface PlayerProps {
   nickname: string;
   avatarSeed: string;
   id: number;
@@ -22,10 +22,9 @@ export default function WhoDrankPage() {
 
   const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [playerList, updatePlayerList] = useState<playerProps[]>([]);
+  const [playerList, updatePlayerList] = useState<PlayerProps[]>([]);
 
-  const [selectedPlayers, setSelectedPlayers] = useState<playerProps[]>([]); //por algum motivo estranho esse useState não dispara o useEffect da linha 65 quando é vetor player[] ao invés de só player
-  const [dummyNumber, setDummyNumber] = useState<number>(0); //aí para conseguir que ele funcione eu precisei setar esse useState auxiliar, que muda toda vez que selectedPlayers mudar
+  const [selectedPlayers, setSelectedPlayers] = useState<PlayerProps[]>([]);
   const [buttonText, setButtonText] = useState('Ninguém bebeu');
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ export default function WhoDrankPage() {
       gsap.to('.WhoDrankSelectedAvatar', { rotate: 180, duration: 0.5 });
       gsap.to('.WhoDrankUnselectedAvatar', { rotate: 0, duration: 0.5 });
     }
-  }, [dummyNumber]);
+  }, [selectedPlayers.length]);
 
   useEffect(() => {
     gsap.to('.WhoDrankAwaitingIcon', {
@@ -67,9 +66,7 @@ export default function WhoDrankPage() {
     });
   });
 
-  const selectPlayer = (player: playerProps) => {
-    console.log('jogadores selecionados:');
-    console.log(selectedPlayers);
+  const selectPlayer = (player: PlayerProps) => {
     let selectedOnes = selectedPlayers;
     let index = selectedPlayers.findIndex(
       (p) => p.nickname === player.nickname
@@ -84,7 +81,6 @@ export default function WhoDrankPage() {
       setButtonText('Salvar e continuar');
     }
     setSelectedPlayers(selectedOnes);
-    setDummyNumber(Math.random());
   };
 
   const backToRoulette = () => {

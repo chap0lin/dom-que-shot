@@ -5,7 +5,7 @@ import Button from '../../../components/Button';
 import gsap from 'gsap';
 import './Cover.css';
 
-interface coverProps {
+interface CoverProps {
   title: string;
   coverImg: string;
   infoPage: any;
@@ -19,7 +19,7 @@ export default function CoverPage({
   infoPage,
   endPage,
   turnVisibility,
-}: coverProps) {
+}: CoverProps) {
   useEffect(() => {
     gsap.from('.EuNuncaCoverDiv', {
       duration: 2,

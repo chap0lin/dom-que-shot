@@ -4,13 +4,13 @@ import Header from '../../../components/Header';
 import Button from '../../../components/Button';
 import './Info.css';
 
-interface coverProps {
+interface InfoProps {
   coverImg: string;
   title: string;
   coverPage: any;
 }
 
-export default function InfoPage({ title, coverImg, coverPage }: coverProps) {
+export default function InfoPage({ title, coverImg, coverPage }: InfoProps) {
   const info = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:

@@ -5,7 +5,7 @@ import Button from '../../../components/Button';
 import gsap from 'gsap';
 import './Cover.css';
 
-interface coverProps {
+interface CoverProps {
   title: string;
   coverImg: string;
   infoPage: any;
@@ -17,7 +17,7 @@ export default function CoverPage({
   coverImg,
   infoPage,
   endPage,
-}: coverProps) {
+}: CoverProps) {
   useEffect(() => {
     gsap.from('.VrumCoverDiv', {
       duration: 2,

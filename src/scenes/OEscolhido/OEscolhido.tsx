@@ -10,12 +10,12 @@ import AwaitingResults from './Awaiting';
 import coverImg from '../../assets/game-covers/o-escolhido.png';
 import './OEscolhido.css';
 
-interface listedPlayerProps {
+interface ListedPlayerProps {
   nickname: string;
   avatarSeed: string;
   id: number;
 }
-interface votedPlayerProps {
+interface VotedPlayerProps {
   nickname: string;
   avatarSeed: string;
   votes: number;
@@ -60,8 +60,8 @@ export default function OEscolhido() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [votedPlayers, setVotedPlayers] = useState<votedPlayerProps[]>([]);
-  const [playerList, updatePlayerList] = useState<listedPlayerProps[]>([]);
+  const [votedPlayers, setVotedPlayers] = useState<VotedPlayerProps[]>([]);
+  const [playerList, updatePlayerList] = useState<ListedPlayerProps[]>([]);
 
   const playAgain = () => {
     clearInterval(timer);
