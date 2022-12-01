@@ -9,31 +9,29 @@ interface CoverProps {
   title: string;
   coverImg: string;
   infoPage: any;
-  gamePage: any;
+  endPage: any;
 }
 
 export default function CoverPage({
   title,
   coverImg,
   infoPage,
-  gamePage,
+  endPage,
 }: CoverProps) {
   useEffect(() => {
-    gsap.from('.CoverDiv', {
-      rotation: -45,
-      scale: 0,
-      duration: 1,
-      ease: 'bounce',
+    gsap.from('.VrumCoverDiv', {
+      duration: 2,
+      yPercent: 100,
+      ease: 'elastic',
     });
-    gsap.from('.CoverTitle', { opacity: 0, duration: 1, delay: 1.25 });
-    gsap.from('.CoverImage', {
-      rotation: 45,
-      scale: 0,
-      duration: 1,
+    gsap.from('.VrumCoverTitle', { opacity: 0, duration: 1, delay: 1.25 });
+    gsap.from('.VrumCoverImage', {
+      yPercent: 100,
+      duration: 2,
       delay: 0.25,
-      ease: 'bounce',
+      ease: 'elastic',
     });
-    gsap.from('.CoverStartButton', {
+    gsap.from('.VrumCoverStartButton', {
       opacity: 0,
       scale: 0,
       yPercent: -600,
@@ -46,14 +44,14 @@ export default function CoverPage({
   return (
     <Background>
       <Header goBackArrow infoPage={infoPage} />
-      <div className="OEscolhidoDiv">
-        <div className="CoverDiv">
-          <img className="CoverImage" src={coverImg} />
-          <p className="CoverTitle">{title}</p>
+      <div className="VrumDiv">
+        <div className="VrumCoverDiv">
+          <img className="VrumCoverImage" src={coverImg} />
+          <p className="VrumCoverTitle">{title}</p>
         </div>
-        <div className="CoverStartButton">
+        <div className="VrumCoverStartButton">
           <Button>
-            <div onClick={gamePage}>Começar</div>
+            <div onClick={endPage}>Começar jogo</div>
           </Button>
         </div>
       </div>

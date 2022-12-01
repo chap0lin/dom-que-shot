@@ -6,24 +6,24 @@ import Avatar from '../../../components/Avatar';
 import gsap from 'gsap';
 import './Game.css';
 
-interface playerProps {
+interface PlayerProps {
   nickname: string;
   avatarSeed: string;
   id: number;
 }
 
-interface coverProps {
+interface GameProps {
   finishPage: any;
   msTimeLeft: number;
-  playerList: playerProps[];
+  playerList: PlayerProps[];
 }
 
 export default function GamePage({
   finishPage,
   msTimeLeft,
   playerList,
-}: coverProps) {
-  const [selectedPlayer, setSelectedPlayer] = useState<playerProps>({
+}: GameProps) {
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProps>({
     nickname: '',
     avatarSeed: '',
     id: 0,
