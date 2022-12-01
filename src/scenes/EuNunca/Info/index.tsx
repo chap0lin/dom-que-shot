@@ -7,7 +7,7 @@ import './Info.css';
 interface InfoProps {
   coverImg: string;
   title: string;
-  coverPage: any;
+  coverPage: () => void;
 }
 
 export default function InfoPage({ title, coverImg, coverPage }: InfoProps) {

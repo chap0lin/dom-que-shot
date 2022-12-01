@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/vrum.png';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
@@ -15,6 +15,8 @@ enum Game {
 export default function Vrum() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
 
   const title = 'Vrum';
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ export default function Vrum() {
       navigate(destination, {
         state: {
           coverImg: coverImg,
-          isYourTurn: Math.round(Math.random()) === 0 ? true : false,
+          isYourTurn: turnVisibility,
         },
       });
     });
@@ -61,6 +63,9 @@ export default function Vrum() {
         <CoverPage
           title={title}
           coverImg={coverImg}
+          goBackPage={backToLobby}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           endPage={endOfGame}
         />

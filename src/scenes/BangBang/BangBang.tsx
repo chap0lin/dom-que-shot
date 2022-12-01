@@ -33,7 +33,7 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const title="Bang Bang";
+  const title = 'Bang Bang';
   const navigateTo = useNavigate();
   const socketConn = SocketConnection.getInstance();
 

@@ -8,15 +8,21 @@ import './Cover.css';
 interface CoverProps {
   title: string;
   coverImg: string;
-  infoPage: any;
-  endPage: any;
+  turnVisibility: boolean;
+  ownerVisibility: boolean;
+  endPage: () => void;
+  infoPage: () => void;
+  goBackPage: () => void;
 }
 
 export default function CoverPage({
   title,
   coverImg,
-  infoPage,
   endPage,
+  infoPage,
+  goBackPage,
+  turnVisibility,
+  ownerVisibility,
 }: CoverProps) {
   useEffect(() => {
     gsap.from('.VrumCoverDiv', {
@@ -41,15 +47,27 @@ export default function CoverPage({
     });
   }, []);
 
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
+
   return (
     <Background>
-      <Header goBackArrow infoPage={infoPage} />
+      {header}
       <div className="VrumDiv">
         <div className="VrumCoverDiv">
           <img className="VrumCoverImage" src={coverImg} />
           <p className="VrumCoverTitle">{title}</p>
         </div>
-        <div className="VrumCoverStartButton">
+        <div
+          className="VrumCoverStartButton"
+          style={
+            turnVisibility
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button>
             <div onClick={endPage}>Começar jogo</div>
           </Button>

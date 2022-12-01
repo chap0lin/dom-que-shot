@@ -68,8 +68,8 @@ export default function WhoDrankPage() {
   });
 
   const selectPlayer = (player: PlayerProps) => {
-    let selectedOnes = selectedPlayers;
-    let index = selectedPlayers.findIndex(
+    const selectedOnes = selectedPlayers;
+    const index = selectedPlayers.findIndex(
       (p) => p.nickname === player.nickname
     );
     if (index !== -1) {
@@ -90,7 +90,7 @@ export default function WhoDrankPage() {
       roomCode: userData.roomCode,
       players: JSON.stringify(selectedPlayers),
     });
-
+    socket.push('update-turn', userData.roomCode);
     socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/SelectNextGame',

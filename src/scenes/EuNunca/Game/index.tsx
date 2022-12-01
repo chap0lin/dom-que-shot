@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -9,16 +9,16 @@ interface GameProps {
   suggestions: string[];
   finishPage: () => void;
   coverImg: string;
-  turnVisibility: boolean;
+  isYourTurn: boolean;
 }
 
 export default function GamePage({
   suggestions,
   finishPage,
   coverImg,
-  turnVisibility,
+  isYourTurn,
 }: GameProps) {
-  if (turnVisibility === true) {
+  if (isYourTurn === true) {
     return (
       <Background>
         <Header logo={coverImg} />

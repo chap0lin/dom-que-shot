@@ -105,16 +105,12 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
         <Header timer={formatedTime()} />
 
         <div className="target-image">
-          <img src={targetImage}
-            className="target-img"
-          />
+          <img src={targetImage} className="target-img" />
         </div>
 
         <div className="container-baloon">
           <div className="animation-balloon">
-            <img src={balloonImg} 
-              className="balloon-img"
-            />
+            <img src={balloonImg} className="balloon-img" />
           </div>
         </div>
 

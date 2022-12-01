@@ -12,7 +12,13 @@ interface InfoProps {
   coverImg: string;
 }
 
-export function InfoPage({ title, coverPage, gamePage, turnVisibility, coverImg }: InfoProps) {
+export function InfoPage({
+  title,
+  coverPage,
+  gamePage,
+  turnVisibility,
+  coverImg,
+}: InfoProps) {
   return (
     <div id="info-page">
       <Background>
@@ -30,11 +36,13 @@ export function InfoPage({ title, coverPage, gamePage, turnVisibility, coverImg 
             dose.
           </p>
 
-          <div className="button-container" style={
-            turnVisibility
-              ? { visibility: 'visible' }
-              : { visibility: 'hidden' }
-          }>
+          <div
+            className="button-container"
+            style={
+              turnVisibility
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }>
             <Button onClick={gamePage}>Iniciar</Button>
           </div>
         </div>

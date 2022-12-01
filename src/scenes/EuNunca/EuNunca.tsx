@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/eu-nunca.png';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
@@ -17,9 +17,9 @@ enum Game {
 export default function EuNunca() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [turnVisibility, setTurnVisibility] = useState<boolean>(false); //TODO trocar para isMyTurn = useLocation().state.isYourTurn
+  const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
 
-  let isMyTurn = false;
   const title = 'Eu Nunca';
   const navigate = useNavigate();
 
@@ -28,8 +28,6 @@ export default function EuNunca() {
       roomCode: userData.roomCode,
       destination: Game.Game,
     });
-    isMyTurn = true; //TODO remover estas duas linhas quando adequar aos fluxos do owner e do jogador da vez
-    setTurnVisibility(true); //
   };
 
   const endOfGame = () => {
@@ -59,8 +57,8 @@ export default function EuNunca() {
         return navigate(destination, {
           state: {
             coverImg: coverImg,
-            isYourTurn: Math.round(Math.random()) === 0 ? true : false, //TODO adequar aos fluxos do owner e do jogador da vez
-            isOwner: true, //aqui também, claro
+            isYourTurn: turnVisibility,
+            isOwner: ownerVisibility,
           },
         });
       }
@@ -87,9 +85,11 @@ export default function EuNunca() {
         <CoverPage
           title={title}
           coverImg={coverImg}
-          infoPage={() => setCurrentGameState(Game.Info)}
           endPage={startGame}
-          turnVisibility={true} //TODO alterar para turnVisibility quando integrar ao resto do código
+          goBackPage={backToLobby}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
+          infoPage={() => setCurrentGameState(Game.Info)}
         />
       );
 
@@ -108,7 +108,7 @@ export default function EuNunca() {
           suggestions={euNuncaSuggestions}
           finishPage={endOfGame}
           coverImg={coverImg}
-          turnVisibility={turnVisibility}
+          isYourTurn={turnVisibility}
         />
       );
 

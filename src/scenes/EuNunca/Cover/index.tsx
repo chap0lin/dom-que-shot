@@ -8,17 +8,21 @@ import './Cover.css';
 interface CoverProps {
   title: string;
   coverImg: string;
-  infoPage: any;
-  endPage: any;
+  endPage: () => void;
+  infoPage: () => void;
+  goBackPage: () => void;
   turnVisibility: boolean;
+  ownerVisibility: boolean;
 }
 
 export default function CoverPage({
   title,
   coverImg,
-  infoPage,
   endPage,
+  infoPage,
+  goBackPage,
   turnVisibility,
+  ownerVisibility,
 }: CoverProps) {
   useEffect(() => {
     gsap.from('.EuNuncaCoverDiv', {
@@ -47,9 +51,15 @@ export default function CoverPage({
     });
   }, []);
 
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
+
   return (
     <Background>
-      <Header goBackArrow infoPage={infoPage} />
+      {header}
       <div className="EuNuncaDiv">
         <div className="EuNuncaCoverDiv">
           <img className="EuNuncaCoverImage" src={coverImg} />
