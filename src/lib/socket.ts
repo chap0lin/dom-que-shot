@@ -16,6 +16,14 @@ class SocketConnection {
     }
   }
 
+  disconnect() {
+    if (this.socket) {
+      this.socket.removeAllListeners();
+      this.socket.close();
+      this.socket = undefined;
+    }
+  }
+
   joinRoom(userData, onError = null) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
       //console.log(`resposta do servidor: ${reply}`);
@@ -31,7 +39,7 @@ class SocketConnection {
 
   joinRoomWithCode(roomCode: string) {
     this.socket.emit('join-room', roomCode, (reply) => {
-      //console.log(`resposta do servidor: ${reply}`);
+      console.log(`resposta do servidor: ${reply}`);
     });
   }
 
@@ -52,13 +60,14 @@ class SocketConnection {
   }
 
   setLobbyUpdateListener(useState) {
-    const lobbyUpdate = this.socket.on('lobby-update', (reply) => {
+    this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
+      console.log(reply);
       useState(JSON.parse(reply));
     });
   }
 
-  send(tag: string, message: any) {
+  send(tag: string, message) {
     this.socket.emit(tag, message);
   }
 
@@ -71,7 +80,7 @@ class SocketConnection {
     return SocketConnection.instance;
   }
 
-  push(tag: string, message: any) {
+  push(tag: string, message) {
     return this.socket.emit(tag, message);
   }
 

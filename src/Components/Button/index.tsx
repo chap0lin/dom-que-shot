@@ -5,6 +5,7 @@ interface ButtonProps {
   width?: string;
   height?: string;
   onClick?: () => void;
+  isDisabled?: boolean;
   children: React.ReactNode | React.ReactNode[];
 }
 
@@ -13,6 +14,7 @@ export default function Button({
   height,
   onClick,
   children,
+  isDisabled = false,
 }: ButtonProps) {
   return (
     <button
@@ -26,7 +28,8 @@ export default function Button({
           : height
           ? { height: height }
           : {}
-      }>
+      }
+      disabled={isDisabled}>
       {children}
     </button>
   );

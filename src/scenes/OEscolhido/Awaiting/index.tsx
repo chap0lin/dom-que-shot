@@ -8,8 +8,8 @@ import gsap from 'gsap';
 import './Awaiting.css';
 interface AwaitingProps {
   msTimeLeft: number;
-  gamePage: any;
-  finishPage: any;
+  gamePage: () => void;
+  finishPage: () => void;
 }
 
 export default function AwaitingResults({
@@ -41,7 +41,7 @@ export default function AwaitingResults({
   };
 
   return (
-    <Background>
+    <Background noImage>
       <Header timer={msTimeLeft} />
       <div className="OEscolhidoDiv">
         <p className="AwaitingTitle">Você votou!</p>

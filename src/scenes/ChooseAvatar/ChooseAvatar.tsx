@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
@@ -11,36 +12,48 @@ import api from '../../services/api';
 function ChooseAvatar() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-
-  const buttonText = userData.option
-    ? userData.option === 'join'
+  const location = useLocation();
+  const { option, roomCode } = location.state;
+  const oldNickname = userData.nickname;
+  const buttonText =
+    option === 'join'
       ? 'Entrar'
-      : 'Criar sala'
-    : 'Atualizar';
-  const roomCode = userData.roomCode;
+      : option === 'create'
+      ? 'Criar sala'
+      : 'Atualizar';
 
+  const [inputText, setInputText] = useState(oldNickname ? oldNickname : '');
   const [userName, setUserName] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
   });
 
+  useEffect(() => {
+    if (userData.nickname) {
+      setUserName(userData.nickname);
+    }
+  }, []);
+
   const updateUserName = (e) => {
-    const newUserName = e.target.value.trim();
-    if (newUserName.length !== 0) {
-      setUserName(newUserName);
+    const input = e.target.value;
+    setInputText(input);
+    if (input.trim().length !== 0) {
+      console.log(input);
+      setUserName(input);
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
 
   const [avatarSeed, changeAvatarSeed] = useState(
-    Math.random().toString(36).substring(2, 6)
+    userData.avatarSeed
+      ? userData.avatarSeed
+      : Math.random().toString(36).substring(2, 6)
   );
 
   function changeIcon() {
     const newAvatarSeed = Math.random().toString(36).substring(2, 6);
-    console.log('seed gerada: ' + newAvatarSeed);
     changeAvatarSeed(newAvatarSeed);
   }
 
@@ -57,31 +70,29 @@ function ChooseAvatar() {
       });
   };
 
-  function saveOnLocalStorage() {
+  function checkNameInput() {
+    if (userName.length > 2 && userName.length < 16) {
+      api
+        .get(`/nicknameCheck/${roomCode}/${userName}`)
+        .then(() => {
+          return saveOnLocalStorage();
+        })
+        .catch(() => {
+          if (oldNickname !== userName) {
+            return setInputErrorMsg({
+              msg: 'O nome inserido já está em uso.',
+              visibility: 'visible',
+            });
+          }
+          return saveOnLocalStorage();
+        });
+      return;
+    }
     if (userName.length > 16) {
       setInputErrorMsg({
         msg: 'O nome deve ter no máximo 16 caracteres.',
         visibility: 'visible',
       });
-      return;
-    }
-    if (userName.length > 2) {
-      const newUserData = {
-        roomCode: roomCode,
-        nickname: userName,
-        avatarSeed: avatarSeed,
-      };
-      window.localStorage.setItem('userData', JSON.stringify(newUserData));
-      console.log(
-        'Dados salvos em LocalStorage: código da sala (' +
-          roomCode +
-          '), nome (' +
-          userName +
-          ') e seed do avatar (' +
-          avatarSeed +
-          ').'
-      );
-      redirect();
       return;
     }
     if (userName.length > 0) {
@@ -96,6 +107,25 @@ function ChooseAvatar() {
       visibility: 'visible',
     });
   }
+
+  const saveOnLocalStorage = () => {
+    const newUserData = {
+      roomCode: roomCode,
+      nickname: userName,
+      avatarSeed: avatarSeed,
+    };
+    window.localStorage.setItem('userData', JSON.stringify(newUserData));
+    console.log(
+      'Dados salvos em LocalStorage: código da sala (' +
+        roomCode +
+        '), nome (' +
+        userName +
+        ') e seed do avatar (' +
+        avatarSeed +
+        ').'
+    );
+    redirect();
+  };
 
   ////Listener para remover foco do <input> quando o usuário aperta Enter/////////////////////////
 
@@ -116,16 +146,23 @@ function ChooseAvatar() {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const leaveMatch = () => {
+    const socket = SocketConnection.getInstance();
+    socket.disconnect();
+    navigate('/Home');
+  };
+
   return (
     <Background>
       <div className="WholeScreen">
-        <Header goBackArrow logo />
+        <Header goBackArrow={leaveMatch} logo />
 
         <div className="ChooseAvatarSection">
           <div className="NicknameDiv">
             <p className="NicknameTitle">Nome:</p>
 
             <input
+              value={inputText}
               ref={ref}
               id="nickname"
               className="NicknameInput"
@@ -162,7 +199,7 @@ function ChooseAvatar() {
 
           <div className="ButtonDiv">
             <Button>
-              <div onClick={saveOnLocalStorage}>{buttonText}</div>
+              <div onClick={checkNameInput}>{buttonText}</div>
             </Button>
           </div>
         </div>

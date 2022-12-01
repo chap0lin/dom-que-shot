@@ -11,9 +11,8 @@ interface PlayerProps {
   avatarSeed: string;
   id: number;
 }
-
 interface GameProps {
-  finishPage: any;
+  finishPage: () => void;
   msTimeLeft: number;
   playerList: PlayerProps[];
 }
@@ -44,14 +43,17 @@ export default function GamePage({
     setSelectedPlayer(player);
   };
 
+  const hasSelected = selectedPlayer.nickname != '';
+
   return (
-    <Background>
+    <Background noImage>
       <Header timer={msTimeLeft} />
       <div className="OEscolhidoDiv">
         <p>Escolha um participante:</p>
         <div className="GamePlayerListDiv">
-          {playerList.map((player) => (
+          {playerList.map((player, i) => (
             <div
+              key={`${i}`}
               onClick={() => {
                 selectPlayer(player);
               }}
@@ -60,8 +62,7 @@ export default function GamePage({
                 player.nickname === selectedPlayer.nickname
                   ? 'selectedItem GamePlayerListItem'
                   : 'unselectedItem GamePlayerListItem'
-              }
-              key={player.id}>
+              }>
               <p className="GamePlayerListNickname">{player.nickname}</p>
               <div
                 className={
@@ -76,8 +77,8 @@ export default function GamePage({
           ))}
         </div>
         <div className="GameVoteButton">
-          <Button>
-            <div onClick={finishPage}>Votar</div>
+          <Button isDisabled={!hasSelected} onClick={finishPage}>
+            Votar
           </Button>
         </div>
       </div>

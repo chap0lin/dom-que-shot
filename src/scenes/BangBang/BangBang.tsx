@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import { useLocation, useNavigate } from 'react-router-dom';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
-import { CoverPage } from './Cover';
+import CoverPage from './Cover';
 import { InfoPage } from './Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
-
-const bangBangRoom = '1';
+import coverImg from '../../assets/game-covers/bang-bang.png';
+import './BangBang.css';
 
 enum Game {
   Cover,
@@ -28,22 +28,22 @@ export function BangBang() {
   const [ready, setReady] = useState(false);
   const [currentRanking, setCurrentRanking] = useState([]);
   const [finalRanking, setFinalRanking] = useState(false);
+  const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const [msTimer, setMsTimer] = useState(5000);
-  const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
-    ButtonStatus.disabled
-  );
-  const [timer, setTimer] = useState<NodeJS.Timer>();
-  const [winnerStatus, setWinnerStatus] = useState<WinnerStatus>(
-    WinnerStatus.waiting
-  );
-
-  // const {user_id} = useGlobalContext()
-
+  const title="Bang Bang";
   const navigateTo = useNavigate();
-  const socketConn = socketConnection.getInstance();
+  const socketConn = SocketConnection.getInstance();
+
+  const backToLobby = () => {
+    console.log('O usuário desejou voltar ao lobby');
+    socketConn.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
+  };
 
   useEffect(() => {
     socketConn.addEventListener('room-is-moving-to', (destination) => {
@@ -71,23 +71,29 @@ export function BangBang() {
           setFinalRanking(true);
       }
     });
+
+    socketConn.addEventListener('room-is-moving-to', (destination) => {
+      //TODO: verificar onde enviar evento para mover sala
+      if (typeof destination === 'string') {
+        console.log(`Movendo a sala para ${destination}.`);
+        navigateTo(destination);
+        return;
+      }
+      setCurrentGameState(destination);
+    });
+
+    return () => {
+      socketConn.removeAllListeners();
+    };
   }, []);
 
   useEffect(() => {
-    if (msTimer <= 0 && buttonStatus === ButtonStatus.disabled) {
-      setButtonStatus(ButtonStatus.enabled);
-    }
-  }, [setButtonStatus, buttonStatus, msTimer]);
-
-  useEffect(() => {
-    if (winnerStatus === WinnerStatus.won) {
-      setTimeout(() => {
-        console.log('Encerrando o jogo Bang Bang.'); //TODO: o destino não necessariamente é o Lobby. Quando houver mais jogos deve haver a opção de retornar ao lobby ou a de voltar à roleta
-        socketConn.push('move-room-to', {
-          roomCode: userData.roomCode,
-          destination: '/Lobby',
-        });
-      }, 3000);
+    if (currentGameState === Game.Game) {
+      socketConn.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: Game.Game,
+      });
+      socketConn.pushMessage(bangBangRoom, 'player_ready', '');
     }
   }, [currentGameState]);
 
@@ -97,10 +103,22 @@ export function BangBang() {
     });
   };
 
+  const goTo = (where: string) => {
+    socketConn.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: where,
+    });
+  };
+
   switch (currentGameState) {
     case Game.Cover:
       return (
         <CoverPage
+          title={title}
+          coverImg={coverImg}
+          goBackPage={backToLobby}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
@@ -108,8 +126,11 @@ export function BangBang() {
     case Game.Info:
       return (
         <InfoPage
+          title={title}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          turnVisibility={turnVisibility}
+          coverImg={coverImg}
         />
       );
     case Game.Game:
@@ -125,8 +146,12 @@ export function BangBang() {
         <RankingPage
           data={currentRanking}
           gamePage={() => setCurrentGameState(Game.Game)}
-          finishPage={() => navigateTo('/Home')}
           finalRanking={finalRanking}
+          turnVisibility={turnVisibility}
+          roulettePage={() => {
+            socketConn.push('update-turn', userData.roomCode);
+            goTo('/SelectNextGame');
+          }}
         />
       );
     default:

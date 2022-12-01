@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -14,18 +13,18 @@ interface VotedPlayerProps {
   votes: number;
 }
 
-interface coverProps {
+interface CoverProps {
   votedPlayer: VotedPlayerProps[];
-  coverPage: any;
-  endGamePage: any;
+  turnVisibility: boolean;
+  roulettePage: () => void;
 }
 
 export default function FinishPage({
   votedPlayer,
-  coverPage,
-  endGamePage,
-}: coverProps) {
-  const navigate = useNavigate();
+  roulettePage,
+  turnVisibility,
+}: CoverProps) {
+  const rouletteButtonText = 'Próximo jogo';
 
   useEffect(() => {
     gsap.from('.ResultsOuterCard', {
@@ -55,7 +54,7 @@ export default function FinishPage({
 
   if (votedPlayer.at(0).votes === 0) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">POXA! Ninguém votou?</p>
@@ -76,13 +75,15 @@ export default function FinishPage({
             <br />
             TODO mundo bebe!
           </p>
-          <div className="ResultsButtons">
+          <div
+            className="ResultsButtons"
+            style={
+              turnVisibility
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }>
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
-            <Button>
-              <div onClick={coverPage}>Tentar de novo</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -92,7 +93,7 @@ export default function FinishPage({
 
   if (votedPlayer.length == 1) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">E o mais votado foi:</p>
@@ -109,13 +110,15 @@ export default function FinishPage({
             </div>
             <p className="ResultsText">{`${votedPlayer.at(0).votes} votos`}</p>
           </div>
-          <div className="ResultsButtons">
+          <div
+            className="ResultsButtons"
+            style={
+              turnVisibility
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }>
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
-            <Button>
-              <div onClick={coverPage}>Jogar Novamente</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -125,7 +128,7 @@ export default function FinishPage({
 
   if (votedPlayer.length == 2) {
     return (
-      <Background>
+      <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
           <p className="ResultsTitle">Tivemos um empate!</p>
@@ -163,13 +166,15 @@ export default function FinishPage({
           <p className="ResultsText TieTitle">
             Neste caso, todos os empatados devem beber!
           </p>
-          <div className="ResultsButtons">
+          <div
+            className="ResultsButtons"
+            style={
+              turnVisibility
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+            }>
             <Button>
-              <div onClick={endGamePage}>Finalizar</div>
-            </Button>
-            <div className="ResultsButtonsSpacer" />
-            <Button>
-              <div onClick={coverPage}>Jogar Novamente</div>
+              <div onClick={roulettePage}>{rouletteButtonText}</div>
             </Button>
           </div>
         </div>
@@ -178,7 +183,7 @@ export default function FinishPage({
   }
 
   return (
-    <Background>
+    <Background noImage>
       <Header />
       <div className="OEscolhidoDiv">
         <p className="ResultsTitle">Tivemos um empate!</p>
@@ -198,14 +203,14 @@ export default function FinishPage({
         <p className="ResultsText TieTitle">
           Neste caso, todos os empatados devem beber!
         </p>
-        <div className="ResultsButtons">
-          <Button>
-            <div onClick={endGamePage}>Finalizar</div>
-          </Button>
-          <div className="ResultsButtonsSpacer" />
-          <Button>
-            <div onClick={coverPage}>Jogar Novamente</div>
-          </Button>
+        <div
+          className="ResultsButtons"
+          style={
+            turnVisibility
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
+          <Button onClick={roulettePage}>{rouletteButtonText}</Button>
         </div>
       </div>
     </Background>

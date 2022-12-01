@@ -1,10 +1,39 @@
 .AppBackground {
-  background: url(../../assets/drinks.png);
   background-color: #170c32;
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-size: contain;
   width: 100vw;
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.AppBackgroundWithImage {
+  background: url(../../assets/drinks.png);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: #170c32;
+  width: 100vw;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 500px) {
+  .external-container {
+    width: 100%;
+    min-height: 100%;
+  }
+}
+
+@media (min-width: 500px) {
+  .external-container {
+    max-width: 412px;
+    min-width: 412px;
+    box-sizing: border-box;
+    height: 100vh;
+    border: 2px solid white;
+    border-radius: 20px;
+  }
 }

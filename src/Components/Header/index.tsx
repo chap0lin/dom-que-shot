@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import DomQueShotLogo from '../../assets/logo-darker.png';
@@ -8,10 +6,10 @@ import './Header.css';
 interface HeaderProps {
   logo?: boolean | string;
   title?: string;
-  goBackArrow?: boolean | any;
+  goBackArrow?: true | (() => void);
   timer?: number;
-  settingsPage?: string | any;
-  infoPage?: string | any;
+  settingsPage?: string | (() => void);
+  infoPage?: string | (() => void);
 }
 
 export default function Header({
@@ -50,6 +48,7 @@ export default function Header({
     if (typeof settingsPage === 'string') {
       //settingsPage pode ser string com o endereço da página OU pode ser uma arrow function
       navigateTo(settingsPage);
+      return;
     }
     settingsPage();
   };
@@ -91,13 +90,11 @@ export default function Header({
         <div
           className="HeaderLogoSpace"
           style={logo ? {} : { display: 'none' }}>
-          <Link to="/">
-            <div className="HeaderLogo">
-              <img
-                className="HeaderLogoImage"
-                src={typeof logo === 'string' ? logo : DomQueShotLogo}></img>
-            </div>
-          </Link>
+          <div className="HeaderLogo">
+            <img
+              className="HeaderLogoImage"
+              src={typeof logo === 'string' ? logo : DomQueShotLogo}></img>
+          </div>
         </div>
       </div>
     </div>

@@ -6,11 +6,12 @@ import './Info.css';
 
 interface InfoProps {
   coverImg: string;
-  coverPage: any;
-  gamePage: any;
+  coverPage: () => void;
+  gamePage: () => void;
+  turnVisibility: boolean;
 }
 
-export default function InfoPage({ coverImg, coverPage, gamePage }: InfoProps) {
+export default function InfoPage({ coverImg, coverPage, gamePage, turnVisibility }: InfoProps) {
   const info = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
@@ -29,9 +30,15 @@ export default function InfoPage({ coverImg, coverPage, gamePage }: InfoProps) {
       <Header logo={coverImg} goBackArrow={coverPage} title="O Escolhido" />
       <div className="OEscolhidoDiv">
         <p className="InfoDiv">{info}</p>
-        <Button>
-          <div onClick={gamePage}>Iniciar</div>
-        </Button>
+        <div style={
+            turnVisibility
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
+          <Button>
+            <div onClick={gamePage}>Iniciar</div>
+          </Button>
+        </div>
       </div>
     </Background>
   );

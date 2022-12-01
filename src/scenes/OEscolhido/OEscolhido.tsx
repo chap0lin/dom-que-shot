@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import { useLocation, useNavigate } from 'react-router-dom';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from './Cover';
 import InfoPage from './Info';
@@ -15,6 +15,7 @@ interface ListedPlayerProps {
   avatarSeed: string;
   id: number;
 }
+
 interface VotedPlayerProps {
   nickname: string;
   avatarSeed: string;
@@ -58,29 +59,26 @@ export default function OEscolhido() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
 
   const navigate = useNavigate();
+  const ownerVisibility = useLocation().state.isOwner;
+  const turnVisibility = useLocation().state.isYourTurn;
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
   const [votedPlayers, setVotedPlayers] = useState<VotedPlayerProps[]>([]);
   const [playerList, updatePlayerList] = useState<ListedPlayerProps[]>([]);
 
-  const playAgain = () => {
+  const nextRound = () => {
+    socket.push('update-turn', userData.roomCode);
     clearInterval(timer);
-    setMsTimer(gameTime);
-    console.log('O usuário pediu para jogar novamente.');
-    socket.send('start-game', {
+    socket.push('move-room-to', {
       roomCode: userData.roomCode,
-      gameName: 'O Escolhido',
-    });
-    socket.send('move-room-to', {
-      roomCode: userData.roomCode,
-      destination: '/OEscolhido',
+      destination: '/SelectNextGame',
     });
   };
 
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
     clearInterval(timer);
-    socket.send('move-room-to', {
+    socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/Lobby',
     });
@@ -88,11 +86,11 @@ export default function OEscolhido() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  let socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.setLobbyUpdateListener(updatePlayerList);
-    socket.send('lobby-update', userData.roomCode);
+    socket.push('lobby-update', userData.roomCode);
 
     socket.addEventListener('vote-results', (mostVotedPlayers) => {
       console.log(
@@ -114,20 +112,23 @@ export default function OEscolhido() {
       }
       setCurrentGameState(destination);
     });
+
+    return () => {
+      socket.removeAllListeners();
+    };
   }, []);
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   useEffect(() => {
     if (currentGameState === Game.Game) {
-      socket.send('move-room-to', {
+      socket.push('move-room-to', {
         roomCode: userData.roomCode,
         destination: Game.Game,
       });
       startTimer();
     } else if (currentGameState === Game.AwaitingResults) {
       const votedPlayer = window.localStorage.getItem('voted-player');
-      console.log(votedPlayer);
 
       socket.pushMessage(userData.roomCode, 'voted-player', {
         roomCode: userData.roomCode,
@@ -145,6 +146,9 @@ export default function OEscolhido() {
         <CoverPage
           title={title}
           coverImg={coverImg}
+          goBackPage={backToLobby}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
@@ -156,6 +160,7 @@ export default function OEscolhido() {
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
+          turnVisibility={turnVisibility}
         />
       );
 
@@ -181,8 +186,8 @@ export default function OEscolhido() {
       return (
         <FinishPage
           votedPlayer={votedPlayers}
-          coverPage={() => playAgain()}
-          endGamePage={() => backToLobby()}
+          turnVisibility={turnVisibility}
+          roulettePage={() => nextRound()}
         />
       );
 

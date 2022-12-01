@@ -23,6 +23,7 @@ function Home() {
       .put(`/createRoom`)
       .then((response) => {
         console.log(response.data);
+        window.localStorage.setItem('userData', JSON.stringify({}));
         navigate('/ChooseAvatar', {
           state: { option: 'create', roomCode: response.data },
         });
@@ -48,11 +49,10 @@ function Home() {
         .get(`/roomCode/${roomCode}`)
         .then((response) => {
           console.log(response.data);
-          window.localStorage.setItem(
-            'userData',
-            JSON.stringify({ roomCode: roomCode, option: 'join' })
-          );
-          navigate('/ChooseAvatar');
+          window.localStorage.setItem('userData', JSON.stringify({}));
+          navigate('/ChooseAvatar', {
+            state: { option: 'join', roomCode: roomCode },
+          });
         })
         .catch(() => {
           setInputErrorMsg({
@@ -92,15 +92,7 @@ function Home() {
       <Header title="Vamos começar?" logo />
 
       <div className="JoinRoomDiv">
-        <div
-          className="JoinRoomWarningSpace"
-          style={{
-            visibility:
-              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
-          }}>
-          <AlertTriangle width="20px" height="20px" color="red" />
-          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
-        </div>
+        <p className="HelpInfo">Já possui uma sala?</p>
         <div className="JoinRoomInputAndButton">
           <input
             ref={ref}
@@ -112,9 +104,20 @@ function Home() {
             <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
           </button>
         </div>
+
+        <div
+          className="JoinRoomWarningSpace"
+          style={{
+            visibility:
+              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+          }}>
+          <AlertTriangle width="20px" height="20px" color="red" />
+          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
+        </div>
       </div>
 
       <div className="CreateRoomDiv">
+        <p className="HelpInfo">Se ainda não possui:</p>
         <Button width="100%">
           <div onClick={newRoom}>Criar Sala</div>
         </Button>

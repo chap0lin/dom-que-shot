@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import './BangBang.css';
-import targetImage from '../../../assets/BangBang/target.png';
-import balloon1 from '../../../assets/BangBang/balao1.png';
-import balloon2 from '../../../assets/BangBang/balao2.png';
-import balloon3 from '../../../assets/BangBang/balao3.png';
-import balloonReady from '../../../assets/BangBang/balao-prontos.png';
+import Header from '../../../components/Header';
+import targetImage from './img/target.png';
+import balloon1 from './img/balao1.png';
+import balloon2 from './img/balao2.png';
+import balloon3 from './img/balao3.png';
+import balloonReady from './img/balao-prontos.png';
+import Background from '../../../components/Background';
 import gsap from 'gsap';
+import './Game.css';
 
 enum ButtonStatus {
   enabled = 1,
@@ -20,7 +22,7 @@ interface GameProps {
 }
 
 export function GamePage({ rankingPage, shot, ready }: GameProps) {
-  const [msTimer, setMsTimer] = useState(5000);
+  const [msTimer, setMsTimer] = useState(4600);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
     ButtonStatus.disabled
   );
@@ -59,34 +61,34 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
     }
   }, [msTimer]);
 
-  const formatedTime = (): string => {
+  const formatedTime = (): number => {
     if (msTimer > 0) {
-      return '10.0';
+      return 10000;
     }
-    return ((10000 + msTimer) / 1000).toFixed(2);
+    return 10000 + msTimer;
   };
 
   const animationBalloon = () => {
     const timeline = gsap.timeline();
     timeline
-      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 })
+      .to('.animation-balloon', { opacity: 1, duration: 0 })
+      .to('.animation-balloon', { opacity: 0, duration: 0.5, delay: 1 })
       .call(() => {
         setBalloonImg(balloon3);
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 })
+      .to('.animation-balloon', { opacity: 1, duration: 0 })
+      .to('.animation-balloon', { opacity: 0, duration: 0.5, delay: 0.5 })
       .call(() => {
         setBalloonImg(balloon2);
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 })
+      .to('.animation-balloon', { opacity: 1, duration: 0 })
+      .to('.animation-balloon', { opacity: 0, duration: 0.5, delay: 0.5 })
       .call(() => {
         setBalloonImg(balloon1);
       })
-      .to('.animation-balloon', { opacity: 1, duration: 0.5 })
-      .to('.target-image', { opacity: 1, duration: 0 })
-      .to('.animation-balloon', { opacity: 0, duration: 1.0 });
+      .to('.animation-balloon', { opacity: 1, duration: 0 })
+      .to('.animation-balloon', { opacity: 0, duration: 0.5, delay: 0.5 })
+      .to('.target-image', { opacity: 1, duration: 0.1 });
     setBalloonImg(balloonReady);
   };
 
@@ -98,25 +100,29 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   };
 
   return (
-    <div id="game-bang-bang" className="container">
-      <div className="cronometer-container" onClick={animationBalloon}>
-        <h2>{`${formatedTime()}s`}</h2>
-      </div>
+    <Background>
+      <div id="game-bang-bang" className="container">
+        <Header timer={formatedTime()} />
 
-      <div className="target-image">
-        <img src={targetImage} alt="Target image" />
-      </div>
-
-      <div className="container-baloon">
-        <div className="animation-balloon">
-          <img src={balloonImg} />
+        <div className="target-image">
+          <img src={targetImage}
+            className="target-img"
+          />
         </div>
-      </div>
 
-      <button
-        className="button-bang"
-        onClick={handleClick}
-        disabled={buttonStatus !== ButtonStatus.enabled}></button>
-    </div>
+        <div className="container-baloon">
+          <div className="animation-balloon">
+            <img src={balloonImg} 
+              className="balloon-img"
+            />
+          </div>
+        </div>
+
+        <button
+          className="button-bang"
+          onClick={handleClick}
+          disabled={buttonStatus !== ButtonStatus.enabled}></button>
+      </div>
+    </Background>
   );
 }

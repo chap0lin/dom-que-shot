@@ -8,15 +8,21 @@ import './Cover.css';
 interface CoverProps {
   title: string;
   coverImg: string;
-  infoPage: any;
-  gamePage: any;
+  turnVisibility: boolean;
+  ownerVisibility: boolean;
+  infoPage: () => void;
+  gamePage: () => void;
+  goBackPage: () => void;
 }
 
 export default function CoverPage({
   title,
   coverImg,
+  turnVisibility,
+  ownerVisibility,
   infoPage,
   gamePage,
+  goBackPage,
 }: CoverProps) {
   useEffect(() => {
     gsap.from('.CoverDiv', {
@@ -43,15 +49,27 @@ export default function CoverPage({
     });
   }, []);
 
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
+
   return (
     <Background>
-      <Header goBackArrow infoPage={infoPage} />
+      {header}
       <div className="OEscolhidoDiv">
         <div className="CoverDiv">
           <img className="CoverImage" src={coverImg} />
           <p className="CoverTitle">{title}</p>
         </div>
-        <div className="CoverStartButton">
+        <div
+          className="CoverStartButton"
+          style={
+            turnVisibility
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button>
             <div onClick={gamePage}>Começar</div>
           </Button>

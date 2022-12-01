@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 
 import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Roleta from '../../assets/game-covers/roleta.png';
@@ -16,6 +16,11 @@ import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
 import Medusa from '../../assets/game-covers/medusa.png';
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
+
+enum Visibility {
+  Invisible,
+  Visible,
+}
 
 interface GameCard {
   id: number;
@@ -55,14 +60,38 @@ export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
 
   const navigate = useNavigate();
-  const [games, updateGames] = useState<GameCard[]>(gameList);
   const [nextGameName, setNextGameName] = useState('');
+  const [games, updateGames] = useState<GameCard[]>(gameList);
+  const [turnVisibility, setTurnVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
+  const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
+    Visibility.Invisible
+  );
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
+  let isMyTurn = false;
+  let amIOwner = false;
 
   useEffect(() => {
+    socket.addEventListener('player-turn', (turnID) => {
+      if (turnID === socket.socket.id) {
+        setTurnVisibility(Visibility.Visible);
+        isMyTurn = true;
+      }
+    });
+    socket.push('player-turn', userData.roomCode);
+
+    socket.addEventListener('room-owner-is', (ownerID) => {
+      if (ownerID === socket.socket.id) {
+        setOwnerVisibility(Visibility.Visible);
+        amIOwner = true;
+      }
+    });
+    socket.push('room-owner-is', userData.roomCode);
+
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
@@ -72,7 +101,12 @@ export default function SelectNextGame() {
     });
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
-      navigate(destination);
+      navigate(destination, {
+        state: {
+          isYourTurn: isMyTurn,
+          isOwner: amIOwner,
+        },
+      });
     });
     socket.push('games-update', userData.roomCode);
 
@@ -124,9 +158,26 @@ export default function SelectNextGame() {
     socket.push('roulette-number-is', userData.roomCode);
   };
 
+  const backToLobby = () => {
+    if (nextGameName === '') {
+      console.log('Voltando ao lobby.');
+      socket.push('move-room-to', {
+        roomCode: userData.roomCode,
+        destination: '/Lobby',
+      });
+    }
+  };
+
+  const header =
+    ownerVisibility === Visibility.Visible ? (
+      <Header goBackArrow={backToLobby} logo />
+    ) : (
+      <Header logo />
+    );
+
   return (
     <Background>
-      <Header goBackArrow logo />
+      {header}
       <div className="SelectGameSection">
         <div className="RouletteDiv">
           <div className="RouletteSideIconSpace" />
@@ -153,9 +204,16 @@ export default function SelectNextGame() {
           </div>
         </div>
         <p className="NextGameName">{nextGameName}</p>
-        <div className="RouletteButton">
+        <div
+          className="RouletteButton"
+          onClick={turnTheWheel}
+          style={
+            turnVisibility === Visibility.Visible
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
           <Button>
-            <div onClick={turnTheWheel}>Girar</div>
+            <div>Girar</div>
           </Button>
         </div>
       </div>
