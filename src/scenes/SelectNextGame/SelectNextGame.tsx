@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 
 import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Roleta from '../../assets/game-covers/roleta.png';
@@ -71,7 +71,7 @@ export default function SelectNextGame() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
   let isMyTurn = false;
   let amIOwner = false;
 

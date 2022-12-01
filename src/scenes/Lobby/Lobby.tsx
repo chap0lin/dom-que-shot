@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CheckCircle, Copy, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -37,7 +37,7 @@ function Lobby() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.connect();

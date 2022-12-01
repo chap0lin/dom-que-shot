@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import { CoverPage } from './Cover';
 import { InfoPage } from './Info';
@@ -32,7 +32,7 @@ export function BangBang() {
   const bangBangRoom = userData.roomCode;
 
   const navigateTo = useNavigate();
-  const socketConn = socketConnection.getInstance();
+  const socketConn = SocketConnection.getInstance();
 
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
