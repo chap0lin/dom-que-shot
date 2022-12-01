@@ -16,7 +16,7 @@ interface ListedPlayerProps {
   id: number;
 }
 
-interface votedPlayerProps {
+interface VotedPlayerProps {
   nickname: string;
   avatarSeed: string;
   votes: number;

@@ -13,7 +13,7 @@ interface VotedPlayerProps {
   votes: number;
 }
 
-interface coverProps {
+interface CoverProps {
   votedPlayer: VotedPlayerProps[];
   turnVisibility: boolean;
   roulettePage: () => void;
@@ -23,7 +23,7 @@ export default function FinishPage({
   votedPlayer,
   roulettePage,
   turnVisibility,
-}: coverProps) {
+}: CoverProps) {
   const rouletteButtonText = 'Próximo jogo';
 
   useEffect(() => {
