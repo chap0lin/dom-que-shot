@@ -29,8 +29,6 @@ export default function GamePage({
     id: 0,
   });
 
-  let hasSelected = false;
-
   useEffect(() => {
     if (selectedPlayer) {
       gsap.to('.selectedItem', { scale: 1.08, duration: 0.5 });
@@ -46,7 +44,7 @@ export default function GamePage({
     setSelectedPlayer(player);
   };
 
-  if (selectedPlayer.nickname != '') hasSelected = true;
+  const hasSelected = selectedPlayer.nickname != '';
 
   return (
     <Background noImage>

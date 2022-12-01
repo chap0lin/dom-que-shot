@@ -18,9 +18,9 @@ class SocketConnection {
 
   disconnect() {
     if (this.socket) {
+      this.socket.removeAllListeners();
       this.socket.close();
       this.socket = undefined;
-      this.socket.removeAllListeners();
     }
   }
 

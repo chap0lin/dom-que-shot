@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { RotateCcw, AlertTriangle } from 'react-feather';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
@@ -13,8 +13,7 @@ function ChooseAvatar() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const location = useLocation();
-  const option = location.state.option;
-  const roomCode = location.state.roomCode;
+  const { option, roomCode } = location.state;
   const oldNickname = userData.nickname;
   const buttonText =
     option === 'join'

@@ -142,13 +142,3 @@
   font-family: Adumu;
   font-size: 24px;
 }
-
-/* <div className="ResultsMultipleTies">
-          {votedPlayer.map(player => (
-            <div className='MultiplesTiesOuterCard'>
-              <div className='MultipleTiesInnerCard'>
-                <Avatar seed={player.avatarSeed}/>
-              </div>
-            </div>
-          ))}
-        </div> */
