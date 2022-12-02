@@ -91,6 +91,7 @@ export default function WhoDrankPage() {
       players: JSON.stringify(selectedPlayers),
     });
 
+    socket.push('update-turn', userData.roomCode);
     socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/SelectNextGame',
@@ -130,9 +131,7 @@ export default function WhoDrankPage() {
             ))}
           </div>
           <div className="WhoDrankVoteButton">
-            <Button>
-              <div onClick={backToRoulette}>{buttonText}</div>
-            </Button>
+            <Button onClick={backToRoulette}>{buttonText}</Button>
           </div>
         </div>
       </Background>

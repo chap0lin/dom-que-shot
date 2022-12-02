@@ -66,7 +66,7 @@ export default function OEscolhido() {
   const [votedPlayers, setVotedPlayers] = useState<VotedPlayerProps[]>([]);
   const [playerList, updatePlayerList] = useState<ListedPlayerProps[]>([]);
 
-  const description = 
+  const description = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
       <br />
@@ -77,6 +77,7 @@ export default function OEscolhido() {
       <br />
       Boa sorte!
     </>
+  );
 
   const nextRound = () => {
     socket.push('update-turn', userData.roomCode);

@@ -13,20 +13,31 @@ interface InfoProps {
   turnVisibility?: boolean;
 }
 
-export default function InfoPage({ title, coverImg, coverPage, gamePage, description, turnVisibility }: InfoProps) {
-  
-  const buttonAction = (gamePage)? gamePage : coverPage;
-  const buttonText = (gamePage)? 'Iniciar jogo' : 'Voltar';
+export default function InfoPage({
+  title,
+  coverImg,
+  coverPage,
+  gamePage,
+  description,
+  turnVisibility,
+}: InfoProps) {
+  const buttonAction = gamePage ? gamePage : coverPage;
+  const buttonText = gamePage ? 'Iniciar jogo' : 'Voltar';
 
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title={title} />
       <div className="InfoPageDiv">
         <p className="InfoPageDescription">{description}</p>
-        <div style={(turnVisibility)? (turnVisibility === true? {visibility: 'visible'} : {visibility: 'hidden'} ) : {}}>
-          <Button onClick={buttonAction}>
-            {buttonText}
-          </Button>
+        <div
+          style={
+            turnVisibility
+              ? turnVisibility === true
+                ? { visibility: 'visible' }
+                : { visibility: 'hidden' }
+              : {}
+          }>
+          <Button onClick={buttonAction}>{buttonText}</Button>
         </div>
       </div>
     </Background>

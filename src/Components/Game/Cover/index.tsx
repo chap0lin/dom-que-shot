@@ -25,9 +25,7 @@ export default function CoverPage({
   goBackPage,
   turnVisibility,
   ownerVisibility,
-
 }: CoverProps) {
-
   const [cardColor, setCardColor] = useState('#000000');
 
   const header = ownerVisibility ? (
@@ -37,7 +35,7 @@ export default function CoverPage({
   );
 
   useEffect(() => {
-    switch(type){
+    switch (type) {
       case 'simple':
         setCardColor('#403A55');
         gsap.from('.CoverPageCardDiv', {
@@ -52,7 +50,7 @@ export default function CoverPage({
           delay: 0.25,
           ease: 'elastic',
         });
-      break;
+        break;
 
       case 'dynamic':
         setCardColor('#8877DF');
@@ -72,7 +70,7 @@ export default function CoverPage({
           delay: 0.25,
           ease: 'elastic',
         });
-      break;
+        break;
 
       case 'round':
         setCardColor('#800080');
@@ -89,8 +87,8 @@ export default function CoverPage({
           duration: 1,
           delay: 0.25,
           ease: 'bounce',
-        }); 
-      break;
+        });
+        break;
     }
 
     gsap.from('.CoverPageStartButton', {
@@ -107,19 +105,20 @@ export default function CoverPage({
     <Background>
       {header}
       <div className="CoverPageDiv">
-        <div className="CoverPageCardDiv" style={{backgroundColor: cardColor}}>
+        <div
+          className="CoverPageCardDiv"
+          style={{ backgroundColor: cardColor }}>
           <img className="CoverPageImage" src={coverImg} />
           <p className="CoverPageTitle">{title}</p>
         </div>
-        <div className="CoverPageStartButton"
+        <div
+          className="CoverPageStartButton"
           style={
             turnVisibility === true
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
           }>
-          <Button onClick={gamePage}>
-            Começar jogo
-          </Button>
+          <Button onClick={gamePage}>Começar jogo</Button>
         </div>
       </div>
     </Background>

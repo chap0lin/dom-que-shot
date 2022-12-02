@@ -17,8 +17,11 @@ interface SimpleCardGameProps {
   coverImg: string;
 }
 
-export default function SimpleCardGame({title, description, coverImg} : SimpleCardGameProps) {
-
+export default function SimpleCardGame({
+  title,
+  description,
+  coverImg,
+}: SimpleCardGameProps) {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
   const turnVisibility = useLocation().state.isYourTurn;
@@ -66,7 +69,7 @@ export default function SimpleCardGame({title, description, coverImg} : SimpleCa
     case Game.Cover:
       return (
         <CoverPage
-          type='simple'
+          type="simple"
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}

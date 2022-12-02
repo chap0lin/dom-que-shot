@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import coverImg from '../../assets/game-covers/vrum.png';
 import SimpleCardGame from '../../components/Game/SimpleCardGame';
 
-
 export default function Vrum() {
-  const title = "Vrum"
+  const title = 'Vrum';
   const description = (
     <>
       Este jogo deve ser jogado fora do aparelho. Funciona assim:
@@ -32,5 +31,11 @@ export default function Vrum() {
     </>
   );
 
-  return <SimpleCardGame title={title} description={description} coverImg={coverImg}/>;
+  return (
+    <SimpleCardGame
+      title={title}
+      description={description}
+      coverImg={coverImg}
+    />
+  );
 }

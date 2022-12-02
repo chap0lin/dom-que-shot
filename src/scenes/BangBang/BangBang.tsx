@@ -33,22 +33,22 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const title="Bang Bang";
+  const title = 'Bang Bang';
   const navigateTo = useNavigate();
   const socketConn = SocketConnection.getInstance();
 
-  const description = 
+  const description = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
       <br />
       <br />
-      Inciada a partida, todos os jogadores devem atirar no alvo dentro do
-      tempo de 10 segundos.
+      Inciada a partida, todos os jogadores devem atirar no alvo dentro do tempo
+      de 10 segundos.
       <br />
       <br />
-      Quem atirar por último ou quem não atirar dentro do tempo, bebe uma
-      dose.
+      Quem atirar por último ou quem não atirar dentro do tempo, bebe uma dose.
     </>
+  );
 
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
