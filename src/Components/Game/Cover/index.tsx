@@ -8,22 +8,33 @@ import './Cover.css';
 interface CoverProps {
   title: string;
   coverImg: string;
-  infoPage: any;
   type: string;
+  infoPage: () => void;
   gamePage: () => void;
   goBackPage: () => void;
+  turnVisibility: boolean;
+  ownerVisibility: boolean;
 }
 
 export default function CoverPage({
+  type,
   title,
   coverImg,
   infoPage,
-  type,
   gamePage,
   goBackPage,
+  turnVisibility,
+  ownerVisibility,
+
 }: CoverProps) {
 
-  const [cardColor, setCardColor] = useState('#000000')
+  const [cardColor, setCardColor] = useState('#000000');
+
+  const header = ownerVisibility ? (
+    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+  ) : (
+    <Header infoPage={infoPage} />
+  );
 
   useEffect(() => {
     switch(type){
@@ -94,15 +105,20 @@ export default function CoverPage({
 
   return (
     <Background>
-      <Header goBackArrow={goBackPage} infoPage={infoPage} />
+      {header}
       <div className="CoverPageDiv">
         <div className="CoverPageCardDiv" style={{backgroundColor: cardColor}}>
           <img className="CoverPageImage" src={coverImg} />
           <p className="CoverPageTitle">{title}</p>
         </div>
-        <div className="CoverPageStartButton">
-          <Button>
-            <div onClick={gamePage}>Começar jogo</div>
+        <div className="CoverPageStartButton"
+          style={
+            turnVisibility === true
+              ? { visibility: 'visible' }
+              : { visibility: 'hidden' }
+          }>
+          <Button onClick={gamePage}>
+            Começar jogo
           </Button>
         </div>
       </div>

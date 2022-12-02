@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import socketConnection from '../../../lib/socket';
 import Background from '../../Background';
 import CoverPage from '../Cover';
@@ -21,6 +21,8 @@ export default function SimpleCardGame({title, description, coverImg} : SimpleCa
 
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
+  const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
   const navigate = useNavigate();
 
   const endOfGame = () => {
@@ -47,7 +49,8 @@ export default function SimpleCardGame({title, description, coverImg} : SimpleCa
       navigate(destination, {
         state: {
           coverImg: coverImg,
-          isYourTurn: Math.round(Math.random()) === 0 ? true : false,
+          isYourTurn: turnVisibility,
+          isOwner: ownerVisibility,
         },
       });
     });
@@ -68,6 +71,8 @@ export default function SimpleCardGame({title, description, coverImg} : SimpleCa
           coverImg={coverImg}
           goBackPage={backToLobby}
           infoPage={() => setCurrentGameState(Game.Info)}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           gamePage={endOfGame}
         />
       );

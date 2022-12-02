@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
-import InfoPage from './Info';
+import InfoPage from '../../components/Game/Info';
 import GamePage from './Game';
 import FinishPage from './Finish';
 import AwaitingResults from './Awaiting';
@@ -65,6 +65,18 @@ export default function OEscolhido() {
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
   const [votedPlayers, setVotedPlayers] = useState<VotedPlayerProps[]>([]);
   const [playerList, updatePlayerList] = useState<ListedPlayerProps[]>([]);
+
+  const description = 
+    <>
+      Neste jogo, cada participante vai jogar com o seu aparelho.
+      <br />
+      <br />
+      Aparecerá uma lista com todos os participantes da sala e cada um votará em
+      uma pessoa da lista para virar uma dose.
+      <br />
+      <br />
+      Boa sorte!
+    </>
 
   const nextRound = () => {
     socket.push('update-turn', userData.roomCode);
@@ -148,8 +160,8 @@ export default function OEscolhido() {
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          //turnVisibility={turnVisibility}
-          //ownerVisibility={ownerVisibility}
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
@@ -158,6 +170,8 @@ export default function OEscolhido() {
     case Game.Info:
       return (
         <InfoPage
+          title={title}
+          description={description}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}

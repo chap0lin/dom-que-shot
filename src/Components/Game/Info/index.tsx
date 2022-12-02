@@ -7,19 +7,27 @@ import './Info.css';
 interface InfoProps {
   coverImg: string;
   title: string;
-  coverPage: any;
+  coverPage: () => void;
+  gamePage?: () => void;
   description: JSX.Element | string;
+  turnVisibility?: boolean;
 }
 
-export default function InfoPage({ title, coverImg, coverPage, description }: InfoProps) {
+export default function InfoPage({ title, coverImg, coverPage, gamePage, description, turnVisibility }: InfoProps) {
+  
+  const buttonAction = (gamePage)? gamePage : coverPage;
+  const buttonText = (gamePage)? 'Iniciar jogo' : 'Voltar';
+
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title={title} />
       <div className="InfoPageDiv">
         <p className="InfoPageDescription">{description}</p>
-        <Button>
-          <div onClick={coverPage}>Voltar</div>
-        </Button>
+        <div style={(turnVisibility)? (turnVisibility === true? {visibility: 'visible'} : {visibility: 'hidden'} ) : {}}>
+          <Button onClick={buttonAction}>
+            {buttonText}
+          </Button>
+        </div>
       </div>
     </Background>
   );

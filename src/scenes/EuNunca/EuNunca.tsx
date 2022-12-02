@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/eu-nunca.png';
 import socketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
-import InfoPage from './Info';
+import InfoPage from '../../components/Game/Info';
 import GamePage from './Game';
 import './EuNunca.css';
 
@@ -17,7 +17,26 @@ enum Game {
 export default function EuNunca() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const [currentGameState, setCurrentGameState] = useState<Game>(Game.Cover);
-  const [turnVisibility, setTurnVisibility] = useState<boolean>(false); //TODO trocar para isMyTurn = useLocation().state.isYourTurn
+  const turnVisibility = useLocation().state.isYourTurn;
+  const ownerVisibility = useLocation().state.isOwner;
+
+  const description = 
+    <>
+    Este jogo deve ser jogado fora do aparelho, mas pode contar com o auxílio
+    dele. Funciona assim:
+    <br />
+    <br />
+    O jogador da vez deve dizer em voz alta uma frase iniciada por "Eu
+    nunca...", seguida por algo ou situação que pode ter acontecido com algum
+    dos jogadores. Se faltar criatividade, na tela do celular vão aparecer
+    algumas sugestões.
+    <br />
+    <br />
+    Aqueles que já passaram pela situação falada pelo jogador da vez devem
+    beber uma dose. Se o jogador da vez for besta a ponto de escolher uma
+    frase direcionada a algum jogador específico, este pode acusá-lo de
+    marcação - e aí o jogador que falou a frase também tem de beber.
+    </>
 
   let isMyTurn = false;
   const title = 'Eu Nunca';
@@ -28,8 +47,6 @@ export default function EuNunca() {
       roomCode: userData.roomCode,
       destination: Game.Game,
     });
-    isMyTurn = true; //TODO remover estas duas linhas quando adequar aos fluxos do owner e do jogador da vez
-    setTurnVisibility(true); //
   };
 
   const endOfGame = () => {
@@ -59,8 +76,8 @@ export default function EuNunca() {
         return navigate(destination, {
           state: {
             coverImg: coverImg,
-            isYourTurn: Math.round(Math.random()) === 0 ? true : false, //TODO adequar aos fluxos do owner e do jogador da vez
-            isOwner: true, //aqui também, claro
+            isYourTurn: turnVisibility,
+            isOwner: ownerVisibility,
           },
         });
       }
@@ -89,9 +106,10 @@ export default function EuNunca() {
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          infoPage={() => setCurrentGameState(Game.Info)}
           gamePage={startGame}
-          //turnVisibility={true} //TODO alterar para turnVisibility quando integrar ao resto do código
+          turnVisibility={turnVisibility}
+          ownerVisibility={ownerVisibility}
+          infoPage={() => setCurrentGameState(Game.Info)}
         />
       );
 
@@ -99,8 +117,10 @@ export default function EuNunca() {
       return (
         <InfoPage
           title={title}
+          description={description}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
+          turnVisibility={turnVisibility}
         />
       );
 
