@@ -9,11 +9,17 @@ import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
 import SocketConnection from '../../lib/socket';
 
-import EuNunca from '../../assets/game-covers/eu-nunca.png';
-import Roleta from '../../assets/game-covers/roleta.png';
-import Vrum from '../../assets/game-covers/vrum.png';
+import BangBang from '../../assets/game-covers/bang-bang.png';
 import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
+import Buzz from '../../assets/game-covers/buzz.png';
+import CSComposto from '../../assets/game-covers/cs-composto.png';
+import DireitaEsquerda from '../../assets/game-covers/direita-esquerda.png';
+import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Medusa from '../../assets/game-covers/medusa.png';
+import OEscolhido from '../../assets/game-covers/o-escolhido.png';
+import PensaRapido from '../../assets/game-covers/pensa-rapido.png';
+import Vrum from '../../assets/game-covers/vrum.png';
+
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
 
@@ -31,28 +37,53 @@ interface GameCard {
 let gameList: GameCard[] = [
   {
     id: 0,
-    text: 'Eu Nunca',
-    src: EuNunca,
+    text: 'Bang Bang',
+    src: BangBang,
   },
   {
     id: 1,
-    text: 'Roleta',
-    src: Roleta,
-  },
-  {
-    id: 2,
-    text: 'Vrum',
-    src: Vrum,
-  },
-  {
-    id: 3,
     text: 'Bicho Bebe',
     src: BichoBebe,
   },
   {
+    id: 2,
+    text: 'Buzz',
+    src: Buzz,
+  },
+  {
+    id: 3,
+    text: 'C, S, Composto',
+    src: CSComposto,
+  },
+  {
     id: 4,
+    text: 'Direita-Esquerda',
+    src: DireitaEsquerda,
+  },
+  {
+    id: 5,
+    text: 'Eu Nunca',
+    src: EuNunca,
+  },
+  {
+    id: 6,
     text: 'Medusa',
     src: Medusa,
+  },
+  {
+    id: 7,
+    text: 'O Escolhido',
+    src: OEscolhido,
+  },
+  {
+    id: 8,
+    text: 'Pensa Rápido',
+    src: PensaRapido,
+  },
+  {
+    id: 9,
+    text: 'Vrum',
+    src: Vrum,
   },
 ];
 
@@ -139,7 +170,7 @@ export default function SelectNextGame() {
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${(id + 4) * 142}px`,
+        y: `-${((gameList.length - 1) + id) * 142}px`,
         duration: 2,
         ease: 'elastic',
       })
