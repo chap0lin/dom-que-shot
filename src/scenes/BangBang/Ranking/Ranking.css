@@ -21,6 +21,22 @@
   position: relative;
 }
 
+#ranking-page .container-only-winner {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding-top: 24px;
+  align-items: center;
+  background-color: #403a55;
+  width: 120px;
+  height: 180px;
+  border-radius: 10px;
+  border-color: black;
+  border-width: 1px;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
 #ranking-page .container-winner {
   display: flex;
   flex-direction: column;
@@ -62,14 +78,23 @@
 }
 
 #ranking-page .container-winner .crown {
-  position: fixed;
-  top: 6px;
+  position: absolute;
+  top: -22px;
+  left: 9px;
+  transform: rotate(8deg);
+}
+
+#ranking-page .container-only-winner .background-avatar .only-crown {
+  position: absolute;
+  top: -23px;
+  left: 10px;
+  transform: rotate(15deg);
 }
 
 #ranking-page .container-loser .thumbDown {
-  position: fixed;
-  right: 15px;
-  top: 67px;
+  position: absolute;
+  right: -10px;
+  top: 43px;
 }
 
 #ranking-page .container-body {
