@@ -11,7 +11,12 @@ interface InfoProps {
   turnVisibility: boolean;
 }
 
-export default function InfoPage({ coverImg, coverPage, gamePage, turnVisibility }: InfoProps) {
+export default function InfoPage({
+  coverImg,
+  coverPage,
+  gamePage,
+  turnVisibility,
+}: InfoProps) {
   const info = (
     <>
       Neste jogo, cada participante vai jogar com o seu aparelho.
@@ -30,7 +35,8 @@ export default function InfoPage({ coverImg, coverPage, gamePage, turnVisibility
       <Header logo={coverImg} goBackArrow={coverPage} title="O Escolhido" />
       <div className="OEscolhidoDiv">
         <p className="InfoDiv">{info}</p>
-        <div style={
+        <div
+          style={
             turnVisibility
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }

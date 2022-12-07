@@ -62,7 +62,7 @@ class SocketConnection {
   setLobbyUpdateListener(useState) {
     this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
-      console.log(reply);
+      //console.log(reply);
       useState(JSON.parse(reply));
     });
   }

@@ -62,6 +62,7 @@ export default function SelectNextGame() {
   const navigate = useNavigate();
   const [nextGameName, setNextGameName] = useState('');
   const [games, updateGames] = useState<GameCard[]>(gameList);
+
   const [turnVisibility, setTurnVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
@@ -95,10 +96,12 @@ export default function SelectNextGame() {
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
+
     socket.addEventListener('roulette-number-is', (number) => {
       console.log(`A roleta sorteou o número ${number}`);
       spin(number);
     });
+
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
       navigate(destination, {
@@ -129,6 +132,14 @@ export default function SelectNextGame() {
     updateGames(gameList);
   };
 
+  const startSelectedGame = () => {
+    if (amIOwner === true) {
+      setTimeout(() => {
+        socket.push('start-game', userData.roomCode);
+      }, 1000);
+    }
+  };
+
   const spin = (id) => {
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
@@ -147,7 +158,8 @@ export default function SelectNextGame() {
         opacity: 1,
         duration: 1,
         ease: 'power2',
-      });
+      })
+      .call(startSelectedGame);
 
     const selectedGame = gameList.find((game) => game.id === id);
     const gameName = selectedGame.text;
@@ -159,13 +171,10 @@ export default function SelectNextGame() {
   };
 
   const backToLobby = () => {
-    if (nextGameName === '') {
-      console.log('Voltando ao lobby.');
-      socket.push('move-room-to', {
-        roomCode: userData.roomCode,
-        destination: '/Lobby',
-      });
-    }
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
   };
 
   const header =
