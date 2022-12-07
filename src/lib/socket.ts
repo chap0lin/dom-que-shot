@@ -26,7 +26,6 @@ class SocketConnection {
 
   joinRoom(userData, onError = null) {
     this.socket.emit('join-room', userData.roomCode, (reply) => {
-      //console.log(`resposta do servidor: ${reply}`);
       if (reply === `ingressou na sala ${userData.roomCode}.`) {
         this.addPlayer(userData);
       } else {
@@ -62,7 +61,6 @@ class SocketConnection {
   setLobbyUpdateListener(useState) {
     this.socket.on('lobby-update', (reply) => {
       console.log('A lista de jogadores foi atualizada.');
-      //console.log(reply);
       useState(JSON.parse(reply));
     });
   }
