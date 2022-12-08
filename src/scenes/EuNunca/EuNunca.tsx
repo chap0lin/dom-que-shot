@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import coverImg from '../../assets/game-covers/eu-nunca.png';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
 import InfoPage from '../../components/Game/Info';
@@ -68,7 +68,7 @@ export default function EuNunca() {
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.connect();

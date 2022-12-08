@@ -42,8 +42,8 @@ export function BangBang() {
       Neste jogo, cada participante vai jogar com o seu aparelho.
       <br />
       <br />
-      Inciada a partida, todos os jogadores devem atirar no alvo dentro do tempo
-      de 10 segundos.
+      Iniciada a partida, todos os jogadores devem atirar no alvo dentro do
+      tempo de 10 segundos.
       <br />
       <br />
       Quem atirar por último ou quem não atirar dentro do tempo, bebe uma dose.
@@ -62,7 +62,6 @@ export function BangBang() {
     socketConn.addEventListener('room-is-moving-to', (destination) => {
       navigateTo(destination, {
         state: {
-          coverImg: coverImg,
           isYourTurn: turnVisibility,
           isOwner: ownerVisibility,
         },

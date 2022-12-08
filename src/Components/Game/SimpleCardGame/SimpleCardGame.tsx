@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import socketConnection from '../../../lib/socket';
+import SocketConnection from '../../../lib/socket';
 import Background from '../../Background';
 import CoverPage from '../Cover';
 import InfoPage from '../Info';
@@ -44,7 +44,7 @@ export default function SimpleCardGame({
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.connect();
@@ -88,13 +88,6 @@ export default function SimpleCardGame({
           description={description}
           coverPage={() => setCurrentGameState(Game.Cover)}
         />
-      );
-
-    default:
-      return (
-        <Background>
-          <div>Algo deu errado.</div>
-        </Background>
       );
   }
 }

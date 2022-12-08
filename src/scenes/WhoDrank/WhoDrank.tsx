@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -30,7 +30,7 @@ export default function WhoDrankPage() {
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.connect();

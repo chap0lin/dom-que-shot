@@ -13,7 +13,7 @@ import BangBang from '../../assets/game-covers/bang-bang.png';
 import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
 import Buzz from '../../assets/game-covers/buzz.png';
 import CSComposto from '../../assets/game-covers/cs-composto.png';
-import DireitaEsquerda from '../../assets/game-covers/direita-esquerda.png';
+//import DireitaEsquerda from '../../assets/game-covers/direita-esquerda.png';  //removido temporariamente
 import EuNunca from '../../assets/game-covers/eu-nunca.png';
 import Medusa from '../../assets/game-covers/medusa.png';
 import OEscolhido from '../../assets/game-covers/o-escolhido.png';
@@ -35,6 +35,7 @@ interface GameCard {
 }
 
 let gameList: GameCard[] = [
+  //TODO incluir o jogo Direita-Esquerda (aqui e no backend) quando a mecânica dos dados tiver sido implementada
   {
     id: 0,
     text: 'Bang Bang',
@@ -57,31 +58,26 @@ let gameList: GameCard[] = [
   },
   {
     id: 4,
-    text: 'Direita-Esquerda',
-    src: DireitaEsquerda,
-  },
-  {
-    id: 5,
     text: 'Eu Nunca',
     src: EuNunca,
   },
   {
-    id: 6,
+    id: 5,
     text: 'Medusa',
     src: Medusa,
   },
   {
-    id: 7,
+    id: 6,
     text: 'O Escolhido',
     src: OEscolhido,
   },
   {
-    id: 8,
+    id: 7,
     text: 'Pensa Rápido',
     src: PensaRapido,
   },
   {
-    id: 9,
+    id: 8,
     text: 'Vrum',
     src: Vrum,
   },
@@ -170,7 +166,7 @@ export default function SelectNextGame() {
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${((gameList.length - 1) + id) * 142}px`,
+        y: `-${(gameList.length - 1 + id) * 142}px`,
         duration: 2,
         ease: 'elastic',
       })
