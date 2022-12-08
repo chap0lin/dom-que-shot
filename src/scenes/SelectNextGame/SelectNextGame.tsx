@@ -167,14 +167,15 @@ export default function SelectNextGame() {
     setRouletteIsSpinning(true);
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
+    const heightOffset = window.innerHeight < 720 ? 112 : 142;
     timeline
       .to('.RouletteCard', {
-        y: `-${3 * (gameList.length - 2) * 142}px`,
+        y: `-${3 * (gameList.length - 2) * heightOffset}px`,
         duration: 1,
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${(gameList.length - 1 + id) * 142}px`,
+        y: `-${(gameList.length - 1 + id) * heightOffset}px`,
         duration: 2,
         ease: 'elastic',
       })
@@ -260,9 +261,7 @@ export default function SelectNextGame() {
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
           }>
-          <Button>
-            <div>Girar</div>
-          </Button>
+          <Button>Girar</Button>
         </div>
       </div>
     </Background>

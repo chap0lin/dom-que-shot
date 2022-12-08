@@ -198,9 +198,7 @@ function ChooseAvatar() {
           </div>
 
           <div className="ButtonDiv">
-            <Button>
-              <div onClick={checkNameInput}>{buttonText}</div>
-            </Button>
+            <Button onClick={checkNameInput}>{buttonText}</Button>
           </div>
         </div>
       </div>
