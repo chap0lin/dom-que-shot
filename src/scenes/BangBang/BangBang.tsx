@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
-import CoverPage from './Cover';
-import { InfoPage } from './Info';
+import CoverPage from '../../components/Game/Cover';
+import InfoPage from '../../components/Game/Info';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
 import coverImg from '../../assets/game-covers/bang-bang.png';
@@ -33,9 +33,22 @@ export function BangBang() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
   const bangBangRoom = userData.roomCode;
 
-  const title="Bang Bang";
+  const title = 'Bang Bang';
   const navigateTo = useNavigate();
   const socketConn = SocketConnection.getInstance();
+
+  const description = (
+    <>
+      Neste jogo, cada participante vai jogar com o seu aparelho.
+      <br />
+      <br />
+      Iniciada a partida, todos os jogadores devem atirar no alvo dentro do
+      tempo de 10 segundos.
+      <br />
+      <br />
+      Quem atirar por último ou quem não atirar dentro do tempo, bebe uma dose.
+    </>
+  );
 
   const backToLobby = () => {
     console.log('O usuário desejou voltar ao lobby');
@@ -47,9 +60,12 @@ export function BangBang() {
 
   useEffect(() => {
     socketConn.addEventListener('room-is-moving-to', (destination) => {
-      //TODO: verificar onde enviar evento para mover sala
-      console.log(`Movendo a sala para ${destination}.`);
-      navigateTo(destination);
+      navigateTo(destination, {
+        state: {
+          isYourTurn: turnVisibility,
+          isOwner: ownerVisibility,
+        },
+      });
     });
 
     return () => {
@@ -73,7 +89,6 @@ export function BangBang() {
     });
 
     socketConn.addEventListener('room-is-moving-to', (destination) => {
-      //TODO: verificar onde enviar evento para mover sala
       if (typeof destination === 'string') {
         console.log(`Movendo a sala para ${destination}.`);
         navigateTo(destination);
@@ -114,6 +129,7 @@ export function BangBang() {
     case Game.Cover:
       return (
         <CoverPage
+          type="round"
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
@@ -127,10 +143,11 @@ export function BangBang() {
       return (
         <InfoPage
           title={title}
+          description={description}
+          coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
           turnVisibility={turnVisibility}
-          coverImg={coverImg}
         />
       );
     case Game.Game:
