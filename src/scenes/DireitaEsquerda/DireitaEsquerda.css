@@ -1,0 +1,16 @@
+.DireitaEsquerdaDiceRules {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.DireitaEsquerdaDiceRule {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.DireitaEsquerdaDiceSide {
+  width: 40px;
+  margin-right: 20px;
+}

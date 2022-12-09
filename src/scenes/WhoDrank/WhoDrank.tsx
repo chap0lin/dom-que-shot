@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import socketConnection from '../../lib/socket';
+import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
@@ -30,7 +30,7 @@ export default function WhoDrankPage() {
 
   //SOCKET////////////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = socketConnection.getInstance();
+  const socket = SocketConnection.getInstance();
 
   useEffect(() => {
     socket.connect();
@@ -91,6 +91,7 @@ export default function WhoDrankPage() {
       players: JSON.stringify(selectedPlayers),
     });
 
+    socket.push('update-turn', userData.roomCode);
     socket.push('move-room-to', {
       roomCode: userData.roomCode,
       destination: '/SelectNextGame',
@@ -130,9 +131,7 @@ export default function WhoDrankPage() {
             ))}
           </div>
           <div className="WhoDrankVoteButton">
-            <Button>
-              <div onClick={backToRoulette}>{buttonText}</div>
-            </Button>
+            <Button onClick={backToRoulette}>{buttonText}</Button>
           </div>
         </div>
       </Background>
