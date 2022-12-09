@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo-darker.png';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
@@ -32,10 +32,7 @@ function Welcome() {
     <Background>
       <div className="WelcomePage">
         <img className="WelcomeImage" src={logo} />
-
-        <Link to="/Home">
-          <Button>Entrar</Button>
-        </Link>
+        <Button onClick={() => navigate('/Home')}>Entrar</Button>
       </div>
     </Background>
   );

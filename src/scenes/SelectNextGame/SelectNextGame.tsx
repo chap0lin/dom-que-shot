@@ -85,6 +85,7 @@ let gameList: GameCard[] = [
 
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
+  let nextGame = '';
 
   const navigate = useNavigate();
   const [nextGameName, setNextGameName] = useState('');
@@ -162,12 +163,16 @@ export default function SelectNextGame() {
   const startSelectedGame = () => {
     if (amIOwner === true) {
       setTimeout(() => {
-        socket.push('start-game', userData.roomCode);
+        socket.push('start-game', {roomCode: userData.roomCode, nextGame: nextGame});
       }, 1000);
     }
   };
 
   const spin = (id) => {
+    const selectedGame = gameList.find((game) => game.id === id);
+    nextGame = selectedGame.text;
+    setNextGameName(nextGame);
+
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
     timeline
@@ -187,10 +192,6 @@ export default function SelectNextGame() {
         ease: 'power2',
       })
       .call(startSelectedGame);
-
-    const selectedGame = gameList.find((game) => game.id === id);
-    const gameName = selectedGame.text;
-    setNextGameName(gameName);
   };
 
   const turnTheWheel = () => {
@@ -242,15 +243,12 @@ export default function SelectNextGame() {
         <p className="NextGameName">{nextGameName}</p>
         <div
           className="RouletteButton"
-          onClick={turnTheWheel}
           style={
             turnVisibility === Visibility.Visible
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
           }>
-          <Button>
-            <div>Girar</div>
-          </Button>
+          <Button onClick={turnTheWheel}>Girar</Button>
         </div>
       </div>
     </Background>
