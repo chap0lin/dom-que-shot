@@ -13,6 +13,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [roomCode, setRoomCode] = useState('');
+  let room = '';
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
@@ -38,20 +39,21 @@ function Home() {
     const newRoom = e.target.value.trim();
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
+      room = newRoom;
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
 
-  const verifyRoom = () => {
-    if (roomCode.length == 6) {
+  const verifyRoom = (code) => {
+    if (code.length === 4) {
       api
-        .get(`/roomCode/${roomCode}`)
+        .get(`/roomCode/${code}`)
         .then((response) => {
           console.log(response.data);
           window.localStorage.setItem('userData', JSON.stringify({}));
           navigate('/ChooseAvatar', {
-            state: { option: 'join', roomCode: roomCode },
+            state: { option: 'join', roomCode: code },
           });
         })
         .catch(() => {
@@ -81,7 +83,8 @@ function Home() {
 
   const detectKeyDown = (e) => {
     if (e.key === 'Enter') {
-      ref.current.blur();
+      //ref.current.blur();
+      verifyRoom(room);
     }
   };
 
@@ -101,7 +104,7 @@ function Home() {
             placeholder="Digite o código da sala"
           />
           <button className="JoinRoomButton">
-            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+            <ArrowRight width="30px" height="30px" onClick={() => verifyRoom(roomCode)} />
           </button>
         </div>
 
