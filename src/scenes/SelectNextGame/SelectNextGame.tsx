@@ -95,15 +95,18 @@ export default function SelectNextGame() {
   const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
+  const [rouletteIsSpinning, setRouletteIsSpinning] = useState<boolean>(false);
+  const [currentPlayer, setCurrentPlayer] = useState<string>('jogador da vez');
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = SocketConnection.getInstance();
-  let isMyTurn = false;
   let amIOwner = false;
+  let isMyTurn = false;
 
   useEffect(() => {
     socket.addEventListener('player-turn', (turnID) => {
+      socket.push('get-player-name-by-id', turnID);
       if (turnID === socket.socket.id) {
         setTurnVisibility(Visibility.Visible);
         isMyTurn = true;
@@ -118,6 +121,10 @@ export default function SelectNextGame() {
       }
     });
     socket.push('room-owner-is', userData.roomCode);
+
+    socket.addEventListener('player-name', (playerName) => {
+      setCurrentPlayer(playerName);
+    });
 
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
@@ -157,6 +164,7 @@ export default function SelectNextGame() {
   };
 
   const spin = (id) => {
+    setRouletteIsSpinning(true);
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
     timeline
@@ -205,7 +213,7 @@ export default function SelectNextGame() {
   return (
     <Background>
       {header}
-      <div className="SelectGameSection">
+      <div className="SelectGameSection" id="RoulettePage">
         <div className="RouletteDiv">
           <div className="RouletteSideIconSpace" />
           <Roulette>
@@ -229,6 +237,19 @@ export default function SelectNextGame() {
           <div className="RouletteSideIconSpace">
             <img src={RouletteTriangle} width="40px" height="44px" />
           </div>
+        </div>
+        <div
+          className="WaitingMessageDiv"
+          style={
+            turnVisibility === Visibility.Invisible && !rouletteIsSpinning
+              ? { visibility: 'visible' }
+              : { display: 'none' }
+          }>
+          <p className="WaitingMessage">
+            Aguardando {currentPlayer} girar a
+            <br />
+            Roleta...
+          </p>
         </div>
         <p className="NextGameName">{nextGameName}</p>
         <div
