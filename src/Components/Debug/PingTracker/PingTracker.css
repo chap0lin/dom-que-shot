@@ -12,9 +12,10 @@
 
 @media screen and (min-width: 500px) {
   .PingDiv {
-    width: 100px;
+    width: auto;
+    padding: 0 20px;
+    max-width: 400px;
     bottom: 12px;
     border-radius: 10px;
-    margin-left: 10px;
   }
 }
