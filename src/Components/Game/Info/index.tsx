@@ -2,6 +2,7 @@ import React from 'react';
 import Background from '../../Background';
 import Header from '../../Header';
 import Button from '../../Button';
+import PingTracker from '../../Debug/PingTracker';
 import './Info.css';
 
 interface InfoProps {
@@ -40,6 +41,7 @@ export default function InfoPage({
           <Button onClick={buttonAction}>{buttonText}</Button>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

@@ -3,6 +3,7 @@ import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
 import Avatar from '../../../components/Avatar';
+import PingTracker from '../../../components/Debug/PingTracker';
 import gsap from 'gsap';
 import noOneVoted from '../../../assets/no-votes.png';
 import './Finish.css';
@@ -87,6 +88,7 @@ export default function FinishPage({
             </Button>
           </div>
         </div>
+        <PingTracker />
       </Background>
     );
   }
@@ -122,6 +124,7 @@ export default function FinishPage({
             </Button>
           </div>
         </div>
+        <PingTracker />
       </Background>
     );
   }
@@ -178,6 +181,7 @@ export default function FinishPage({
             </Button>
           </div>
         </div>
+        <PingTracker />
       </Background>
     );
   }
@@ -213,6 +217,7 @@ export default function FinishPage({
           <Button onClick={roulettePage}>{rouletteButtonText}</Button>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

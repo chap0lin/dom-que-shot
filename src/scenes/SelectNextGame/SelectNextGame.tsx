@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
+import PingTracker from '../../components/Debug/PingTracker';
 import SocketConnection from '../../lib/socket';
 
 import BangBang from '../../assets/game-covers/bang-bang.png';
@@ -244,6 +245,7 @@ export default function SelectNextGame() {
           </Button>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

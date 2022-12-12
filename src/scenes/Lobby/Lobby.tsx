@@ -5,6 +5,7 @@ import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import PingTracker from '../../components/Debug/PingTracker';
 import PlayerList from './PlayerList';
 import './Lobby.css';
 
@@ -160,6 +161,7 @@ function Lobby() {
           <p className="LobbyWarning">Mínimo de 2 jogadores!</p>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo-darker.png';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
+import PingTracker from '../../components/Debug/PingTracker';
 import './Welcome.css';
 
 function Welcome() {
@@ -15,6 +16,8 @@ function Welcome() {
         <Link to="/Home">
           <Button>Entrar</Button>
         </Link>
+
+        <PingTracker />
       </div>
     </Background>
   );

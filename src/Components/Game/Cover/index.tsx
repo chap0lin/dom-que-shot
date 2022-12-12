@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Background from '../../Background';
 import Header from '../../Header';
 import Button from '../../Button';
+import PingTracker from '../../Debug/PingTracker';
 import gsap from 'gsap';
 import './Cover.css';
 
@@ -121,6 +122,7 @@ export default function CoverPage({
           <Button onClick={gamePage}>Começar jogo</Button>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

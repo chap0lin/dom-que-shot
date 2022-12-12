@@ -6,6 +6,7 @@ import balloon2 from './img/balao2.png';
 import balloon3 from './img/balao3.png';
 import balloonReady from './img/balao-prontos.png';
 import Background from '../../../components/Background';
+import PingTracker from '../../../components/Debug/PingTracker';
 import gsap from 'gsap';
 import './Game.css';
 
@@ -119,6 +120,7 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
           onClick={handleClick}
           disabled={buttonStatus !== ButtonStatus.enabled}></button>
       </div>
+      <PingTracker />
     </Background>
   );
 }
