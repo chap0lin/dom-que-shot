@@ -1,0 +1,34 @@
+.GameInfoDiv {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 360px;
+  height: 280px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.GameInfoHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.GameInfoTitle {
+  color: black;
+  margin: 0;
+  font-family: 'Adumu';
+  font-size: 24px;
+}
+
+.GameInfoDescription {
+  color: black;
+  font-family: 'Roboto';
+  font-size: 18px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.GameInfoCloseIcon {
+  width: 24px;
+  object-fit: scale-down;
+}

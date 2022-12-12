@@ -75,3 +75,11 @@
   width: 100px;
   height: 100px;
 }
+
+.ScreenDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}

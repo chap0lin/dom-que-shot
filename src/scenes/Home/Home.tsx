@@ -6,11 +6,16 @@ import ImageSlider from './ImageSlider';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import GameInfo from './GameInfo';
 import api from '../../services/api';
+import gsap from 'gsap';
 import './Home.css';
 
 function Home() {
   const navigate = useNavigate();
+
+  const [gameTitle, setGameTitle] = useState('');
+  const [gameDescription, setGameDescription] = useState('');
 
   const [roomCode, setRoomCode] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
@@ -87,47 +92,69 @@ function Home() {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const toggleGameInfo = (show) => {
+    if (show === true) {
+      return gsap.to('.GameInfoPopup', { yPercent: -105, duration: 0.5, ease: 'power2'});
+    }
+    return gsap.to('.GameInfoPopup', { yPercent: 0, duration: 0.5, ease: 'power2'});
+  };
+
   return (
-    <Background>
-      <Header title="Vamos começar?" logo />
+    <div className="ScreenDiv">
+      <Background>
+        <Header title="Vamos começar?" logo />
 
-      <div className="JoinRoomDiv">
-        <p className="HelpInfo">Já possui uma sala?</p>
-        <div className="JoinRoomInputAndButton">
-          <input
-            ref={ref}
-            onChange={updateRoomCode}
-            className="JoinRoomEnterCode"
-            placeholder="Digite o código da sala"
+        <div className="JoinRoomDiv">
+          <p className="HelpInfo">Já possui uma sala?</p>
+          <div className="JoinRoomInputAndButton">
+            <input
+              ref={ref}
+              onChange={updateRoomCode}
+              className="JoinRoomEnterCode"
+              placeholder="Digite o código da sala"
+            />
+            <button className="JoinRoomButton">
+              <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+            </button>
+          </div>
+
+          <div
+            className="JoinRoomWarningSpace"
+            style={{
+              visibility:
+                inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+            }}>
+            <AlertTriangle width="20px" height="20px" color="red" />
+            <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
+          </div>
+        </div>
+
+        <div className="CreateRoomDiv">
+          <p className="HelpInfo">Se ainda não possui:</p>
+          <Button width="100%">
+            <div onClick={newRoom}>Criar Sala</div>
+          </Button>
+        </div>
+
+        <div className="ChooseGameDiv">
+          <p>Já conhece nossos jogos?</p>
+          <ImageSlider
+            content={gameCards}
+            show={() => toggleGameInfo(true)}
+            setGameTitle={setGameTitle}
+            setGameDescription={setGameDescription}
           />
-          <button className="JoinRoomButton">
-            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
-          </button>
         </div>
+      </Background>
 
-        <div
-          className="JoinRoomWarningSpace"
-          style={{
-            visibility:
-              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
-          }}>
-          <AlertTriangle width="20px" height="20px" color="red" />
-          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
-        </div>
+      <div className="GameInfoPopup">
+        <GameInfo
+          title={gameTitle}
+          description={gameDescription}
+          exit={() => toggleGameInfo(false)}
+        />
       </div>
-
-      <div className="CreateRoomDiv">
-        <p className="HelpInfo">Se ainda não possui:</p>
-        <Button width="100%">
-          <div onClick={newRoom}>Criar Sala</div>
-        </Button>
-      </div>
-
-      <div className="ChooseGameDiv">
-        <p>Já sabe o que quer?</p>
-        <ImageSlider content={gameCards} />
-      </div>
-    </Background>
+    </div>
   );
 }
 
