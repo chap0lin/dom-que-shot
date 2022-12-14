@@ -1,21 +1,19 @@
 .PingDiv {
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: fixed;
-  bottom: 0;
+  align-items: center; 
   width: 100%;
   height: 40px;
-  margin-left: 0;
-  border-radius: 0;
+  position: fixed;
+  bottom: 0;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 500px) {
   .PingDiv {
-    width: auto;
     padding: 0 20px;
-    max-width: 400px;
-    bottom: 12px;
-    border-radius: 10px;
+    max-width: 408px;
+    bottom: 2px;
+    border-radius: 0 0 20px 20px;
   }
 }

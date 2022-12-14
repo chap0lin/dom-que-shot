@@ -17,7 +17,7 @@ export default function PingTracker() {
   );
 
   useEffect(() => {
-    const ping = setInterval(getPing, 1000);
+    const ping = setInterval(getPing, 2000);
     return () => {
       clearInterval(ping);
     };
@@ -66,7 +66,7 @@ export default function PingTracker() {
           ? { opacity: 1, backgroundColor: backColor }
           : { opacity: 0 }
       }>
-      {pingText}
+        {pingText}
     </div>
   );
 }
