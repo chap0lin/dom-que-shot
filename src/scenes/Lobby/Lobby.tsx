@@ -25,7 +25,7 @@ function Lobby() {
   const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
-  const [currentOwner, setCurrentOwner] = useState<string>('Administrador');
+  const [currentOwner, setCurrentOwner] = useState<string>();
 
   const [playerList, updatePlayerList] = useState([
     {

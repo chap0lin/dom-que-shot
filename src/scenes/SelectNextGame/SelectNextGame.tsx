@@ -96,7 +96,7 @@ export default function SelectNextGame() {
     Visibility.Invisible
   );
   const [rouletteIsSpinning, setRouletteIsSpinning] = useState<boolean>(false);
-  const [currentPlayer, setCurrentPlayer] = useState<string>('jogador da vez');
+  const [currentPlayer, setCurrentPlayer] = useState<string>();
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
