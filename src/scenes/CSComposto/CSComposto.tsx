@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import coverImg from '../../assets/game-covers/cs-composto.png';
 import SimpleCardGame from '../../components/Game/SimpleCardGame';
 

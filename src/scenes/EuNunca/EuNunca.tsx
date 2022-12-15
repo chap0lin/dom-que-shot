@@ -39,7 +39,6 @@ export default function EuNunca() {
     </>
   );
 
-  let isMyTurn = false;
   const title = 'Eu Nunca';
   const navigate = useNavigate();
 
