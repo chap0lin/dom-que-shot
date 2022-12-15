@@ -246,9 +246,9 @@ export default function SelectNextGame() {
               : { display: 'none' }
           }>
           <p className="WaitingMessage">
-            Aguardando {currentPlayer} girar a
+            Aguardando {currentPlayer} 
             <br />
-            Roleta...
+            girar a roleta...
           </p>
         </div>
         <p className="NextGameName">{nextGameName}</p>
