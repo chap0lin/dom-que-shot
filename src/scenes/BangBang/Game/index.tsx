@@ -55,9 +55,9 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
 
   useEffect(() => {
     if (msTimer <= -10000) {
-      clearInterval(timer);
-      shot(-10000);
-      rankingPage();
+      // clearInterval(timer);
+      // shot(-10000);
+      // rankingPage();
     }
   }, [msTimer]);
 
@@ -93,15 +93,15 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   };
 
   const handleClick = () => {
-    shot(msTimer);
-    clearInterval(timer);
-    setButtonStatus(ButtonStatus.used);
-    rankingPage();
+    // shot(msTimer);
+    // clearInterval(timer);
+    // setButtonStatus(ButtonStatus.used);
+    // rankingPage();
   };
 
   return (
     <Background>
-      <div id="game-bang-bang" className="container">
+      <div id="game-bang-bang" className="game-bang-bang">
         <Header timer={formatedTime()} />
 
         <div className="target-image">

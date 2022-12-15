@@ -1,12 +1,11 @@
-.container {
-  width: 100%;
-  min-height: 100%;
+.game-bang-bang {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #170c32;
   align-items: center;
   border-radius: 20px;
+  height: 100%;
 }
 
 .button-bang {
@@ -16,7 +15,7 @@
   border-color: darkgray;
   border-width: 5px;
   border-radius: 50%;
-  margin-bottom: 98px;
+  margin-bottom: 20%;
   z-index: 1;
 }
 
@@ -32,6 +31,7 @@
 
 #game-bang-bang .target-image {
   opacity: 0.4;
+  height: 50%;
 }
 
 #game-bang-bang .container-baloon {
