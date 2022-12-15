@@ -1,6 +1,5 @@
 .SelectGameSection {
   margin-top: 1.6em;
-  /* height: 700px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,7 +32,6 @@
 
 .NextGameName {
   opacity: 0;
-  /* height: 30px; */
   font-size: 25px;
   font-weight: 700;
   margin: 25px 0 40px 0;
@@ -60,7 +58,6 @@
 @media (max-height: 650px) {
   .SelectGameSection {
     margin-top: 1.1rem;
-    /* height: 700px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -85,8 +82,6 @@
   .RouletteCard {
     display: flex;
     justify-content: center;
-    /* height: 100px;
-    width: 100px; */
     align-items: center;
     background-color: #170c32;
     border-radius: 10px;
@@ -95,7 +90,6 @@
 
   .NextGameName {
     opacity: 0;
-    /* height: 30px; */
     font-size: 20px;
     font-weight: 500;
     margin: 20px 0 40px 0;
