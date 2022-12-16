@@ -139,7 +139,7 @@ export default function OEscolhido() {
         roomCode: userData.roomCode,
         destination: Game.Game,
       });
-      // startTimer();
+      startTimer();
     } else if (currentGameState === Game.AwaitingResults) {
       const votedPlayer = window.localStorage.getItem('voted-player');
 
