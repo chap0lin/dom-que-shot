@@ -208,7 +208,7 @@ export default function SelectNextGame() {
           style={
             turnVisibility === Visibility.Invisible && !rouletteIsSpinning
               ? { visibility: 'visible' }
-              : { display: 'none' }
+              : { display: 'none', height: 0, margin: 0 }
           }>
           <p className="WaitingMessage">
             Aguardando {currentPlayer}
@@ -222,7 +222,7 @@ export default function SelectNextGame() {
           style={
             turnVisibility === Visibility.Visible
               ? { visibility: 'visible' }
-              : { visibility: 'hidden' }
+              : { visibility: 'hidden', height: 0, margin: 0 }
           }>
           <Button onClick={turnTheWheel}>Girar</Button>
         </div>
