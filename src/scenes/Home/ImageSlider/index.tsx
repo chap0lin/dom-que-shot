@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import './ImageSlider.css';
 
+type Card = {
+  image: string;
+  title: string;
+  id: number;
+  color: string;
+  description: string;
+}
 interface ImageSliderProps {
-  content: {
-    image: string;
-    title: string;
-    id: number;
-    color: string;
-    description: string;
-  }[];
+  content: Card[];
   show: () => void;
   setGameTitle: React.Dispatch<React.SetStateAction<string>>;
   setGameDescription: React.Dispatch<React.SetStateAction<string>>;

@@ -1,5 +1,5 @@
+import { X } from 'react-feather';
 import './GameInfo.css';
-import close from '../../../assets/wrong.png';
 
 interface InfoProps {
   title: string;
@@ -12,7 +12,7 @@ export default function GameInfo({ title, description, exit }: InfoProps) {
     <div className="GameInfoDiv">
       <div className="GameInfoHeader">
         <p className="GameInfoTitle">{title}</p>
-        <img src={close} className="GameInfoCloseIcon" onClick={exit} />
+        <X color='#170C32' width='24px' strokeWidth='5px' onClick={exit}/>
       </div>
       <p className="GameInfoDescription">{description}</p>
     </div>

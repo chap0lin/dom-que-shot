@@ -23,7 +23,7 @@ function Home() {
     visibility: 'hidden',
   });
 
-  const newRoom = (e) => {
+  const newRoom = () => {
     api
       .put(`/createRoom`)
       .then((response) => {
@@ -33,7 +33,7 @@ function Home() {
           state: { option: 'create', roomCode: response.data },
         });
       })
-      .catch(() => {
+      .catch((e) => {
         alert(`Erro ao criar a sala: ${e}`);
       });
     return;
@@ -131,8 +131,8 @@ function Home() {
 
         <div className="CreateRoomDiv">
           <p className="HelpInfo">Se ainda não possui:</p>
-          <Button width="100%">
-            <div onClick={newRoom}>Criar Sala</div>
+          <Button onClick={newRoom} width="100%">
+            Criar Sala
           </Button>
         </div>
 
