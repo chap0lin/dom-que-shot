@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
-import games from '../../games';
+import games from '../../contexts/games';
 import gsap from 'gsap';
 import './Lobby.css';
 

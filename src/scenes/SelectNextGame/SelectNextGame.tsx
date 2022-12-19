@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
 import SocketConnection from '../../lib/socket';
-import gameList from '../../games';
+import gameList from '../../contexts/games';
 
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
