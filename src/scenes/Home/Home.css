@@ -83,3 +83,22 @@
   height: 100vh;
   overflow: hidden;
 }
+
+.GameInfoPopup {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: -280px;
+}
+
+@media screen and (min-width: 500px) {
+  .GameInfoPopup {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    position: absolute;
+    bottom: -280px;
+    padding: 0 24px;
+  }
+}

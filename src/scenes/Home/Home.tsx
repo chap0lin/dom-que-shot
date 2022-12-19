@@ -100,52 +100,50 @@ function Home() {
   };
 
   return (
-    <div className="ScreenDiv">
-      <Background>
-        <Header title="Vamos começar?" logo />
+    <Background>
+      <Header title="Vamos começar?" logo />
 
-        <div className="JoinRoomDiv">
-          <p className="HelpInfo">Já possui uma sala?</p>
-          <div className="JoinRoomInputAndButton">
-            <input
-              ref={ref}
-              onChange={updateRoomCode}
-              className="JoinRoomEnterCode"
-              placeholder="Digite o código da sala"
-            />
-            <button className="JoinRoomButton">
-              <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
-            </button>
-          </div>
-
-          <div
-            className="JoinRoomWarningSpace"
-            style={{
-              visibility:
-                inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
-            }}>
-            <AlertTriangle width="20px" height="20px" color="red" />
-            <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
-          </div>
-        </div>
-
-        <div className="CreateRoomDiv">
-          <p className="HelpInfo">Se ainda não possui:</p>
-          <Button onClick={newRoom} width="100%">
-            Criar Sala
-          </Button>
-        </div>
-
-        <div className="ChooseGameDiv">
-          <p>Já conhece nossos jogos?</p>
-          <ImageSlider
-            content={gameCards}
-            show={() => toggleGameInfo(true)}
-            setGameTitle={setGameTitle}
-            setGameDescription={setGameDescription}
+      <div className="JoinRoomDiv">
+        <p className="HelpInfo">Já possui uma sala?</p>
+        <div className="JoinRoomInputAndButton">
+          <input
+            ref={ref}
+            onChange={updateRoomCode}
+            className="JoinRoomEnterCode"
+            placeholder="Digite o código da sala"
           />
+          <button className="JoinRoomButton">
+            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+          </button>
         </div>
-      </Background>
+
+        <div
+          className="JoinRoomWarningSpace"
+          style={{
+            visibility:
+              inputErrorMsg.visibility === 'visible' ? 'visible' : 'hidden',
+          }}>
+          <AlertTriangle width="20px" height="20px" color="red" />
+          <p className="JoinRoomWarning">{inputErrorMsg.msg}</p>
+        </div>
+      </div>
+
+      <div className="CreateRoomDiv">
+        <p className="HelpInfo">Se ainda não possui:</p>
+        <Button onClick={newRoom} width="100%">
+          Criar Sala
+        </Button>
+      </div>
+
+      <div className="ChooseGameDiv">
+        <p>Já conhece nossos jogos?</p>
+        <ImageSlider
+          content={gameCards}
+          show={() => toggleGameInfo(true)}
+          setGameTitle={setGameTitle}
+          setGameDescription={setGameDescription}
+        />
+      </div>
 
       <div className="GameInfoPopup">
         <GameInfo
@@ -154,7 +152,7 @@ function Home() {
           exit={() => toggleGameInfo(false)}
         />
       </div>
-    </div>
+    </Background>
   );
 }
 
