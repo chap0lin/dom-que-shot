@@ -1,13 +1,13 @@
-import BangBang from '../assets/game-covers/bang-bang.png';
-import BichoBebe from '../assets/game-covers/bicho-bebe.png';
-import Buzz from '../assets/game-covers/buzz.png';
-import CSComposto from '../assets/game-covers/cs-composto.png';
+import BangBang from '../../assets/game-covers/bang-bang.png';
+import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
+import Buzz from '../../assets/game-covers/buzz.png';
+import CSComposto from '../../assets/game-covers/cs-composto.png';
 //import DireitaEsquerda from '../../assets/game-covers/direita-esquerda.png';  //removido temporariamente
-import EuNunca from '../assets/game-covers/eu-nunca.png';
-import Medusa from '../assets/game-covers/medusa.png';
-import OEscolhido from '../assets/game-covers/o-escolhido.png';
-import PensaRapido from '../assets/game-covers/pensa-rapido.png';
-import Vrum from '../assets/game-covers/vrum.png';
+import EuNunca from '../../assets/game-covers/eu-nunca.png';
+import Medusa from '../../assets/game-covers/medusa.png';
+import OEscolhido from '../../assets/game-covers/o-escolhido.png';
+import PensaRapido from '../../assets/game-covers/pensa-rapido.png';
+import Vrum from '../../assets/game-covers/vrum.png';
 
 type Game = {
   id: number;
