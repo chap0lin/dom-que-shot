@@ -85,14 +85,15 @@
 }
 
 .GameInfoPopup {
-  width: 100%;
+  width: auto;
   display: flex;
   justify-content: center;
-  position: absolute;
+  overflow: hidden;
+  position: fixed;
   bottom: -280px;
 }
 
-@media screen and (min-width: 500px) {
+/* @media screen and (min-width: 500px) {
   .GameInfoPopup {
     width: 100%;
     display: flex;
@@ -101,4 +102,4 @@
     bottom: -280px;
     padding: 0 24px;
   }
-}
+} */

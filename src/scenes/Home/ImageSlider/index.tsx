@@ -8,22 +8,24 @@ type Card = {
   color: string;
   description: string;
 }
+
+type GameInformation = {
+  title: string;
+  description: string;
+}
 interface ImageSliderProps {
   content: Card[];
   show: () => void;
-  setGameTitle: React.Dispatch<React.SetStateAction<string>>;
-  setGameDescription: React.Dispatch<React.SetStateAction<string>>;
+  setGameInfo: React.Dispatch<React.SetStateAction<GameInformation>>;
 }
 
 export default function ImageSlider({
   content,
   show,
-  setGameTitle,
-  setGameDescription,
+  setGameInfo
 }: ImageSliderProps) {
   const updateInfoCard = (title, description) => {
-    setGameTitle(title);
-    setGameDescription(description);
+    setGameInfo({title: title, description: description});
     show();
   };
 

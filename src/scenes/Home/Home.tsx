@@ -11,12 +11,15 @@ import api from '../../services/api';
 import gsap from 'gsap';
 import './Home.css';
 
+type GameInformation = {
+  title: string;
+  description: string;
+}
+
 function Home() {
   const navigate = useNavigate();
 
-  const [gameTitle, setGameTitle] = useState('');
-  const [gameDescription, setGameDescription] = useState('');
-
+  const [gameInfo, setGameInfo] = useState<GameInformation>({title: '', description: ''});
   const [roomCode, setRoomCode] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
@@ -140,15 +143,14 @@ function Home() {
         <ImageSlider
           content={gameCards}
           show={() => toggleGameInfo(true)}
-          setGameTitle={setGameTitle}
-          setGameDescription={setGameDescription}
+          setGameInfo={setGameInfo}
         />
       </div>
 
       <div className="GameInfoPopup">
         <GameInfo
-          title={gameTitle}
-          description={gameDescription}
+          title={gameInfo.title}
+          description={gameInfo.description}
           exit={() => toggleGameInfo(false)}
         />
       </div>
