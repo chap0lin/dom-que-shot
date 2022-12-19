@@ -1,32 +1,51 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle, Copy, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
-import Background from '../../components/Background';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
-import PlayerList from './PlayerList';
+import games from '../../games';
+import gsap from 'gsap';
 import './Lobby.css';
+
+import MainPage from './Main';
+import SettingsPage from './Settings';
 
 enum Visibility {
   Invisible,
   Visible,
 }
 
-function Lobby() {
+enum LobbyStates {
+  Main,
+  Settings,
+}
+
+type Game = {
+  id: number;
+  text: string;
+  src: string;
+  backgroundColor: string;
+};
+
+type Player = {
+  avatarSeed: string;
+  nickname: string;
+  beers: number;
+  playerID: number;
+};
+
+export default function Lobby() {
   const navigate = useNavigate();
   const userData = JSON.parse(window.localStorage.getItem('userData'));
-  const [copyWarning, setCopyWarning] = useState<Visibility>(
-    Visibility.Invisible
-  );
-  const [lobbyWarning, setLobbyWarning] = useState<Visibility>(
-    Visibility.Invisible
-  );
+
   const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
 
-  const [playerList, updatePlayerList] = useState([
+  const [currentLobbyState, setCurrentLobbyState] = useState<LobbyStates>(
+    LobbyStates.Main
+  );
+
+  const [gameList, updateGameList] = useState<Game[]>(games);
+  const [playerList, updatePlayerList] = useState<Player[]>([
     {
       avatarSeed: userData.avatarSeed,
       nickname: userData.nickname,
@@ -44,9 +63,26 @@ function Lobby() {
     socket.joinRoom(userData, () => navigate('/Home'));
     socket.setLobbyUpdateListener(updatePlayerList);
 
+    socket.addEventListener('games-update', (newGames: string[]) => {
+      const updatedGames = gameList.map((game) =>
+        newGames.find((gameName) => gameName === game.text)
+          ? game.id >= 1000
+            ? { ...game, id: game.id - 1000 }
+            : { ...game }
+          : game.id < 1000
+          ? { ...game, id: game.id + 1000 }
+          : { ...game }
+      );
+
+      console.log('A lista de jogos foi atualizada.');
+      console.log(newGames);
+      updateGameList(updatedGames);
+    });
+
     socket.addEventListener('room-owner-is', (ownerID) => {
       if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
+        socket.push('games-update', userData.roomCode);
         return;
       }
     });
@@ -63,13 +99,30 @@ function Lobby() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////
 
+  const popWarning = (warning) => {
+    gsap.to(warning, { opacity: 1, duration: 0 });
+    setTimeout(() => {
+      gsap.to(warning, { opacity: 0, duration: 1 });
+    }, 2000);
+  };
+
+  const finishSettings = () => {
+    const selectedGames = gameList.filter((game) => game.id < 1000);
+    if (selectedGames.length >= 3) {
+      const selection = selectedGames.map((game) => game.text);
+      socket.push('selected-games-are', {
+        roomCode: userData.roomCode,
+        selectedGames: JSON.stringify(selection),
+      });
+      return setCurrentLobbyState(LobbyStates.Main);
+    }
+    popWarning('.LobbySettingsWarning');
+  };
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(userData.roomCode);
     console.log('código da sala copiado para a área de transferência');
-    setCopyWarning(Visibility.Visible);
-    setTimeout(() => {
-      setCopyWarning(Visibility.Invisible);
-    }, 2000);
+    popWarning('.CopyWarning');
   };
 
   const beginMatch = () => {
@@ -82,86 +135,29 @@ function Lobby() {
       });
       return;
     }
-    setLobbyWarning(Visibility.Visible);
-    setTimeout(() => {
-      setLobbyWarning(Visibility.Invisible);
-    }, 2000);
+    popWarning('.LobbyWarning');
   };
 
-  const header =
-    ownerVisibility === Visibility.Visible ? (
-      <Header
-        goBackArrow={() => {
-          navigate('/ChooseAvatar', {
-            state: { option: 'update', roomCode: userData.roomCode },
-          });
-        }}
-        settingsPage={() => {
-          /*TODO: add settings page*/
-        }}
-      />
-    ) : (
-      <Header
-        goBackArrow={() => {
-          navigate('/ChooseAvatar', {
-            state: { option: 'update', roomCode: userData.roomCode },
-          });
-        }}
-      />
-    );
+  switch (currentLobbyState) {
+    case LobbyStates.Main:
+      return (
+        <MainPage
+          ownerVisibility={ownerVisibility}
+          roomCode={userData.roomCode}
+          copyToClipboard={copyToClipboard}
+          beginMatch={beginMatch}
+          settingsPage={() => setCurrentLobbyState(LobbyStates.Settings)}
+          playerList={playerList}
+        />
+      );
 
-  return (
-    <Background>
-      {header}
-      <div className="LobbyDiv">
-        <div className="RoomCodeTitleSpace">
-          <p className="RoomCodeTitle">Código da Sala:</p>
-          <div
-            className={
-              copyWarning === Visibility.Visible
-                ? 'Warning Visible'
-                : 'Warning FadeOut'
-            }>
-            <CheckCircle width="20px" height="20px" color="lime" />
-            <p className="CopyWarning">Copiado!</p>
-          </div>
-        </div>
-        <div className="RoomCodeSpace">
-          <p className="RoomCodeItself">{userData.roomCode}</p>
-          <Copy
-            width="22px"
-            height="22px"
-            color={copyWarning === Visibility.Visible ? 'lime' : '#8877DF'}
-            onClick={copyToClipboard}
-          />
-        </div>
-        <p className="PlayerListTitle">Jogadores:</p>
-        <div className="PlayerList">
-          <PlayerList players={playerList} />
-        </div>
-        <div
-          className="BeginButton"
-          style={
-            ownerVisibility === Visibility.Visible
-              ? { visibility: 'visible' }
-              : { visibility: 'hidden' }
-          }>
-          <Button width="240px" height="56px" onClick={beginMatch}>
-            Iniciar
-          </Button>
-        </div>
-        <div
-          className={
-            lobbyWarning === Visibility.Visible
-              ? 'Lobby Warning Visible'
-              : 'Lobby Warning FadeOut'
-          }>
-          <AlertTriangle width="20px" height="20px" color="red" />
-          <p className="LobbyWarning">Mínimo de 2 jogadores!</p>
-        </div>
-      </div>
-    </Background>
-  );
+    case LobbyStates.Settings:
+      return (
+        <SettingsPage
+          mainPage={finishSettings}
+          gameList={gameList}
+          updateGameList={updateGameList}
+        />
+      );
+  }
 }
-
-export default Lobby;

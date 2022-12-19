@@ -8,17 +8,7 @@ import Header from '../../components/Header';
 import Roulette from '../../components/Roulette';
 import RouletteCard from '../../components/Roulette/RouletteCard';
 import SocketConnection from '../../lib/socket';
-
-import BangBang from '../../assets/game-covers/bang-bang.png';
-import BichoBebe from '../../assets/game-covers/bicho-bebe.png';
-import Buzz from '../../assets/game-covers/buzz.png';
-import CSComposto from '../../assets/game-covers/cs-composto.png';
-//import DireitaEsquerda from '../../assets/game-covers/direita-esquerda.png';  //removido temporariamente
-import EuNunca from '../../assets/game-covers/eu-nunca.png';
-import Medusa from '../../assets/game-covers/medusa.png';
-import OEscolhido from '../../assets/game-covers/o-escolhido.png';
-import PensaRapido from '../../assets/game-covers/pensa-rapido.png';
-import Vrum from '../../assets/game-covers/vrum.png';
+import gameList from '../../games';
 
 import RouletteTriangle from '../../assets/roulette-triangle.png';
 import './SelectNextGame.css';
@@ -33,55 +23,6 @@ interface GameCard {
   text: string;
   src: string;
 }
-
-let gameList: GameCard[] = [
-  //TODO incluir o jogo Direita-Esquerda (aqui e no backend) quando a mecânica dos dados tiver sido implementada
-  {
-    id: 0,
-    text: 'Bang Bang',
-    src: BangBang,
-  },
-  {
-    id: 1,
-    text: 'Bicho Bebe',
-    src: BichoBebe,
-  },
-  {
-    id: 2,
-    text: 'Buzz',
-    src: Buzz,
-  },
-  {
-    id: 3,
-    text: 'C, S, Composto',
-    src: CSComposto,
-  },
-  {
-    id: 4,
-    text: 'Eu Nunca',
-    src: EuNunca,
-  },
-  {
-    id: 5,
-    text: 'Medusa',
-    src: Medusa,
-  },
-  {
-    id: 6,
-    text: 'O Escolhido',
-    src: OEscolhido,
-  },
-  {
-    id: 7,
-    text: 'Pensa Rápido',
-    src: PensaRapido,
-  },
-  {
-    id: 8,
-    text: 'Vrum',
-    src: Vrum,
-  },
-];
 
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
@@ -145,15 +86,16 @@ export default function SelectNextGame() {
   //////////////////////////////////////////////////////////////////////////////////////////////
 
   const updateGameList = (newGames: string[]) => {
-    let id = 0;
-    gameList = games.filter((game) => newGames.includes(game.text));
+    let id = -1;
+    const rouletteGames = games.filter((game) => newGames.includes(game.text));
+    console.log(rouletteGames.map((game) => game.text));
 
-    gameList.forEach((game) => {
-      game.id = id;
-      id++;
-    });
-
-    updateGames(gameList);
+    updateGames(
+      rouletteGames.map((game) => {
+        id += 1;
+        return { ...game, id: id };
+      })
+    );
   };
 
   const spin = (id) => {
