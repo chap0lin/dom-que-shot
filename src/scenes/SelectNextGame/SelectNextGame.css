@@ -1,6 +1,5 @@
 .SelectGameSection {
-  margin-top: 2em;
-  height: 700px;
+  margin-top: 1.6em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,8 +32,66 @@
 
 .NextGameName {
   opacity: 0;
-  height: 30px;
   font-size: 25px;
   font-weight: 700;
   margin: 25px 0 40px 0;
+}
+
+#RoulettePage .WaitingMessageDiv {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 5%;
+}
+
+#RoulettePage .WaitingMessage {
+  color: rgba(255, 255, 255, 0.6);
+
+  text-align: center;
+
+  font-size: 20px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  letter-spacing: 0em;
+}
+
+@media (max-height: 650px) {
+  .SelectGameSection {
+    margin-top: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .RouletteDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .RouletteSideIconSpace {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .RouletteCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #170c32;
+    border-radius: 10px;
+    margin-top: 2px;
+  }
+
+  .NextGameName {
+    opacity: 0;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 20px 0 40px 0;
+  }
 }

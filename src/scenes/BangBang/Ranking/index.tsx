@@ -34,7 +34,6 @@ export function RankingPage({
   }
   const winner = data[0];
   const loser = data[data.length - 1];
-  const stalemate = false;
   let count = 0;
   let noOneVoted = false;
 

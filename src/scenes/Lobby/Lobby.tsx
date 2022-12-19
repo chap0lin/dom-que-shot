@@ -39,6 +39,7 @@ export default function Lobby() {
   const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
+  const [currentOwner, setCurrentOwner] = useState<string>();
 
   const [currentLobbyState, setCurrentLobbyState] = useState<LobbyStates>(
     LobbyStates.Main
@@ -80,11 +81,16 @@ export default function Lobby() {
     });
 
     socket.addEventListener('room-owner-is', (ownerID) => {
+      socket.push('get-player-name-by-id', ownerID);
       if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
         socket.push('games-update', userData.roomCode);
         return;
       }
+    });
+
+    socket.addEventListener('player-name', (playerName) => {
+      setCurrentOwner(playerName);
     });
 
     socket.addEventListener('room-is-moving-to', (destination) => {
