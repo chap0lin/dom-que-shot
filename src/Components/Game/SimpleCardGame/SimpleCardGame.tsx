@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SocketConnection from '../../../lib/socket';
-import Background from '../../Background';
 import CoverPage from '../Cover';
 import InfoPage from '../Info';
 import './SimpleCardGame.css';

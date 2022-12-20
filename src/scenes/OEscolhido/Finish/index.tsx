@@ -115,7 +115,7 @@ export default function FinishPage({
                 ? { visibility: 'visible' }
                 : { visibility: 'hidden' }
             }>
-            <Button onClick={roulettePage}>{rouletteButtonText} </Button>
+            <Button onClick={roulettePage}>{rouletteButtonText}</Button>
           </div>
         </div>
       </Background>
