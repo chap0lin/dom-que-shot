@@ -37,19 +37,24 @@
 }
 
 /*Para o placeholder continuar lowecase: */
-.JoinRoomEnterCode::-webkit-input-placeholder { /* WebKit browsers */
+.JoinRoomEnterCode::-webkit-input-placeholder {
+  /* WebKit browsers */
   text-transform: none;
 }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
   text-transform: none;
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
   text-transform: none;
 }
-:-ms-input-placeholder { /* Internet Explorer 10+ */
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
   text-transform: none;
 }
-::placeholder { /* Recent browsers */
+::placeholder {
+  /* Recent browsers */
   text-transform: none;
 }
 

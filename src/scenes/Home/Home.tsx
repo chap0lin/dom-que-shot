@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { gameCards } from './GameCards';
 import { ArrowRight, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,6 @@ function Home() {
   const navigate = useNavigate();
 
   const [roomCode, setRoomCode] = useState('');
-  let room = '';
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
@@ -39,7 +38,7 @@ function Home() {
     const newRoom = e.target.value.trim();
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
-      room = newRoom;
+      //room = newRoom;
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
@@ -79,12 +78,12 @@ function Home() {
     return () => {
       document.removeEventListener('keydown', detectKeyDown);
     };
-  }, []);
+  }, [roomCode]);
 
   const detectKeyDown = (e) => {
     if (e.key === 'Enter') {
-      //ref.current.blur();
-      verifyRoom(room);
+      console.log(roomCode);
+      verifyRoom(roomCode);
     }
   };
 
@@ -104,7 +103,11 @@ function Home() {
             placeholder="Digite o código da sala"
           />
           <button className="JoinRoomButton">
-            <ArrowRight width="30px" height="30px" onClick={() => verifyRoom(roomCode)} />
+            <ArrowRight
+              width="30px"
+              height="30px"
+              onClick={() => verifyRoom(roomCode)}
+            />
           </button>
         </div>
 
@@ -121,7 +124,9 @@ function Home() {
 
       <div className="CreateRoomDiv">
         <p className="HelpInfo">Se ainda não possui:</p>
-        <Button width="100%" onClick={newRoom}>Criar Sala</Button>
+        <Button width="100%" onClick={newRoom}>
+          Criar Sala
+        </Button>
       </div>
 
       <div className="ChooseGameDiv">

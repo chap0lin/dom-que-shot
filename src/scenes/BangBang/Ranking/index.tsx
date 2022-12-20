@@ -38,11 +38,10 @@ export function RankingPage({
   let count = 0;
   let noOneVoted = false;
 
-
-  data.forEach(player => {
+  data.forEach((player) => {
     if (parseInt(player.shotTime) / -1000 === 10) {
       count++;
-      console.log("CONTADOR DE PERDEDORES >>>> ", count);
+      console.log('CONTADOR DE PERDEDORES >>>> ', count);
     }
   });
 
@@ -50,21 +49,21 @@ export function RankingPage({
     noOneVoted = true;
   }
 
-
   return (
     <Background>
       <div id="ranking-page" className="ranking-page">
         <div className="container-header">
-
           {count < 2 ? (
-            <><div className="container-winner">
-              <div className="background-avatar">
-                <img className="crown" src={crown} />
-                <Avatar seed={winner.seed} />
+            <>
+              <div className="container-winner">
+                <div className="background-avatar">
+                  <img className="crown" src={crown} />
+                  <Avatar seed={winner.seed} />
+                </div>
+                <p>{winner.nickname}</p>
+                <span>{(parseInt(winner.shotTime) / -1000).toFixed(2)}s</span>
               </div>
-              <p>{winner.nickname}</p>
-              <span>{(parseInt(winner.shotTime) / -1000).toFixed(2)}s</span>
-            </div><div className="container-loser">
+              <div className="container-loser">
                 <div className="background-avatar">
                   {finalRanking && <Avatar seed={loser.seed} />}
                   <img className="thumbDown" src={thumbDown} />
@@ -73,25 +72,38 @@ export function RankingPage({
                 {finalRanking && (
                   <span>{(parseInt(loser.shotTime) / -1000).toFixed(2)}s</span>
                 )}
-              </div></>
+              </div>
+            </>
           ) : (
             <div className="container-only-winner">
               <div className="background-avatar">
-                { !noOneVoted ? (
-                  <><img className="only-crown" src={crown} /><Avatar seed={winner.seed} /></>)
-                  : (<img src={noOneVotedImage} width="63px;" style={{ transform: "rotate(10deg)" }} />)
-                }
+                {!noOneVoted ? (
+                  <>
+                    <img className="only-crown" src={crown} />
+                    <Avatar seed={winner.seed} />
+                  </>
+                ) : (
+                  <img
+                    src={noOneVotedImage}
+                    width="63px;"
+                    style={{ transform: 'rotate(10deg)' }}
+                  />
+                )}
               </div>
-              { !noOneVoted ?
-                (<>
+              {!noOneVoted ? (
+                <>
                   <p>{winner.nickname}</p>
                   <span>{(parseInt(winner.shotTime) / -1000).toFixed(2)}s</span>
-                </>)
-                : (<p style={{ textAlign: "center" }}>Todo mundo<br />morreu!</p>)}
-
-            </div>)
-          }
-
+                </>
+              ) : (
+                <p style={{ textAlign: 'center' }}>
+                  Todo mundo
+                  <br />
+                  morreu!
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="container-body">

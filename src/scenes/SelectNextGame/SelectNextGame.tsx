@@ -163,7 +163,10 @@ export default function SelectNextGame() {
   const startSelectedGame = () => {
     if (amIOwner === true) {
       setTimeout(() => {
-        socket.push('start-game', {roomCode: userData.roomCode, nextGame: nextGame});
+        socket.push('start-game', {
+          roomCode: userData.roomCode,
+          nextGame: nextGame,
+        });
       }, 1000);
     }
   };
