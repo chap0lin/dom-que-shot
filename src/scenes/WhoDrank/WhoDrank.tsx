@@ -68,8 +68,8 @@ export default function WhoDrankPage() {
   });
 
   const selectPlayer = (player: PlayerProps) => {
-    let selectedOnes = selectedPlayers;
-    let index = selectedPlayers.findIndex(
+    const selectedOnes = selectedPlayers;
+    const index = selectedPlayers.findIndex(
       (p) => p.nickname === player.nickname
     );
     if (index !== -1) {

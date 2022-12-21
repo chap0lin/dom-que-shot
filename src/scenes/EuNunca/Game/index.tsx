@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
@@ -38,9 +38,7 @@ export default function GamePage({
             ))}
           </div>
           <div className="GameVoteButton">
-            <Button>
-              <div onClick={finishPage}>Continuar</div>
-            </Button>
+            <Button onClick={finishPage}>Continuar</Button>
           </div>
         </div>
       </Background>

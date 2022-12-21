@@ -25,6 +25,7 @@ function Lobby() {
   const [ownerVisibility, setOwnerVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
+  const [currentOwner, setCurrentOwner] = useState<string>();
 
   const [playerList, updatePlayerList] = useState([
     {
@@ -45,15 +46,22 @@ function Lobby() {
     socket.setLobbyUpdateListener(updatePlayerList);
 
     socket.addEventListener('room-owner-is', (ownerID) => {
+      socket.push('get-player-name-by-id', ownerID);
       if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
         return;
       }
     });
 
+    socket.addEventListener('player-name', (playerName) => {
+      setCurrentOwner(playerName);
+    });
+
     socket.addEventListener('room-is-moving-to', (destination) => {
-      console.log(`Movendo a sala para ${destination}.`);
-      navigate(destination);
+      if (destination === '/SelectNextGame') {
+        console.log(`Movendo a sala para ${destination}.`);
+        return navigate(destination);
+      }
     });
 
     return () => {
@@ -113,7 +121,7 @@ function Lobby() {
   return (
     <Background>
       {header}
-      <div className="LobbyDiv">
+      <div className="LobbyDiv" id="LobbyPage">
         <div className="RoomCodeTitleSpace">
           <p className="RoomCodeTitle">Código da Sala:</p>
           <div
@@ -138,6 +146,19 @@ function Lobby() {
         <p className="PlayerListTitle">Jogadores:</p>
         <div className="PlayerList">
           <PlayerList players={playerList} />
+        </div>
+        <div
+          className="WaitingMessageDiv"
+          style={
+            ownerVisibility === Visibility.Invisible
+              ? { visibility: 'visible' }
+              : { display: 'none' }
+          }>
+          <p className="WaitingMessage">
+            Aguardando {currentOwner}
+            <br />
+            iniciar o jogo...
+          </p>
         </div>
         <div
           className="BeginButton"
