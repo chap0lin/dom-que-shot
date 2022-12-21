@@ -13,7 +13,7 @@ import './Home.css';
 
 type GameInformation = {
   title: string;
-  description: string;
+  description: string | JSX.Element;
 }
 
 function Home() {
@@ -99,9 +99,9 @@ function Home() {
 
   const toggleGameInfo = (show) => {
     if (show === true) {
-      return gsap.to('.GameInfoPopup', { yPercent: -105, duration: 0.5, ease: 'power2'});
+      return gsap.to('.GameInfoPopup', { scale: 1, yPercent: -105, duration: 0.6, ease: 'power2'});
     }
-    return gsap.to('.GameInfoPopup', { yPercent: 0, duration: 0.5, ease: 'power2'});
+    return gsap.to('.GameInfoPopup', { scale: 0, yPercent: 0, duration: 0.6, ease: 'power2'});
   };
 
   return (

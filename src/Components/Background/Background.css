@@ -1,10 +1,11 @@
 .AppBackground {
   background-color: #170c32;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .AppBackgroundWithImage {
@@ -14,10 +15,11 @@
   background-size: contain;
   background-color: #170c32;
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 @media (max-width: 500px) {

@@ -6,12 +6,12 @@ type Card = {
   title: string;
   id: number;
   color: string;
-  description: string;
+  description: string | JSX.Element;
 }
 
 type GameInformation = {
   title: string;
-  description: string;
+  description: string | JSX.Element;
 }
 interface ImageSliderProps {
   content: Card[];
