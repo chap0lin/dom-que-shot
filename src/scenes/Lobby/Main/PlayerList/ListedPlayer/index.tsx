@@ -1,6 +1,6 @@
 import React from 'react';
-import Avatar from '../../../../components/Avatar';
-import Beer from '../../../../assets/beer.png';
+import Avatar from '../../../../../components/Avatar';
+import Beer from '../../../../../assets/beer.png';
 import './ListedPlayer.css';
 
 interface ListedPlayerProps {
