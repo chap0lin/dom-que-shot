@@ -31,6 +31,7 @@ export default function SelectNextGame() {
   const navigate = useNavigate();
   const [nextGameName, setNextGameName] = useState('');
   const [games, updateGames] = useState<GameCard[]>(gameList);
+  const [number, setNumber] = useState<number>(-1);
 
   const [turnVisibility, setTurnVisibility] = useState<Visibility>(
     Visibility.Invisible
@@ -44,7 +45,6 @@ export default function SelectNextGame() {
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
   const socket = SocketConnection.getInstance();
-  let amIOwner = false;
   let isMyTurn = false;
 
   useEffect(() => {
@@ -58,9 +58,9 @@ export default function SelectNextGame() {
     socket.push('player-turn', userData.roomCode);
 
     socket.addEventListener('room-owner-is', (ownerID) => {
+      console.log()
       if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
-        amIOwner = true;
       }
     });
     socket.push('room-owner-is', userData.roomCode);
@@ -75,7 +75,7 @@ export default function SelectNextGame() {
 
     socket.addEventListener('roulette-number-is', (number) => {
       console.log(`A roleta sorteou o número ${number}`);
-      spin(number);
+      setNumber(number);
     });
 
     socket.addEventListener('room-is-moving-to', (destination) => {
@@ -83,7 +83,7 @@ export default function SelectNextGame() {
       navigate(destination, {
         state: {
           isYourTurn: isMyTurn,
-          isOwner: amIOwner,
+          isOwner: (ownerVisibility === Visibility.Visible)? true : false,
         },
       });
     });
@@ -99,7 +99,7 @@ export default function SelectNextGame() {
   const updateGameList = (newGames: string[]) => {
     let id = -1;
     const rouletteGames = games.filter((game) => newGames.includes(game.text));
-    console.log(rouletteGames.map((game) => game.text));
+    //console.log(rouletteGames.map((game) => game.text));
 
     updateGames(
       rouletteGames.map((game) => {
@@ -109,8 +109,16 @@ export default function SelectNextGame() {
     );
   };
 
+  useEffect(() => {
+    if(number >= 0){
+      console.log(games.map(game => game.text));
+      console.log(number);
+      spin(number);
+    }
+  }, [number])
+
   const startSelectedGame = () => {
-    if (amIOwner === true) {
+    if (ownerVisibility === Visibility.Visible) {
       setTimeout(() => {
         socket.push('start-game', {
           roomCode: userData.roomCode,
@@ -121,7 +129,8 @@ export default function SelectNextGame() {
   };
 
   const spin = (id) => {
-    const selectedGame = gameList.find((game) => game.id === id);
+    console.log(games.map(game => game.text));
+    const selectedGame = games.find((game) => game.id === id);
     nextGame = selectedGame.text;
     setNextGameName(nextGame);
 
@@ -131,12 +140,12 @@ export default function SelectNextGame() {
     const heightOffset = window.innerHeight < 720 ? 112 : 142;
     timeline
       .to('.RouletteCard', {
-        y: `-${3 * (gameList.length - 2) * heightOffset}px`,
+        y: `-${3 * (games.length - 2) * heightOffset}px`,
         duration: 1,
         ease: 'linear',
       })
       .to('.RouletteCard', {
-        y: `-${(gameList.length - 1 + id) * heightOffset}px`,
+        y: `-${(games.length - 1 + id) * heightOffset}px`,
         duration: 2,
         ease: 'elastic',
       })
