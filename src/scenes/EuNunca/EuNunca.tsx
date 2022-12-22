@@ -7,10 +7,12 @@ import CoverPage from '../../components/Game/Cover';
 import InfoPage from '../../components/Game/Info';
 import GamePage from './Game';
 import './EuNunca.css';
+import HintPage from '../../components/Game/Hint';
 
 enum Game {
   Cover,
   Info,
+  Hint,
   Game,
 }
 
@@ -106,7 +108,7 @@ export default function EuNunca() {
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          gamePage={startGame}
+          gamePage={() => setCurrentGameState(Game.Game)}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
@@ -121,6 +123,18 @@ export default function EuNunca() {
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
           turnVisibility={turnVisibility}
+        />
+      );
+
+    case Game.Hint:
+      return (
+        <HintPage
+          title={title}
+          coverImg={coverImg}
+          gameType="Half Mecanic"
+          description={description}
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={startGame}
         />
       );
 

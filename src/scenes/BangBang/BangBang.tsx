@@ -8,10 +8,12 @@ import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
 import coverImg from '../../assets/game-covers/bang-bang.png';
 import './BangBang.css';
+import HintPage from '../../components/Game/Hint';
 
 enum Game {
   Cover,
   Info,
+  Hint,
   Game,
   Ranking,
 }
@@ -136,7 +138,7 @@ export function BangBang() {
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
-          gamePage={() => setCurrentGameState(Game.Game)}
+          gamePage={() => setCurrentGameState(Game.Hint)}
         />
       );
     case Game.Info:
@@ -146,8 +148,18 @@ export function BangBang() {
           description={description}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
-          gamePage={() => setCurrentGameState(Game.Game)}
           turnVisibility={turnVisibility}
+        />
+      );
+    case Game.Hint:
+      return (
+        <HintPage
+          title={title}
+          coverImg={coverImg}
+          gameType="Full Mecanic"
+          description={description}
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={() => setCurrentGameState(Game.Game)}
         />
       );
     case Game.Game:

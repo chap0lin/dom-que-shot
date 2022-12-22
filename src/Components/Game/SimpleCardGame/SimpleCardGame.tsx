@@ -3,11 +3,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SocketConnection from '../../../lib/socket';
 import CoverPage from '../Cover';
 import InfoPage from '../Info';
+import HintPage from '../Hint';
 import './SimpleCardGame.css';
 
 enum Game {
   Cover,
   Info,
+  Hint,
 }
 
 interface SimpleCardGameProps {
@@ -75,7 +77,7 @@ export default function SimpleCardGame({
           infoPage={() => setCurrentGameState(Game.Info)}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
-          gamePage={endOfGame}
+          gamePage={() => setCurrentGameState(Game.Hint)} // mudar para beginning of game (ou qualquer coisa assim)
         />
       );
 
@@ -86,6 +88,18 @@ export default function SimpleCardGame({
           coverImg={coverImg}
           description={description}
           coverPage={() => setCurrentGameState(Game.Cover)}
+        />
+      );
+
+    case Game.Hint:
+      return (
+        <HintPage
+          title={title}
+          coverImg={coverImg}
+          gameType="SCG"
+          description={description}
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={endOfGame}
         />
       );
   }

@@ -9,6 +9,7 @@ import FinishPage from './Finish';
 import AwaitingResults from './Awaiting';
 import coverImg from '../../assets/game-covers/o-escolhido.png';
 import './OEscolhido.css';
+import HintPage from '../../components/Game/Hint';
 
 interface ListedPlayerProps {
   nickname: string;
@@ -25,6 +26,7 @@ interface VotedPlayerProps {
 enum Game {
   Cover,
   Info,
+  Hint,
   Game,
   AwaitingResults,
   Finish,
@@ -164,7 +166,7 @@ export default function OEscolhido() {
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           infoPage={() => setCurrentGameState(Game.Info)}
-          gamePage={() => setCurrentGameState(Game.Game)}
+          gamePage={() => setCurrentGameState(Game.Hint)}
         />
       );
 
@@ -175,8 +177,19 @@ export default function OEscolhido() {
           description={description}
           coverImg={coverImg}
           coverPage={() => setCurrentGameState(Game.Cover)}
-          gamePage={() => setCurrentGameState(Game.Game)}
           turnVisibility={turnVisibility}
+        />
+      );
+
+    case Game.Hint:
+      return (
+        <HintPage
+          title={title}
+          coverImg={coverImg}
+          gameType="Full Mecanic"
+          description={description}
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={() => setCurrentGameState(Game.Game)}
         />
       );
 
