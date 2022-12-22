@@ -26,10 +26,12 @@ interface GameCard {
 
 export default function SelectNextGame() {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
+  let nextGame = '';
 
   const navigate = useNavigate();
   const [nextGameName, setNextGameName] = useState('');
   const [games, updateGames] = useState<GameCard[]>(gameList);
+
   const [turnVisibility, setTurnVisibility] = useState<Visibility>(
     Visibility.Invisible
   );
@@ -70,10 +72,12 @@ export default function SelectNextGame() {
     socket.addEventListener('games-update', (newGames) => {
       updateGameList(newGames);
     });
+
     socket.addEventListener('roulette-number-is', (number) => {
       console.log(`A roleta sorteou o número ${number}`);
       spin(number);
     });
+
     socket.addEventListener('room-is-moving-to', (destination) => {
       console.log(`Movendo a sala para ${destination}.`);
       navigate(destination, {
@@ -105,7 +109,22 @@ export default function SelectNextGame() {
     );
   };
 
+  const startSelectedGame = () => {
+    if (amIOwner === true) {
+      setTimeout(() => {
+        socket.push('start-game', {
+          roomCode: userData.roomCode,
+          nextGame: nextGame,
+        });
+      }, 1000);
+    }
+  };
+
   const spin = (id) => {
+    const selectedGame = gameList.find((game) => game.id === id);
+    nextGame = selectedGame.text;
+    setNextGameName(nextGame);
+
     setRouletteIsSpinning(true);
     gsap.to('.RouletteButton', { opacity: 0, display: 'none', duration: 0.25 });
     const timeline = gsap.timeline();
@@ -125,11 +144,8 @@ export default function SelectNextGame() {
         opacity: 1,
         duration: 1,
         ease: 'power2',
-      });
-
-    const selectedGame = gameList.find((game) => game.id === id);
-    const gameName = selectedGame.text;
-    setNextGameName(gameName);
+      })
+      .call(startSelectedGame);
   };
 
   const turnTheWheel = () => {
@@ -137,13 +153,10 @@ export default function SelectNextGame() {
   };
 
   const backToLobby = () => {
-    if (nextGameName === '') {
-      console.log('Voltando ao lobby.');
-      socket.push('move-room-to', {
-        roomCode: userData.roomCode,
-        destination: '/Lobby',
-      });
-    }
+    socket.push('move-room-to', {
+      roomCode: userData.roomCode,
+      destination: '/Lobby',
+    });
   };
 
   const header =
@@ -197,13 +210,12 @@ export default function SelectNextGame() {
         <p className="NextGameName">{nextGameName}</p>
         <div
           className="RouletteButton"
-          onClick={turnTheWheel}
           style={
             turnVisibility === Visibility.Visible
               ? { visibility: 'visible' }
               : { visibility: 'hidden' }
           }>
-          <Button>Girar</Button>
+          <Button onClick={turnTheWheel}>Girar</Button>
         </div>
       </div>
     </Background>

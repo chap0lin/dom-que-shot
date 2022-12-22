@@ -39,7 +39,6 @@ function ChooseAvatar() {
     const input = e.target.value;
     setInputText(input);
     if (input.trim().length !== 0) {
-      console.log(input);
       setUserName(input);
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;

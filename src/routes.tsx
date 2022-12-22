@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 import Welcome from './scenes/Welcome';
 import Tutorial from './scenes/Tutorial';
@@ -22,7 +22,7 @@ import SelectNextGame from './scenes/SelectNextGame';
 
 const Router: React.FC = () => {
   return (
-    <BrowserRouter>
+    <MemoryRouter>
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/Tutorial" element={<Tutorial />} />
@@ -43,7 +43,7 @@ const Router: React.FC = () => {
         <Route path="/EuNunca" element={<EuNunca />} />
         <Route path="/BangBang" element={<BangBang />} />
       </Routes>
-    </BrowserRouter>
+    </MemoryRouter>
   );
 };
 

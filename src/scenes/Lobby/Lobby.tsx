@@ -87,8 +87,10 @@ export default function Lobby() {
     });
 
     socket.addEventListener('room-is-moving-to', (destination) => {
-      console.log(`Movendo a sala para ${destination}.`);
-      navigate(destination);
+      if (destination === '/SelectNextGame') {
+        console.log(`Movendo a sala para ${destination}.`);
+        return navigate(destination);
+      }
     });
 
     return () => {
