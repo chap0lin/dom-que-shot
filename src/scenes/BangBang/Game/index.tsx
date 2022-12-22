@@ -23,6 +23,7 @@ interface GameProps {
 
 export function GamePage({ rankingPage, shot, ready }: GameProps) {
   const [msTimer, setMsTimer] = useState(4600);
+  const [showPopUp, setPopUp] = useState(false);
   const [buttonStatus, setButtonStatus] = useState<ButtonStatus>(
     ButtonStatus.disabled
   );
@@ -92,11 +93,30 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
     setBalloonImg(balloonReady);
   };
 
+  const shotValidation = () => {
+    if(msTimer > 0){ // queima da largada
+      console.log("False start");
+      shot(-10000 - msTimer);
+    }
+    else {
+      shot(msTimer);
+    }
+  };
+
   const handleClick = () => {
-    shot(msTimer);
+    shotValidation();
     clearInterval(timer);
     setButtonStatus(ButtonStatus.used);
     rankingPage();
+  };
+
+  const showErrorPopUp = () => {
+    if (showPopUp === false) {
+      setPopUp(true);
+    }
+    else{
+      setPopUp(false);
+    }
   };
 
   return (
@@ -105,19 +125,27 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
         <Header timer={formatedTime()} />
 
         <div className="target-image">
-          <img src={targetImage} className="target-img" />
+          <img onClick={showErrorPopUp} src={targetImage} className="target-img" />
+          <div onClick={showErrorPopUp} className="wrong-local-click" style={{ visibility: showPopUp ? 'visible' : 'hidden' }}>
+              <p>Erooooo!!!</p>
+              <p>Você deve clicar no botão abaixo</p>
+          </div>
         </div>
 
         <div className="container-baloon">
           <div className="animation-balloon">
-            <img src={balloonImg} className="balloon-img" />
+            <img onClick={showErrorPopUp} src={balloonImg} className="balloon-img" />
           </div>
         </div>
 
         <button
           className="button-bang"
           onClick={handleClick}
-          disabled={buttonStatus !== ButtonStatus.enabled}></button>
+          style={{
+            opacity: buttonStatus !== ButtonStatus.enabled? 0.3 : 1, 
+            cursor: buttonStatus !== ButtonStatus.enabled? "default" : "pointer" 
+          }}>
+        </button>
       </div>
     </Background>
   );
