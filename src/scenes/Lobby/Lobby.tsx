@@ -58,15 +58,18 @@ export default function Lobby() {
     socket.setLobbyUpdateListener(updatePlayerList);
 
     socket.addEventListener('games-update', (newGames: string[]) => {
-      const updatedGames = gameList.map((game) =>
-        newGames.find((gameName) => gameName === game.text)
-          ? game.id >= 1000
-            ? { ...game, id: game.id - 1000 }
-            : { ...game }
-          : game.id < 1000
-          ? { ...game, id: game.id + 1000 }
-          : { ...game }
-      );
+      const updatedGames = gameList.map((game) => {
+        if (newGames.find((gameName) => gameName === game.text)) {
+          if (game.id >= 1000) {
+            return { ...game, id: game.id - 1000 };
+          } else {
+            return { ...game };
+          }
+        } else if (game.id < 1000) {
+          return { ...game, id: game.id + 1000 };
+        }
+        return { ...game };
+      });
 
       console.log('A lista de jogos foi atualizada.');
       console.log(newGames);

@@ -4,6 +4,7 @@ import GameCard from '../../../components/GameCard';
 import { AlertTriangle } from 'react-feather';
 import { Game } from '../../../contexts/games';
 import './Settings.css';
+import { useEffect } from 'react';
 
 interface SettingsProps {
   gameList: Game[];
@@ -31,18 +32,20 @@ export default function Settings({
     (game) => game.id < 1000
   ).length;
 
-  const selectionMessage =
-    numberOfSelectedGames < gameList.length ? (
-      numberOfSelectedGames === 0 ? (
-        <>Nenhum jogo selecionado.</>
-      ) : numberOfSelectedGames === 1 ? (
-        <>1 jogo selecionado.</>
-      ) : (
-        <>{numberOfSelectedGames} jogos selecionados.</>
-      )
-    ) : (
-      <>Todos os jogos selecionados.</>
-    );
+  const defineSelectionMessage = () => {
+    switch (numberOfSelectedGames) {
+      case 0:
+        return `Nenhum jogo selecionado.`;
+      case 1:
+        return `1 jogo selecionado.`;
+      case gameList.length:
+        return `Todos os jogos selecionados.`;
+      default:
+        return `${numberOfSelectedGames} jogos selecionados.`;
+    }
+  };
+
+  const selectionMessage = defineSelectionMessage();
 
   return (
     <Background>

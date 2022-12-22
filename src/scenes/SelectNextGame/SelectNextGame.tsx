@@ -58,7 +58,7 @@ export default function SelectNextGame() {
     socket.push('player-turn', userData.roomCode);
 
     socket.addEventListener('room-owner-is', (ownerID) => {
-      console.log()
+      console.log();
       if (ownerID === socket.socket.id) {
         setOwnerVisibility(Visibility.Visible);
       }
@@ -83,7 +83,7 @@ export default function SelectNextGame() {
       navigate(destination, {
         state: {
           isYourTurn: isMyTurn,
-          isOwner: (ownerVisibility === Visibility.Visible)? true : false,
+          isOwner: ownerVisibility === Visibility.Visible ? true : false,
         },
       });
     });
@@ -110,12 +110,12 @@ export default function SelectNextGame() {
   };
 
   useEffect(() => {
-    if(number >= 0){
-      console.log(games.map(game => game.text));
+    if (number >= 0) {
+      console.log(games.map((game) => game.text));
       console.log(number);
       spin(number);
     }
-  }, [number])
+  }, [number]);
 
   const startSelectedGame = () => {
     if (ownerVisibility === Visibility.Visible) {
@@ -129,7 +129,7 @@ export default function SelectNextGame() {
   };
 
   const spin = (id) => {
-    console.log(games.map(game => game.text));
+    console.log(games.map((game) => game.text));
     const selectedGame = games.find((game) => game.id === id);
     nextGame = selectedGame.text;
     setNextGameName(nextGame);
@@ -211,7 +211,7 @@ export default function SelectNextGame() {
               : { display: 'none' }
           }>
           <p className="WaitingMessage">
-            Aguardando {currentPlayer} 
+            Aguardando {currentPlayer}
             <br />
             girar a roleta...
           </p>
