@@ -9,7 +9,7 @@ import OEscolhido from '../../assets/game-covers/o-escolhido.png';
 import PensaRapido from '../../assets/game-covers/pensa-rapido.png';
 import Vrum from '../../assets/game-covers/vrum.png';
 
-type Game = {
+export type Game = {
   id: number;
   text: string;
   src: string;

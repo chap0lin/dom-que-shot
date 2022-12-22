@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
-import games from '../../contexts/games';
+import games, { Game } from '../../contexts/games';
 import gsap from 'gsap';
 import './Lobby.css';
 
@@ -17,13 +17,6 @@ enum LobbyStates {
   Main,
   Settings,
 }
-
-type Game = {
-  id: number;
-  text: string;
-  src: string;
-  backgroundColor: string;
-};
 
 type Player = {
   avatarSeed: string;

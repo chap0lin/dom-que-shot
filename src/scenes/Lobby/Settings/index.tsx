@@ -2,14 +2,8 @@ import Header from '../../../components/Header';
 import Background from '../../../components/Background';
 import GameCard from '../../../components/GameCard';
 import { AlertTriangle } from 'react-feather';
+import { Game } from '../../../contexts/games';
 import './Settings.css';
-
-type Game = {
-  id: number;
-  text: string;
-  src: string;
-  backgroundColor: string;
-};
 
 interface SettingsProps {
   gameList: Game[];
