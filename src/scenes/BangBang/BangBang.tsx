@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
-import InfoPage from '../../components/Game/Info';
+import HintPage from '../../components/Game/Hint';
 import { RankingPage } from './Ranking';
 import { GamePage } from './Game';
 import coverImg from '../../assets/game-covers/bang-bang.png';
@@ -11,7 +11,7 @@ import './BangBang.css';
 
 enum Game {
   Cover,
-  Info,
+  Hint,
   Game,
   Ranking,
 }
@@ -137,20 +137,20 @@ export function BangBang() {
           ownerVisibility={ownerVisibility}
           description={description} //full game info is now loaded here
           sizeOfDescription={300} //optional sizing of popup box
+          gamePage={() => setCurrentGameState(Game.Hint)}
+        />
+      );
+    case Game.Hint:        //this whole screen can be possibly removed now the game description loads on Game.Cover
+      return (
+        <HintPage
+          title={title}
+          description={description}
+          coverImg={coverImg}
+          gameType='round'
+          coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
       );
-    // case Game.Info:        //this whole screen can be possibly removed now the game description loads on Game.Cover
-    //   return (
-    //     <InfoPage
-    //       title={title}
-    //       description={description}
-    //       coverImg={coverImg}
-    //       coverPage={() => setCurrentGameState(Game.Cover)}
-    //       gamePage={() => setCurrentGameState(Game.Game)}
-    //       turnVisibility={turnVisibility}
-    //     />
-    //   );
     case Game.Game:
       return (
         <GamePage

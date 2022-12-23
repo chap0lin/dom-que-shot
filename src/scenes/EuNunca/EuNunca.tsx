@@ -4,13 +4,13 @@ import coverImg from '../../assets/game-covers/eu-nunca.png';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
-import InfoPage from '../../components/Game/Info';
+import HintPage from '../../components/Game/Hint';
 import GamePage from './Game';
 import './EuNunca.css';
 
 enum Game {
   Cover,
-  Info,
+  Hint,
   Game,
 }
 
@@ -106,7 +106,7 @@ export default function EuNunca() {
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          gamePage={startGame}
+          gamePage={() => setCurrentGameState(Game.Hint)}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           description={description} //full game info is now loaded here
@@ -114,16 +114,17 @@ export default function EuNunca() {
         />
       );
 
-    // case Game.Info:      //this whole screen can be possibly removed now the game description loads on Game.Cover
-    //   return (
-    //     <InfoPage       //TODO here aswell
-    //       title={title}
-    //       description={description}
-    //       coverImg={coverImg}
-    //       coverPage={() => setCurrentGameState(Game.Cover)}
-    //       turnVisibility={turnVisibility}
-    //     />
-    //   );
+    case Game.Hint: 
+      return (
+        <HintPage       
+          title={title}
+          description={description}
+          gameType="dynamic"
+          coverImg={coverImg}
+          coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={startGame}
+        />
+      );
 
     case Game.Game:
       return (

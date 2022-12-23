@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import SocketConnection from '../../../lib/socket';
 import CoverPage from '../Cover';
-import InfoPage from '../Info';
+import HintPage from '../Hint';
 import './SimpleCardGame.css';
 
 enum Game {
   Cover,
-  Info,
+  Hint,
 }
 
 interface SimpleCardGameProps {
@@ -78,17 +78,19 @@ export default function SimpleCardGame({
           sizeOfDescription={sizeOfDescription}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
-          gamePage={endOfGame}
+          gamePage={() => setCurrentGameState(Game.Hint)}
         />
       );
 
-    case Game.Info: //TODO Rafa, change this to the 'kickstart' game page (full game info is now already provided on the Game.Cover)
+    case Game.Hint:
       return (
-        <InfoPage
+        <HintPage
           title={title}
           coverImg={coverImg}
           description={description}
+          gameType="simple"
           coverPage={() => setCurrentGameState(Game.Cover)}
+          gamePage={endOfGame}
         />
       );
   }
