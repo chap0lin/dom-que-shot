@@ -15,7 +15,7 @@ const HintPageDescription = styled.p`
   padding: 0 40px;
   font-weight: 500;
   font-size: 20px;
-  max-height: 550px;
+  max-height: 600px;
   text-align: justify;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -41,20 +41,21 @@ export default function HintPage({
   gamePage,
   description,
 }: HintProps) {
-  const buttonText = gameType === 'simple' ? 'Finalizar' : 'Iniciar';
+
+  let buttonText = 'Iniciar';
+  if(gameType === 'simple'){
+    typeof description === 'string'
+    ? description += '\n\nPodem começar! Finalizando o jogo, clique no botão abaixo.'
+    : description = <>{description}<br /><br />Podem começar! Finalizando o jogo, clique no botão abaixo.</>;
+    
+    buttonText = 'Finalizar';
+  }
+
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title={title} />
       <HintPageDiv>
         <HintPageDescription>{description}</HintPageDescription>
-        <div
-          style={
-            gameType === 'simple' ? { visibility: 'visible' } : { display: 'none' }
-          }>
-          <HintPageDescription style={{ height: '50px' }}>
-            {'Podem começar! Finalizando o jogo, clique no botão abaixo.'}
-          </HintPageDescription>
-        </div>
         <div>
           <Button onClick={gamePage}>{buttonText}</Button>
         </div>
