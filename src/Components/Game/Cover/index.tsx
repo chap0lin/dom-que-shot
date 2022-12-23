@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Background from '../../Background';
 import Header from '../../Header';
 import Button from '../../Button';
+import Popup from '../../Popup';
 import gsap from 'gsap';
 import './Cover.css';
 
@@ -9,7 +10,8 @@ interface CoverProps {
   title: string;
   coverImg: string;
   type: string;
-  infoPage: () => void;
+  description: string | JSX.Element;
+  sizeOfDescription?: number;
   gamePage: () => void;
   goBackPage: () => void;
   turnVisibility: boolean;
@@ -20,18 +22,23 @@ export default function CoverPage({
   type,
   title,
   coverImg,
-  infoPage,
+  description,
+  sizeOfDescription,
   gamePage,
   goBackPage,
   turnVisibility,
   ownerVisibility,
 }: CoverProps) {
   const [cardColor, setCardColor] = useState('#000000');
+  const [popupVisibility, setPopupVisibility] = useState<boolean>(false);
 
   const header = ownerVisibility ? (
-    <Header goBackArrow={goBackPage} infoPage={infoPage} />
+    <Header
+      goBackArrow={goBackPage}
+      infoPage={() => setPopupVisibility(true)}
+    />
   ) : (
-    <Header infoPage={infoPage} />
+    <Header infoPage={() => setPopupVisibility(true)} />
   );
 
   useEffect(() => {
@@ -121,6 +128,13 @@ export default function CoverPage({
           <Button onClick={gamePage}>Começar jogo</Button>
         </div>
       </div>
+      <Popup
+        height={sizeOfDescription ? sizeOfDescription : 800}
+        title={title}
+        description={description}
+        show={popupVisibility}
+        exit={() => setPopupVisibility(false)}
+      />
     </Background>
   );
 }

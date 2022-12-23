@@ -135,21 +135,22 @@ export function BangBang() {
           goBackPage={backToLobby}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
-          infoPage={() => setCurrentGameState(Game.Info)}
+          description={description} //full game info is now loaded here
+          sizeOfDescription={300} //optional sizing of popup box
           gamePage={() => setCurrentGameState(Game.Game)}
         />
       );
-    case Game.Info:
-      return (
-        <InfoPage
-          title={title}
-          description={description}
-          coverImg={coverImg}
-          coverPage={() => setCurrentGameState(Game.Cover)}
-          gamePage={() => setCurrentGameState(Game.Game)}
-          turnVisibility={turnVisibility}
-        />
-      );
+    // case Game.Info:        //this whole screen can be possibly removed now the game description loads on Game.Cover
+    //   return (
+    //     <InfoPage
+    //       title={title}
+    //       description={description}
+    //       coverImg={coverImg}
+    //       coverPage={() => setCurrentGameState(Game.Cover)}
+    //       gamePage={() => setCurrentGameState(Game.Game)}
+    //       turnVisibility={turnVisibility}
+    //     />
+    //   );
     case Game.Game:
       return (
         <GamePage

@@ -1,26 +1,25 @@
-.GameInfoDiv {
+.PopupDiv {
   display: flex;
   flex-direction: column;
   padding: 20px 20px 0 20px;
   width: 360px;
-  height: 280px;
   border-radius: 15px;
   background: rgba(255, 255, 255, 0.95);
 }
 
-.GameInfoHeader {
+.PopupHeader {
   display: flex;
   justify-content: space-between;
 }
 
-.GameInfoTitle {
+.PopupTitle {
   color: black;
   margin: 0;
   font-family: 'Adumu';
   font-size: 24px;
 }
 
-.GameInfoDescription {
+.PopupDescription {
   color: black;
   font-family: 'Roboto';
   font-size: 18px;
@@ -29,11 +28,33 @@
   text-justify: inter-word;
 }
 
-.GameInfoDescription::-webkit-scrollbar {
+.PopupDescription::-webkit-scrollbar {
   display: none;
 }
 
-.GameInfoCloseIcon {
+.PopupCloseIcon {
   width: 24px;
   object-fit: scale-down;
+}
+
+.PopupContainer {
+  scale: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  bottom: -280px;
+  z-index: 5;
+}
+
+@media screen and (min-width: 500px) {
+  .PopupContainer {
+    scale: 0;
+    width: 412px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: -280px;
+  }
 }

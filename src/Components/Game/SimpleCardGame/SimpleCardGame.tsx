@@ -13,12 +13,14 @@ enum Game {
 interface SimpleCardGameProps {
   title: string;
   description: string | JSX.Element;
+  sizeOfDescription?: number;
   coverImg: string;
 }
 
 export default function SimpleCardGame({
   title,
   description,
+  sizeOfDescription,
   coverImg,
 }: SimpleCardGameProps) {
   const userData = JSON.parse(window.localStorage.getItem('userData'));
@@ -72,14 +74,15 @@ export default function SimpleCardGame({
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          infoPage={() => setCurrentGameState(Game.Info)}
+          description={description} //full game info is now loaded here
+          sizeOfDescription={sizeOfDescription}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           gamePage={endOfGame}
         />
       );
 
-    case Game.Info:
+    case Game.Info: //TODO Rafa, change this to the 'kickstart' game page (full game info is now already provided on the Game.Cover)
       return (
         <InfoPage
           title={title}
