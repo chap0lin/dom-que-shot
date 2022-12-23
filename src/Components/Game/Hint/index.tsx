@@ -42,7 +42,7 @@ export default function HintPage({
   gamePage,
   description,
 }: HintProps) {
-  const buttonText = gameType === 'SCG' ? 'Finalizar' : 'Iniciar';
+  const buttonText = gameType === 'simple' ? 'Finalizar' : 'Iniciar';
   return (
     <Background>
       <Header logo={coverImg} goBackArrow={coverPage} title={title} />
@@ -50,7 +50,7 @@ export default function HintPage({
         <HintPageDescription>{description}</HintPageDescription>
         <div
           style={
-            gameType === 'SCG' ? { visibility: 'visible' } : { display: 'none' }
+            gameType === 'simple' ? { visibility: 'visible' } : { display: 'none' }
           }>
           <HintPageDescription style={{ height: '50px' }}>
             {'Podem começar! Finalizando o jogo, clique no botão abaixo.'}

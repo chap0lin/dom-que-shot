@@ -131,7 +131,7 @@ export default function EuNunca() {
         <HintPage
           title={title}
           coverImg={coverImg}
-          gameType="Half Mecanic"
+          gameType="dynamic"
           description={description}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={startGame}

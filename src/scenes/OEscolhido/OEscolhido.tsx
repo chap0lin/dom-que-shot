@@ -186,7 +186,7 @@ export default function OEscolhido() {
         <HintPage
           title={title}
           coverImg={coverImg}
-          gameType="Full Mecanic"
+          gameType="round"
           description={description}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}

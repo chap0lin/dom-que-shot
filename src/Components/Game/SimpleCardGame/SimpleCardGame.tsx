@@ -77,7 +77,7 @@ export default function SimpleCardGame({
           infoPage={() => setCurrentGameState(Game.Info)}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
-          gamePage={() => setCurrentGameState(Game.Hint)} // mudar para beginning of game (ou qualquer coisa assim)
+          gamePage={() => setCurrentGameState(Game.Hint)}
         />
       );
 
@@ -96,7 +96,7 @@ export default function SimpleCardGame({
         <HintPage
           title={title}
           coverImg={coverImg}
-          gameType="SCG"
+          gameType="simple"
           description={description}
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={endOfGame}
