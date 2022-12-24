@@ -48,41 +48,41 @@ export default function GamePage({
   return (
     <Background noImage>
       <Header timer={msTimeLeft} />
-        <div className="OEscolhidoDiv">
-          <p>Escolha um participante:</p>
-          <div className="GamePlayerListDiv">
-            {playerList.map((player, i) => (
+      <div className="OEscolhidoDiv">
+        <p>Escolha um participante:</p>
+        <div className="GamePlayerListDiv">
+          {playerList.map((player, i) => (
+            <div
+              key={`${i}`}
+              onClick={() => {
+                selectPlayer(player);
+              }}
+              className={
+                player.avatarSeed === selectedPlayer.avatarSeed &&
+                player.nickname === selectedPlayer.nickname
+                  ? 'selectedItem GamePlayerListItem'
+                  : 'unselectedItem GamePlayerListItem'
+              }>
+              <p className="GamePlayerListNickname">{player.nickname}</p>
               <div
-                key={`${i}`}
-                onClick={() => {
-                  selectPlayer(player);
-                }}
                 className={
                   player.avatarSeed === selectedPlayer.avatarSeed &&
                   player.nickname === selectedPlayer.nickname
-                    ? 'selectedItem GamePlayerListItem'
-                    : 'unselectedItem GamePlayerListItem'
+                    ? 'selectedAvatar GamePlayerListAvatar'
+                    : 'unselectedAvatar GamePlayerListAvatar'
                 }>
-                <p className="GamePlayerListNickname">{player.nickname}</p>
-                <div
-                  className={
-                    player.avatarSeed === selectedPlayer.avatarSeed &&
-                    player.nickname === selectedPlayer.nickname
-                      ? 'selectedAvatar GamePlayerListAvatar'
-                      : 'unselectedAvatar GamePlayerListAvatar'
-                  }>
-                  <Avatar seed={player.avatarSeed} />
-                </div>
+                <Avatar seed={player.avatarSeed} />
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-        
-        <div className="GameVoteButton">
-            <Button isDisabled={!hasSelected} onClick={finishPage}>
-              Votar
-            </Button>
-        </div>
+      </div>
+      
+      <div className="GameVoteButton">
+          <Button isDisabled={!hasSelected} onClick={finishPage}>
+            Votar
+          </Button>
+      </div>
     </Background>
   );
 }

@@ -94,7 +94,7 @@ export default function FinishPage({
       <Background noImage>
         <Header />
         <div className="OEscolhidoDiv">
-            <div className="UpperInfos">
+          <div className="UpperInfos">
             <p className="ResultsTitle">E o mais votado foi:</p>
             <div className="ResultsOuterCard">
               <p className="ResultsText" />

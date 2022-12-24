@@ -10,6 +10,7 @@
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  max-height: calc(100vh - 107px - 2rem - 260px);
 }
 
 .GamePlayerListItem {
@@ -56,14 +57,14 @@
   margin: 2em;
   display: flex;
   justify-content: center;
-  margin-top: 55%;
+  flex: 1;
+  margin-bottom: 48px;
+  align-items: flex-end;
 }
 
-@media (min-width: 500px) {
+@media (max-height: 720px) {
   .GamePlayerListDiv {
-    height: 400px;
-  }
-  .GameVoteButton {
-    margin-top: 40%;
+    max-height: calc(100vh - 107px - 2rem - 230px);
+
   }
 }
