@@ -94,13 +94,6 @@
     margin: 20px 0 40px 0;
   }
 
-  #RoulettePage .WaitingMessageDiv {
-    display: flex;
-    justify-content: center;
-    top: 85%;
-    position: absolute;
-  }
-
   #RoulettePage .WaitingMessage {
     color: rgba(255, 255, 255, 0.6);
     text-align: center;
