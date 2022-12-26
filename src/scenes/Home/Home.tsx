@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { gameCards } from './GameCards';
 import { ArrowRight, AlertTriangle } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
@@ -7,19 +7,27 @@ import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import PingTracker from '../../components/Debug/PingTracker';
+import GameInfo from './GameInfo';
 import api from '../../services/api';
+import gsap from 'gsap';
 import './Home.css';
+
+type GameInformation = {
+  title: string;
+  description: string | JSX.Element;
+}
 
 function Home() {
   const navigate = useNavigate();
 
+  const [gameInfo, setGameInfo] = useState<GameInformation>({title: '', description: ''});
   const [roomCode, setRoomCode] = useState('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
   });
 
-  const newRoom = (e) => {
+  const newRoom = () => {
     api
       .put(`/createRoom`)
       .then((response) => {
@@ -30,7 +38,7 @@ function Home() {
         });
       })
       .catch(() => {
-        alert(`Erro ao criar a sala: ${e}`);
+        alert(`Erro ao criar a sala. Tente novamente mais tarde.`);
       });
     return;
   };
@@ -39,20 +47,21 @@ function Home() {
     const newRoom = e.target.value.trim();
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
+      //room = newRoom;
       setInputErrorMsg({ msg: '', visibility: 'hidden' });
       return;
     }
   };
 
-  const verifyRoom = () => {
-    if (roomCode.length == 6) {
+  const verifyRoom = (code) => {
+    if (code.length === 4) {
       api
-        .get(`/roomCode/${roomCode}`)
+        .get(`/roomCode/${code}`)
         .then((response) => {
           console.log(response.data);
           window.localStorage.setItem('userData', JSON.stringify({}));
           navigate('/ChooseAvatar', {
-            state: { option: 'join', roomCode: roomCode },
+            state: { option: 'join', roomCode: code },
           });
         })
         .catch(() => {
@@ -78,15 +87,23 @@ function Home() {
     return () => {
       document.removeEventListener('keydown', detectKeyDown);
     };
-  }, []);
+  }, [roomCode]);
 
   const detectKeyDown = (e) => {
     if (e.key === 'Enter') {
-      ref.current.blur();
+      console.log(roomCode);
+      verifyRoom(roomCode);
     }
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const toggleGameInfo = (show) => {
+    if (show === true) {
+      return gsap.to('.GameInfoPopup', { scale: 1, yPercent: -105, duration: 0.6, ease: 'power2'});
+    }
+    return gsap.to('.GameInfoPopup', { scale: 0, yPercent: 0, duration: 0.6, ease: 'power2'});
+  };
 
   return (
     <Background>
@@ -102,7 +119,11 @@ function Home() {
             placeholder="Digite o código da sala"
           />
           <button className="JoinRoomButton">
-            <ArrowRight width="30px" height="30px" onClick={verifyRoom} />
+            <ArrowRight
+              width="30px"
+              height="30px"
+              onClick={() => verifyRoom(roomCode)}
+            />
           </button>
         </div>
 
@@ -119,14 +140,26 @@ function Home() {
 
       <div className="CreateRoomDiv">
         <p className="HelpInfo">Se ainda não possui:</p>
-        <Button width="100%">
-          <div onClick={newRoom}>Criar Sala</div>
+        <Button width="100%" onClick={newRoom}>
+          Criar Sala
         </Button>
       </div>
 
       <div className="ChooseGameDiv">
-        <p>Já sabe o que quer?</p>
-        <ImageSlider content={gameCards} />
+        <p>Já conhece nossos jogos?</p>
+        <ImageSlider
+          content={gameCards}
+          show={() => toggleGameInfo(true)}
+          setGameInfo={setGameInfo}
+        />
+      </div>
+
+      <div className="GameInfoPopup">
+        <GameInfo
+          title={gameInfo.title}
+          description={gameInfo.description}
+          exit={() => toggleGameInfo(false)}
+        />
       </div>
       <PingTracker />
     </Background>

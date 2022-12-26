@@ -83,9 +83,7 @@ export default function FinishPage({
                 ? { visibility: 'visible' }
                 : { visibility: 'hidden' }
             }>
-            <Button>
-              <div onClick={roulettePage}>{rouletteButtonText}</div>
-            </Button>
+            <Button onClick={roulettePage}>{rouletteButtonText}</Button>
           </div>
         </div>
         <PingTracker />
@@ -119,9 +117,7 @@ export default function FinishPage({
                 ? { visibility: 'visible' }
                 : { visibility: 'hidden' }
             }>
-            <Button>
-              <div onClick={roulettePage}>{rouletteButtonText}</div>
-            </Button>
+            <Button onClick={roulettePage}>{rouletteButtonText}</Button>
           </div>
         </div>
         <PingTracker />
@@ -176,9 +172,7 @@ export default function FinishPage({
                 ? { visibility: 'visible' }
                 : { visibility: 'hidden' }
             }>
-            <Button>
-              <div onClick={roulettePage}>{rouletteButtonText}</div>
-            </Button>
+            <Button onClick={roulettePage}>{rouletteButtonText}</Button>
           </div>
         </div>
         <PingTracker />

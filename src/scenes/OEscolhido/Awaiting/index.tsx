@@ -63,9 +63,7 @@ export default function AwaitingResults({
           <p className="AwaitingText">Aguardando os demais jogadores...</p>
           {/* sumir com o div abaixo quando for possível alterar o voto */}
           <div style={{ display: 'none' }}>
-            <Button>
-              <div onClick={voteAgain}>Alterar voto</div>
-            </Button>
+            <Button onClick={voteAgain}>Alterar voto</Button>
           </div>
         </div>
       </div>
