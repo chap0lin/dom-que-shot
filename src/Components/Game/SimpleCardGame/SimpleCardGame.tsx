@@ -13,6 +13,7 @@ enum Game {
 interface SimpleCardGameProps {
   title: string;
   description: string | JSX.Element;
+  hint: string | JSX.Element;
   sizeOfDescription?: number;
   coverImg: string;
 }
@@ -20,6 +21,7 @@ interface SimpleCardGameProps {
 export default function SimpleCardGame({
   title,
   description,
+  hint,
   sizeOfDescription,
   coverImg,
 }: SimpleCardGameProps) {
@@ -87,7 +89,7 @@ export default function SimpleCardGame({
         <HintPage
           title={title}
           coverImg={coverImg}
-          description={description}
+          description={hint}
           gameType="simple"
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={endOfGame}

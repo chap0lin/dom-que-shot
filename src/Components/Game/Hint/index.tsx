@@ -8,6 +8,7 @@ const HintPageDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const HintPageDescription = styled.p`
@@ -42,14 +43,7 @@ export default function HintPage({
   description,
 }: HintProps) {
 
-  let buttonText = 'Iniciar';
-  if(gameType === 'simple'){
-    typeof description === 'string'
-    ? description += '\n\nPodem começar! Finalizando o jogo, clique no botão abaixo.'
-    : description = <>{description}<br /><br />Podem começar! Finalizando o jogo, clique no botão abaixo.</>;
-    
-    buttonText = 'Finalizar';
-  }
+  const buttonText = gameType === 'simple' ? 'Finalizar' : 'Iniciar';
 
   return (
     <Background>

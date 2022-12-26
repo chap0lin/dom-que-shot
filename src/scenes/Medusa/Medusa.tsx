@@ -20,11 +20,23 @@ export default function Medusa() {
       "Medusa!" por último deve virar uma dose.
     </>
   );
+  const hint = (
+    <>
+      PREPARADOS??
+      <br />
+      <br />
+      Formem o círculo e o jogador da vez inicia a contagem para começar o jogo.
+      <br />
+      <br />
+      Finalizando a rodada, clique no botão abaixo para informar quem bebeu.
+    </>
+  );
 
   return (
     <SimpleCardGame
       title={title}
       description={description}
+      hint={hint}
       coverImg={coverImg}
     />
   );
