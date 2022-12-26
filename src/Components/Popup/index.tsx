@@ -2,12 +2,15 @@ import { X } from 'react-feather';
 import gsap from 'gsap';
 import './Popup.css';
 
-interface InfoProps {
+interface PopupProps {
   height?: number;
   title: string;
   description: JSX.Element | string;
   show: boolean;
   comesFromTop?: boolean;
+  titleColor?: string;
+  descriptionColor?: string;
+  backgroundColor?: string;
   exit: () => void;
 }
 
@@ -17,8 +20,11 @@ export default function Popup({
   description,
   show,
   comesFromTop,
+  titleColor,
+  descriptionColor,
+  backgroundColor,
   exit,
-}: InfoProps) {
+}: PopupProps) {
   const releaseProps = comesFromTop
     ? {
         scale: 1,
@@ -61,61 +67,21 @@ export default function Popup({
     hidePopup();
   }
 
+  const popupStyle = {
+    height: (height)? `${height}px` : 'auto',
+    backgroundColor: (backgroundColor)? backgroundColor : '#ffffff',
+    opacity: 0.95,
+  }
+
   return (
     <div className={`PopupContainer ${comesFromTop ? 'Top' : 'Bottom'}`}>
-      <div className="PopupDiv" style={height ? { height: `${height}px` } : {}}>
+      <div className="PopupDiv" style={popupStyle}>
         <div className="PopupHeader">
-          <p className="PopupTitle">{title}</p>
+          <p className="PopupTitle" style={(titleColor? {color: titleColor} : {})}>{title}</p>
           <X color="#170C32" width="24px" strokeWidth="5px" onClick={exit} />
         </div>
-        <p className="PopupDescription">{description}</p>
+        <p className="PopupDescription" style={(descriptionColor)? {color: descriptionColor} : {}}>{description}</p>
       </div>
     </div>
   );
 }
-
-//   const releasePopup = () => {
-//   if(comesFromTop){
-//     return gsap.to('.PopupContainer', {
-//       scale: 1,
-//       yPercent: value,
-//       duration: 0.6,
-//       ease: 'power2',
-//     });
-//   }
-//   gsap.to('.PopupContainer', {
-//     scale: 1,
-//     yPercent: value,
-//     duration: 0.6,
-//     ease: 'power2',
-//   });
-// }
-
-// if (show === true) {
-//   if(comesFromTop){
-//     gsap.timeline()
-//     .to('.PopupContainer', {
-//       yPercent: -100,
-//       duration: 0,
-//     }).call(releasePopup)
-//   } else {
-//     releasePopup();
-//   }
-// } else {
-//   if(comesFromTop){
-//     gsap.timeline()
-//     .to('.PopupContainer', {
-//       scale: 0,
-//       yPercent: -100,
-//       duration: 1,
-//       ease: 'power2',
-//     });
-//   } else {
-//     gsap.to('.PopupContainer', {
-//       scale: 0,
-//       yPercent: 0,
-//       duration: 0.6,
-//       ease: 'power2',
-//     });
-//   }
-// }
