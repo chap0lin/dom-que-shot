@@ -8,7 +8,7 @@ import './Welcome.css';
 
 function Welcome() {
   const navigate = useNavigate();
-  //window.history.replaceState({}, 'Dom Que Shot!', 'http://localhost:5173'); //TODO uncomment this when tests are over
+  //window.history.replaceState({}, 'Dom Que Shot!', 'https://www.domqueshot.com/'); //TODO uncomment this when putting in production
 
   useEffect(() => {
     const userData = JSON.parse(window.localStorage.getItem('userData'));
