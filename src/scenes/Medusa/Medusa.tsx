@@ -26,6 +26,7 @@ export default function Medusa() {
       title={title}
       description={description}
       coverImg={coverImg}
+      sizeOfDescription={450}
     />
   );
 }

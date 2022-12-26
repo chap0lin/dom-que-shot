@@ -110,7 +110,6 @@ export default function EuNunca() {
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           description={description} //full game info is now loaded here
-          sizeOfDescription={570}
         />
       );
 

@@ -29,6 +29,7 @@ export default function PensaRapido() {
       title={title}
       description={description}
       coverImg={coverImg}
+      sizeOfDescription={530}
     />
   );
 }

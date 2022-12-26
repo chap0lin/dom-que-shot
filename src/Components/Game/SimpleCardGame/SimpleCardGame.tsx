@@ -75,7 +75,7 @@ export default function SimpleCardGame({
           coverImg={coverImg}
           goBackPage={backToLobby}
           description={description} //full game info is now loaded here
-          sizeOfDescription={sizeOfDescription}
+          sizeOfDescription={sizeOfDescription ? sizeOfDescription : undefined}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           gamePage={endOfGame}

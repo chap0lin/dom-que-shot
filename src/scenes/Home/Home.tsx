@@ -150,7 +150,7 @@ function Home() {
       </div>
 
       <Popup
-        height={100}
+        height={280}
         title={gameInfo.title}
         description={gameInfo.description}
         show={popupVisibility}
