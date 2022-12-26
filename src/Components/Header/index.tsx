@@ -82,7 +82,7 @@ export default function Header({
               alignItems: 'center',
               minWidth: '150px',
             }}>
-            <div className='SpeechBubble' style={{ zIndex: 1 }}>Tutorial</div>className='SpeechBubble' 
+            <div className='SpeechBubble' style={{ zIndex: 1 }}>Tutorial</div> 
             <Info
               color="#FBBC05"
               width="22px"
