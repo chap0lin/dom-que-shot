@@ -20,7 +20,7 @@ function Home() {
   const navigate = useNavigate();
 
   const [gameInfo, setGameInfo] = useState<GameInformation>({title: '', description: ''});
-  const [roomCode, setRoomCode] = useState('');
+  const [roomCode, setRoomCode] = useState<string>('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
@@ -43,7 +43,7 @@ function Home() {
   };
 
   const updateRoomCode = (e) => {
-    const newRoom = e.target.value.trim();
+    const newRoom:string = e.target.value.trim().toUpperCase();
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
       //room = newRoom;
