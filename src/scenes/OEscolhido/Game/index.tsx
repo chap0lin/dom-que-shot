@@ -76,11 +76,12 @@ export default function GamePage({
             </div>
           ))}
         </div>
-        <div className="GameVoteButton">
+      </div>
+      
+      <div className="GameVoteButton">
           <Button isDisabled={!hasSelected} onClick={finishPage}>
             Votar
           </Button>
-        </div>
       </div>
     </Background>
   );
