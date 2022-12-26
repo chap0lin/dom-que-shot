@@ -5,6 +5,7 @@ import { AlertTriangle } from 'react-feather';
 import { Game } from '../../../contexts/games';
 import './Settings.css';
 import { useEffect } from 'react';
+import PingTracker from '../../../components/Debug/PingTracker';
 
 interface SettingsProps {
   gameList: Game[];
@@ -75,6 +76,7 @@ export default function Settings({
           <p className="LobbyWarningText">Mínimo de 3 jogos!</p>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

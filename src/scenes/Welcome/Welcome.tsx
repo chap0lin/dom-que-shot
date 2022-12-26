@@ -35,6 +35,7 @@ function Welcome() {
         <img className="WelcomeImage" src={logo} />
         <Button onClick={() => navigate('/Home')}>Entrar</Button>
       </div>
+      <PingTracker />
     </Background>
   );
 }
