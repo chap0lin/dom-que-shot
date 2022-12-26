@@ -1,11 +1,10 @@
+import { AlertTriangle } from 'react-feather';
+import { Game } from '../../../contexts/games';
 import Header from '../../../components/Header';
 import Background from '../../../components/Background';
 import GameCard from '../../../components/GameCard';
-import { AlertTriangle } from 'react-feather';
-import { Game } from '../../../contexts/games';
-import './Settings.css';
-import { useEffect } from 'react';
 import PingTracker from '../../../components/Debug/PingTracker';
+import './Settings.css';
 
 interface SettingsProps {
   gameList: Game[];
