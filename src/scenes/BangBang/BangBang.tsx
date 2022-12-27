@@ -46,7 +46,8 @@ export function BangBang() {
       tempo de 10 segundos.
       <br />
       <br />
-      Quem atirar por último ou quem não atirar dentro do tempo, bebe uma dose.
+      Quem atirar por último, ou não atirar dentro do tempo de 10 segundos, bebe
+      uma dose.
     </>
   );
 
@@ -136,18 +137,6 @@ export function BangBang() {
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
           description={description} //full game info is now loaded here
-          sizeOfDescription={300} //optional sizing of popup box
-          gamePage={() => setCurrentGameState(Game.Hint)}
-        />
-      );
-    case Game.Hint:        //this whole screen can be possibly removed now the game description loads on Game.Cover
-      return (
-        <HintPage
-          title={title}
-          description={description}
-          coverImg={coverImg}
-          gameType='round'
-          coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
         />
       );

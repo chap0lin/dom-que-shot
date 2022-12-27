@@ -38,6 +38,7 @@ export default function Medusa() {
       description={description}
       hint={hint}
       coverImg={coverImg}
+      sizeOfDescription={450}
     />
   );
 }

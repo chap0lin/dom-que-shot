@@ -38,6 +38,7 @@ export default function CSComposto() {
       description={description}
       hint={hint}
       coverImg={coverImg}
+      sizeOfDescription={530}
     />
   );
 }

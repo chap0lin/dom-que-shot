@@ -110,6 +110,14 @@ export default function CoverPage({
 
   return (
     <Background>
+      <Popup
+        height={sizeOfDescription ? sizeOfDescription : undefined}
+        title={title}
+        description={description}
+        show={popupVisibility}
+        exit={() => setPopupVisibility(false)}
+        comesFromTop
+      />
       {header}
       <div className="CoverPageDiv">
         <div
@@ -128,13 +136,6 @@ export default function CoverPage({
           <Button onClick={gamePage}>Começar jogo</Button>
         </div>
       </div>
-      <Popup
-        height={sizeOfDescription ? sizeOfDescription : 800}
-        title={title}
-        description={description}
-        show={popupVisibility}
-        exit={() => setPopupVisibility(false)}
-      />
     </Background>
   );
 }

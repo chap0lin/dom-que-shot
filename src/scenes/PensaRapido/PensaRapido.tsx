@@ -40,6 +40,7 @@ export default function PensaRapido() {
       description={description}
       hint={hint}
       coverImg={coverImg}
+      sizeOfDescription={530}
     />
   );
 }
