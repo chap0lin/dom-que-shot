@@ -29,11 +29,23 @@ export default function Buzz() {
       Quem errar o Buzz deve virar uma dose!
     </>
   );
+  const hint = (
+    <>
+      PREPARADOS??
+      <br />
+      <br />
+      O jogador da vez inicia a contagem.
+      <br />
+      <br />
+      Finalizando a rodada com o primeiro que errar, clique no botão abaixo para informar quem bebeu.
+    </>
+  );
 
   return (
     <SimpleCardGame
       title={title}
       description={description}
+      hint={hint}
       sizeOfDescription={500}
       coverImg={coverImg}
     />
