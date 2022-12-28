@@ -8,7 +8,8 @@ const HintPageDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  height: 600px;
 `;
 
 const HintPageDescription = styled.p`
@@ -16,7 +17,7 @@ const HintPageDescription = styled.p`
   padding: 0 40px;
   font-weight: 500;
   font-size: 20px;
-  max-height: 600px;
+  max-height: 400px;
   text-align: justify;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -28,7 +29,6 @@ const HintPageDescription = styled.p`
 interface HintProps {
   coverImg: string;
   title: string;
-  gameType: string;
   coverPage: () => void;
   gamePage: () => void;
   description: JSX.Element | string;
@@ -37,13 +37,10 @@ interface HintProps {
 export default function HintPage({
   title,
   coverImg,
-  gameType,
   coverPage,
   gamePage,
   description,
 }: HintProps) {
-
-  const buttonText = gameType === 'simple' ? 'Finalizar' : 'Iniciar';
 
   return (
     <Background>
@@ -51,7 +48,7 @@ export default function HintPage({
       <HintPageDiv>
         <HintPageDescription>{description}</HintPageDescription>
         <div>
-          <Button onClick={gamePage}>{buttonText}</Button>
+          <Button onClick={gamePage}>Finalizar</Button>
         </div>
       </HintPageDiv>
     </Background>

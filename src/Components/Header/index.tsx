@@ -2,6 +2,38 @@ import { ArrowLeft, Info, Settings } from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import DomQueShotLogo from '../../assets/logo-darker.png';
 import './Header.css';
+import styled from '@emotion/styled';
+
+const BubbleInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 150px;
+`;
+
+const SpeechBubble = styled.div`
+  background: #d9d9d9;
+  border-radius: 10px;
+  max-width: 75%;
+  height: 3.5%;
+  position: relative;
+  padding: 0.5em 0.8em;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500;
+  
+  &:after {
+    border-left: 19px solid #d9d9d9;
+    border-right: 19px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-top: 13px solid transparent;
+    transform: translate(22%, -22%) rotate(-7deg);
+    content: '';
+    position: absolute;
+  }
+`;
 
 interface HeaderProps {
   logo?: boolean | string;
@@ -75,12 +107,15 @@ export default function Header({
 
       <div className="HeaderInfoSettingsAndLogo">
         <div className="HeaderInfo" style={infoPage ? {} : { display: 'none' }}>
-          <Info
-            color="#FBBC05"
-            width="22px"
-            height="22px"
-            onClick={goToInfoPage}
-          />
+          <BubbleInfoContainer>
+            <SpeechBubble>Tutorial</SpeechBubble>
+            <Info
+              color="#FBBC05"
+              width="22px"
+              height="22px"
+              onClick={goToInfoPage}
+            />
+          </BubbleInfoContainer>
         </div>
         <div
           className="HeaderSettings"

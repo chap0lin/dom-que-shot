@@ -76,7 +76,7 @@ export default function SimpleCardGame({
           title={title}
           coverImg={coverImg}
           goBackPage={backToLobby}
-          description={description} //full game info is now loaded here
+          description={description}
           sizeOfDescription={sizeOfDescription ? sizeOfDescription : undefined}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
@@ -90,7 +90,6 @@ export default function SimpleCardGame({
           title={title}
           coverImg={coverImg}
           description={hint}
-          gameType="simple"
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={endOfGame}
         />
