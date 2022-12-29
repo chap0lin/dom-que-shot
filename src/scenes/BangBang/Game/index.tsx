@@ -37,7 +37,7 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
 
   useEffect(() => {
     if (ready) {
-      startTimer();
+      // startTimer();
       animationBalloon();
     }
   }, [ready]);
@@ -113,9 +113,11 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
   const showErrorPopUp = () => {
     if (showPopUp === false) {
       setPopUp(true);
+      console.log("Changed to true");
     }
     else{
       setPopUp(false);
+      console.log("Changed to false");
     }
   };
 
@@ -124,11 +126,13 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
       <div id="game-bang-bang" className="game-bang-bang">
         <Header timer={formatedTime()} />
 
-        <div className="target-image">
-          <img onClick={showErrorPopUp} src={targetImage} className="target-img" />
-          <div onClick={showErrorPopUp} className="wrong-local-click" style={{ visibility: showPopUp ? 'visible' : 'hidden' }}>
-              <p>Erooooo!!!</p>
-              <p>Você deve clicar no botão abaixo</p>
+        <div onClick={showErrorPopUp} className="target-image">
+          <img src={targetImage} className="target-img" />
+          <div className="wrong-local-container"  style={{ visibility: showPopUp ? 'visible' : 'hidden' }}>
+            <div className="wrong-local-message">
+                <p>Errrroooou!!!</p>
+                <p>Esse não é o botão</p>
+            </div>
           </div>
         </div>
 
