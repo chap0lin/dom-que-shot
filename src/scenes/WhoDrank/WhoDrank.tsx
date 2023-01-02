@@ -5,6 +5,7 @@ import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Avatar from '../../components/Avatar';
+import PingTracker from '../../components/Debug/PingTracker';
 import beer from '../../assets/beer.png';
 import gsap from 'gsap';
 import './WhoDrank.css';
@@ -136,6 +137,7 @@ export default function WhoDrankPage() {
             <Button onClick={backToRoulette}>{buttonText}</Button>
           </div>
         </div>
+        <PingTracker />
       </Background>
     );
   }
@@ -154,6 +156,7 @@ export default function WhoDrankPage() {
           </div>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

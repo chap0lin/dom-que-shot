@@ -1,10 +1,10 @@
+import { AlertTriangle } from 'react-feather';
+import { Game } from '../../../contexts/games';
 import Header from '../../../components/Header';
 import Background from '../../../components/Background';
 import GameCard from '../../../components/GameCard';
-import { AlertTriangle } from 'react-feather';
-import { Game } from '../../../contexts/games';
+import PingTracker from '../../../components/Debug/PingTracker';
 import './Settings.css';
-import { useEffect } from 'react';
 
 interface SettingsProps {
   gameList: Game[];
@@ -75,6 +75,7 @@ export default function Settings({
           <p className="LobbyWarningText">Mínimo de 3 jogos!</p>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

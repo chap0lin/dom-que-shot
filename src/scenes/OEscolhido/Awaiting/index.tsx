@@ -4,6 +4,7 @@ import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
 import Avatar from '../../../components/Avatar';
+import PingTracker from '../../../components/Debug/PingTracker';
 import gsap from 'gsap';
 import './Awaiting.css';
 interface AwaitingProps {
@@ -66,6 +67,7 @@ export default function AwaitingResults({
           </div>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

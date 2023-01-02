@@ -6,6 +6,7 @@ import ImageSlider from './ImageSlider';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
+import PingTracker from '../../components/Debug/PingTracker';
 import GameInfo from './GameInfo';
 import api from '../../services/api';
 import gsap from 'gsap';
@@ -160,6 +161,7 @@ function Home() {
           exit={() => toggleGameInfo(false)}
         />
       </div>
+      <PingTracker />
     </Background>
   );
 }

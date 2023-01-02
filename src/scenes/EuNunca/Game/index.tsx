@@ -1,7 +1,7 @@
-import React from 'react';
 import Background from '../../../components/Background';
 import Header from '../../../components/Header';
 import Button from '../../../components/Button';
+import PingTracker from '../../../components/Debug/PingTracker';
 import glassIcon from '../../../assets/glass-icon-yellow-background.png';
 import './Game.css';
 
@@ -41,6 +41,7 @@ export default function GamePage({
             <Button onClick={finishPage}>Continuar</Button>
           </div>
         </div>
+        <PingTracker />
       </Background>
     );
   }
@@ -60,6 +61,7 @@ export default function GamePage({
           </div>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

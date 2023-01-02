@@ -6,6 +6,7 @@ import RankingItem from './RankingItem';
 import thumbDown from './img/thumbs-down.png';
 import crown from './img/crown.png';
 import Background from '../../../components/Background';
+import PingTracker from '../../../components/Debug/PingTracker';
 import noOneVotedImage from '../../../assets/no-votes.png';
 
 type Player = {
@@ -126,6 +127,7 @@ export function RankingPage({
           </div>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

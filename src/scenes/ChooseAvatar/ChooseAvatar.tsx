@@ -6,8 +6,9 @@ import Background from '../../components/Background';
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Avatar from '../../components/Avatar';
-import './ChooseAvatar.css';
+import PingTracker from '../../components/Debug/PingTracker';
 import api from '../../services/api';
+import './ChooseAvatar.css';
 
 function ChooseAvatar() {
   const navigate = useNavigate();
@@ -201,6 +202,7 @@ function ChooseAvatar() {
           </div>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }

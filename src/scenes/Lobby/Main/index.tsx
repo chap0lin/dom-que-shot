@@ -4,6 +4,7 @@ import { CheckCircle, Copy, AlertTriangle } from 'react-feather';
 import Header from '../../../components/Header';
 import Background from '../../../components/Background';
 import Button from '../../../components/Button';
+import PingTracker from '../../../components/Debug/PingTracker';
 import PlayerList from './PlayerList';
 import './Main.css';
 
@@ -107,6 +108,7 @@ export default function Main({
           <p className="LobbyWarningText">Mínimo de 2 jogadores!</p>
         </div>
       </div>
+      <PingTracker />
     </Background>
   );
 }
