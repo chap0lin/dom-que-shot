@@ -50,7 +50,7 @@ export default function Lobby() {
 
   //SOCKET///////////////////////////////////////////////////////////////////////////////////////
 
-  const socket = SocketConnection.getInstance();
+  const socket = SocketConnection.getInstance(true);
 
   useEffect(() => {
     socket.connect();
