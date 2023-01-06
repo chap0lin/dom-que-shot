@@ -23,7 +23,7 @@ function Home() {
     description: '',
   });
   const [popupVisibility, setPopupVisibility] = useState<boolean>(false);
-  const [roomCode, setRoomCode] = useState('');
+  const [roomCode, setRoomCode] = useState<string>('');
   const [inputErrorMsg, setInputErrorMsg] = useState({
     msg: '',
     visibility: 'hidden',
@@ -46,7 +46,7 @@ function Home() {
   };
 
   const updateRoomCode = (e) => {
-    const newRoom = e.target.value.trim();
+    const newRoom:string = e.target.value.trim().toUpperCase();
     if (newRoom.length !== 0) {
       setRoomCode(newRoom);
       //room = newRoom;
