@@ -131,7 +131,6 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
           <div className="wrong-local-container"  style={{ visibility: showPopUp ? 'visible' : 'hidden' }}>
             <div className="wrong-local-message">
                 <p>Errrroooou!!!</p>
-                <p>Esse não é o botão</p>
             </div>
           </div>
         </div>

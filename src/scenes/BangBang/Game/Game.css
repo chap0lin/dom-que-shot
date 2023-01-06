@@ -78,8 +78,8 @@
 }
 
 .wrong-local-message {
-  border: solid 2px #8877DF;
-  border-radius: 10px;
+  border: solid 2px orangered;
+  border-radius: 30%;
   background-color: white;
   padding: 10px;
 }
