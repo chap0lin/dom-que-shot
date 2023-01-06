@@ -96,6 +96,7 @@
 .TieAvatar {
   width: 70px;
   height: 70px;
+  object-fit: scale-down;
 }
 
 .TieText {
@@ -150,10 +151,6 @@
 .MultipleTiesText {
   font-family: Adumu;
   font-size: 24px;
-}
-
-.Avatar img {
-  width: 100px;
 }
 
 @media (max-height: 750px) {

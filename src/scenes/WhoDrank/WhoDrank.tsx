@@ -110,7 +110,6 @@ export default function WhoDrankPage() {
               {playerList.map((player) => (
                 <div
                   onClick={() => {
-                    console.log('aaah');
                     selectPlayer(player);
                   }}
                   className={
