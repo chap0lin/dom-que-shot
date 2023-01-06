@@ -37,7 +37,7 @@ export function GamePage({ rankingPage, shot, ready }: GameProps) {
 
   useEffect(() => {
     if (ready) {
-      // startTimer();
+      startTimer();
       animationBalloon();
     }
   }, [ready]);
