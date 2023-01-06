@@ -29,6 +29,31 @@ function ChooseAvatar() {
     visibility: 'hidden',
   });
 
+  //SOCKET///////////////////////////////////////////////////////////////////////////////////////
+
+  const socket = SocketConnection.getInstance();
+
+  useEffect(() => {
+    socket.connect();
+    console.log(socket);
+    socket.addEventListener('room-is-moving-to', (destination) => {
+      if (destination === '/SelectNextGame') {
+        console.log(`Movendo a sala para ${destination}.`);
+        return navigate(destination);
+      }
+    });
+
+    return () => {
+      console.log('saindo da tela chooseAvatar (return do useEffect)');
+      console.log(socket);
+      if(socket.socket){                    //paliativo. Socket.socket não deveria estar indefinido aqui,
+        socket.removeAllListeners();        //mas por algum motivo fica quando o usuário está no chooseAvatar e decide sair da sala (voltar pra tela Home)
+      }                                     //quando o usuário decide voltar pro lobby (continua na sala), o problema não acontece. Vai entender.
+    };
+  }, []);
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
+
   useEffect(() => {
     if (userData.nickname) {
       setUserName(userData.nickname);
@@ -146,8 +171,9 @@ function ChooseAvatar() {
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   const leaveMatch = () => {
-    const socket = SocketConnection.getInstance();
-    socket.disconnect();
+    if(socket){
+      socket.disconnect();
+    }
     navigate('/Home');
   };
 
