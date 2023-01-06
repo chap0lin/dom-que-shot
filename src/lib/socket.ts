@@ -74,7 +74,7 @@ class SocketConnection {
   static getInstance(isLobby = false) {
     if (!SocketConnection.instance) {
       if (!isLobby) {
-        alert('Conexão perdida! Reconectando...');
+        alert('Conexão perdida! Reconectando...'); //TODO: remover alerta antes da release do Beta
         window.location.reload();
       }
       SocketConnection.instance = new SocketConnection();
