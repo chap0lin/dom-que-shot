@@ -23,12 +23,24 @@ export default function PensaRapido() {
       parar quando estiver pronto para responder.
     </>
   );
+  const hint = (
+    <>
+      PREPARADOS??
+      <br />
+      <br />
+      O jogador da vez inicia indicando uma pessoa e fazendo uma pergunta.
+      <br />
+      <br />
+      Finalizando a rodada, clique no botão abaixo para informar quem bebeu.</>
+  );
 
   return (
     <SimpleCardGame
       title={title}
       description={description}
+      hint={hint}
       coverImg={coverImg}
+      sizeOfDescription={530}
     />
   );
 }

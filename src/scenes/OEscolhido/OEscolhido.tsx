@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import SocketConnection from '../../lib/socket';
 import Background from '../../components/Background';
 import CoverPage from '../../components/Game/Cover';
-import InfoPage from '../../components/Game/Info';
+import HintPage from '../../components/Game/Hint';
 import GamePage from './Game';
 import FinishPage from './Finish';
 import AwaitingResults from './Awaiting';
@@ -24,7 +24,7 @@ interface VotedPlayerProps {
 
 enum Game {
   Cover,
-  Info,
+  Hint,
   Game,
   AwaitingResults,
   Finish,
@@ -163,20 +163,20 @@ export default function OEscolhido() {
           goBackPage={backToLobby}
           turnVisibility={turnVisibility}
           ownerVisibility={ownerVisibility}
-          infoPage={() => setCurrentGameState(Game.Info)}
-          gamePage={() => setCurrentGameState(Game.Game)}
+          description={description} //full game info is now loaded here
+          gamePage={() => setCurrentGameState(Game.Hint)}
         />
       );
 
-    case Game.Info:
+    case Game.Hint:
       return (
-        <InfoPage
+        <HintPage               
           title={title}
           description={description}
           coverImg={coverImg}
+          gameType="round"
           coverPage={() => setCurrentGameState(Game.Cover)}
           gamePage={() => setCurrentGameState(Game.Game)}
-          turnVisibility={turnVisibility}
         />
       );
 
